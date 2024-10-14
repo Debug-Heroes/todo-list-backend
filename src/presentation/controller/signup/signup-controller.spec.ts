@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { IValidation } from '../../../domain/protocols/validation'
 import { SignUpController } from './signup-controller'
 import { HttpRequest, badRequest, ok, serverError } from './signup-controller-protocols'

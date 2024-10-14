@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { IValidation } from '../../domain/protocols/validation'
 
 export class ValidationComposite implements IValidation {

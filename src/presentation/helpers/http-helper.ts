@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { ServerError } from "../errors/server-error";
 import { HttpResponse } from "../protocols/http";
 
