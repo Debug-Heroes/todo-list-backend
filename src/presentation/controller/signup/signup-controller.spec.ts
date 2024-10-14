@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IValidation } from '../../../domain/protocols/validation'
 import { SignUpController } from './signup-controller'
-import { HttpRequest, badRequest } from './signup-controller-protocols'
+import { HttpRequest, badRequest, serverError } from './signup-controller-protocols'
 import { IAccount } from '../../../domain/protocols/account'
 import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/users/add-account'
 
@@ -80,5 +80,13 @@ describe('SignUpController', () => {
     email: 'any_mail@mail.com',
     password: 'any_password',
    })
+  })
+  it('Should return 500 if AddAccount throws', async () => {
+    const { sut, addAccountStub } = makeSut()
+    jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(serverError())
   })
 })
