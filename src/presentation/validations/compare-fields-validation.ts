@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IValidation } from '../../domain/protocols/validation'
 import { InvalidParamError } from '../errors/invalid-param-error'
 
@@ -8,6 +7,8 @@ export class CompareFieldsValidation implements IValidation {
     private readonly fieldSec: string
   ) {}
   validate(data: any): Error | null {
-    return new InvalidParamError(this.fieldSec)
+    if (data[this.fieldOne] !== data[this.fieldSec]) 
+      return new InvalidParamError(this.fieldSec)
+    return null
   }
 }
