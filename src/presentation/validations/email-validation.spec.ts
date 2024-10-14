@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IValidation } from "../../domain/protocols/validation"
+import { InvalidParamError } from "../errors/invalid-param-error"
 import { IEmailValidator } from "../protocols/email-validator"
 import { EmailValidation } from './email-validation'
 
@@ -32,5 +33,11 @@ describe('EmailValidation', () => {
     const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
     sut.validate({ email: 'any_email' })
     expect(isValidSpy).toHaveBeenCalledWith('any_email')
+  })
+  it('Should return an InvalidParamError if emailValidator fails', () => {
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
+    const result = sut.validate({ email: 'any_mail@mail.com' })
+    expect(result).toEqual(new InvalidParamError('email'))
   })
 })
