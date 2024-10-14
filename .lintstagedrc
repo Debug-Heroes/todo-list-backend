@@ -1,0 +1,6 @@
+{
+    "*.ts": [
+        "npx eslint './src/**/*.ts' --fix",
+        "npm run test"
+    ]
+}
