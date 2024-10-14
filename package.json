@@ -7,12 +7,18 @@
     "eslint": "^9.12.0",
     "git-commit-msg-linter": "^5.0.8",
     "globals": "^15.11.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "rimraf": "^6.0.1",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.8.1"
   },
   "scripts": {
     "test": "npx jest --passWithNoTests --runInBand --silent",
-    "prepare": "husky"
+    "dev": "echo 'working'",
+    "build": "rimraf dist && tsc",
+    "up": "npm run build && docker-compose up",
+    "down": "docker-compose down"
   },
   "keywords": [],
   "author": "",
