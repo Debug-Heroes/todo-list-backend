@@ -7,7 +7,8 @@ import {
   Controller,
   HttpResponse,
   badRequest,
-  serverError
+  serverError,
+  ok
 } from './signup-controller-protocols'
 
 export class SignUpController implements Controller {
@@ -22,8 +23,8 @@ export class SignUpController implements Controller {
         return new Promise(resolve => resolve(badRequest(error)))
       }
       const { confirmPassword, ...addUser } = httpRequest.body
-      await this.addAccount.add(addUser)
-      return new Promise((resolve) => resolve({ statusCode: 200 }))
+      const account = await this.addAccount.add(addUser)
+      return new Promise((resolve) => resolve(ok(account)))
     } catch (error) {
       return new Promise(resolve => resolve(serverError()))
     }
