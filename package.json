@@ -20,6 +20,7 @@
   },
   "scripts": {
     "test": "npx jest --passWithNoTests --runInBand --silent",
+    "test:staged": "npm test -- --findRelatedTests ./src",
     "dev": "echo 'working'",
     "build": "rimraf dist && tsc",
     "up": "npm run build && docker-compose up",
