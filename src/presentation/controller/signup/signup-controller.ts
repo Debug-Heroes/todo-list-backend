@@ -6,7 +6,8 @@ import {
   HttpRequest,
   Controller,
   HttpResponse,
-  badRequest
+  badRequest,
+  serverError
 } from './signup-controller-protocols'
 
 export class SignUpController implements Controller {
@@ -15,12 +16,16 @@ export class SignUpController implements Controller {
     private readonly addAccount: IAddAccount
   ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const error = this.validation.validate(httpRequest.body)
-    if (error) {
-      return new Promise(resolve => resolve(badRequest(error)))
+    try {
+      const error = this.validation.validate(httpRequest.body)
+      if (error) {
+        return new Promise(resolve => resolve(badRequest(error)))
+      }
+      const { confirmPassword, ...addUser } = httpRequest.body
+      await this.addAccount.add(addUser)
+      return new Promise((resolve) => resolve({ statusCode: 200 }))
+    } catch (error) {
+      return new Promise(resolve => resolve(serverError()))
     }
-    const { confirmPassword, ...addUser } = httpRequest.body
-    await this.addAccount.add(addUser)
-    return new Promise((resolve) => resolve({ statusCode: 200 }))
   }
 }
