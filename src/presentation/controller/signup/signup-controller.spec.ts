@@ -2,10 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IValidation } from '../../../domain/protocols/validation'
 import { SignUpController } from './signup-controller'
-import { HttpRequest, badRequest, serverError } from './signup-controller-protocols'
+import { HttpRequest, badRequest, ok, serverError } from './signup-controller-protocols'
 import { IAccount } from '../../../domain/protocols/account'
 import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/users/add-account'
-
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -88,5 +87,15 @@ describe('SignUpController', () => {
     })
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError())
+  })
+  it('Should return 200 on AddAccount succeed', async () => {
+      const { sut } = makeSut()
+      const httpResponse = await sut.handle(makeFakeRequest())
+      expect(httpResponse).toEqual(ok({
+        id: 'any_id',
+        name: 'any_name',
+        email: 'any_mail@mail.com',
+        password: 'any_hash'
+      }))
   })
 })
