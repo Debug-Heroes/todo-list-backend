@@ -5,6 +5,7 @@
   "devDependencies": {
     "@eslint/js": "^9.12.0",
     "@types/jest": "^29.5.13",
+    "@types/validator": "^13.12.2",
     "eslint": "^9.12.0",
     "git-commit-msg-linter": "^5.0.8",
     "globals": "^15.11.0",
@@ -14,7 +15,8 @@
     "rimraf": "^6.0.1",
     "ts-jest": "^29.2.5",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.8.1"
+    "typescript-eslint": "^8.8.1",
+    "validator": "^13.12.0"
   },
   "scripts": {
     "test": "npx jest --passWithNoTests --runInBand --silent",
