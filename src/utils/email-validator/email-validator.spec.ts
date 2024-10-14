@@ -8,4 +8,11 @@ describe('EmailValidator', () => {
     sut.isValid('any_mail@mail.com')
     expect(isEmailSpy).toHaveBeenCalledWith('any_mail@mail.com')
   })
+  it('Should throw if isEmail throws', async () => {
+    const sut = new EmailValidator()
+    jest.spyOn(validator, 'isEmail').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    expect(sut.isValid).toThrow()
+  })
 })
