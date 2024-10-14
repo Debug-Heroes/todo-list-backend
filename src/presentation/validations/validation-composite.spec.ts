@@ -36,4 +36,11 @@ describe('ValidationComposite', () => {
     sut.validate({ field: 'any_value' })
     expect(validateSpy).toHaveBeenCalledWith({ field: 'any_value' })
   })
+  it('Should return the first error if more than one validation fails', () => {
+    const { sut, validators } = makeSut()
+    jest.spyOn(validators[0], 'validate').mockReturnValueOnce(new Error('first_error'))
+    jest.spyOn(validators[1], 'validate').mockReturnValueOnce(new Error('second_error'))
+    const error = sut.validate({ field: 'any_value' })
+    expect(error).toEqual(new Error('first_error'))
+  })
 })
