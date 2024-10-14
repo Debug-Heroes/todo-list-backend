@@ -3,6 +3,9 @@
 import { IValidation } from '../../../domain/protocols/validation'
 import { SignUpController } from './signup-controller'
 import { HttpRequest, badRequest } from './signup-controller-protocols'
+import { IAccount } from '../../../domain/protocols/account'
+import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/users/add-account'
+
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -16,15 +19,32 @@ const makeFakeRequest = (): HttpRequest => ({
 interface SutTypes {
   sut: SignUpController
   validationStub: IValidation
+  addAccountStub: IAddAccount
 }
 
 const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
-  const sut = new SignUpController(validationStub)
+  const addAccountStub = makeAddAccountStub()
+  const sut = new SignUpController(validationStub, addAccountStub)
   return {
     sut,
-    validationStub
+    validationStub,
+    addAccountStub
   }
+}
+
+const makeAddAccountStub = (): IAddAccount => {
+  class AddAccountStub implements IAddAccount {
+    async add(account: IAddAccountModel): Promise<IAccount> {
+        return new Promise(resolve => resolve({
+          id: 'any_id',
+          name: 'any_name',
+          email: 'any_mail@mail.com',
+          password: 'any_hash'
+        }))
+    }
+  }
+  return new AddAccountStub()
 }
 
 const makeValidationStub = (): IValidation => {
@@ -50,5 +70,15 @@ describe('SignUpController', () => {
       .mockReturnValueOnce(new Error('any_error'))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(badRequest(new Error('any_error')))
+  })
+  it('Should call AddAccount with correct values', async () => {
+   const { sut, addAccountStub } = makeSut()
+   const addSpy = jest.spyOn(addAccountStub, 'add')
+   await sut.handle(makeFakeRequest())
+   expect(addSpy).toHaveBeenCalledWith({
+    name: 'any_name',
+    email: 'any_mail@mail.com',
+    password: 'any_password',
+   })
   })
 })
