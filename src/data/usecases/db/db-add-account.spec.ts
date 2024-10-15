@@ -78,6 +78,14 @@ describe('DbAddAccount', () => {
       password: 'hash_value'
     })
   })
+  it('Should throw if addAccountRepository throws', async () => {
+    const { sut, AddAccountRepositoryStub } = makeSut()
+    jest.spyOn(AddAccountRepositoryStub, 'add').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const promise = sut.add(makeFakeRequest())
+    expect(promise).rejects.toThrow()
+  })
 })
 
 // criptografar a senha >> usecase << bcrypt
