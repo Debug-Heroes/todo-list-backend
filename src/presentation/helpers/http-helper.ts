@@ -1,5 +1,5 @@
  
-import { ForbiddenError } from "../errors/forbidden-error";
+import { AccessDeniedError } from "../errors/access-denied-error";
 import { ServerError } from "../errors/server-error";
 import { HttpResponse } from "../protocols/http";
 
@@ -21,5 +21,5 @@ export const ok = (data: any): HttpResponse => ({
 
 export const forbidden = (): HttpResponse => ({
   statusCode: 403,
-  body: new ForbiddenError()
+  body: new AccessDeniedError()
 })

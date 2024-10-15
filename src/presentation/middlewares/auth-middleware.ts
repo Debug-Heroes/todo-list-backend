@@ -12,7 +12,10 @@ export class AuthMiddleware implements Controller {
         return Promise.resolve(forbidden())
       }
 
-      await this.decrypter.decrypt(httpRequest.headers.authorization)
+      const account = await this.decrypter.decrypt(httpRequest.headers.authorization)
+      if (!account) {
+        return Promise.resolve(forbidden())
+      }
       return Promise.resolve({ statusCode: 200 })
     } catch (error: any) {
       return new Promise((resolve) => resolve(serverError()))
