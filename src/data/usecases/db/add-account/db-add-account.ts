@@ -1,8 +1,8 @@
  
-import { IAccount } from "../../../domain/protocols/account";
-import { IAddAccount, IAddAccountModel } from "../../../domain/usecases/users/add-account";
-import { IAddAccountRepository } from "../../protocols/add-account-repository";
-import { IEncrypter } from "../../protocols/encrypter";
+import { IAccount } from "../../../../domain/protocols/account";
+import { IAddAccount, IAddAccountModel } from "../../../../domain/usecases/users/add-account";
+import { IAddAccountRepository } from "../../../protocols/add-account-repository";
+import { IEncrypter } from "../../../protocols/encrypter";
 
 export class DbAddAccount implements IAddAccount {
   constructor(

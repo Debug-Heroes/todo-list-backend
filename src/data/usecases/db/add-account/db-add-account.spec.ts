@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IEncrypter } from '../../protocols/encrypter'
-import { IAddAccountRepository } from '../../protocols/add-account-repository'
-import { IAddAccountModel } from '../../../domain/usecases/users/add-account'
-import { IAccount } from '../../../domain/protocols/account'
+import { IEncrypter } from '../../../protocols/encrypter'
+import { IAddAccountRepository } from '../../../protocols/add-account-repository'
+import { IAddAccountModel } from '../../../../domain/usecases/users/add-account'
+import { IAccount } from '../../../../domain/protocols/account'
 import { DbAddAccount } from './db-add-account'
 
 interface SutTypes {
