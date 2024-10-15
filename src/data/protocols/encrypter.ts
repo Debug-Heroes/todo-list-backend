@@ -1,3 +1,3 @@
-export interface IEncrypter {
-  encrypt(value: string): Promise<string>
+export interface IHasher {
+  hash(value: string): Promise<string>
 }
