@@ -11,6 +11,8 @@ export class AuthMiddleware implements Controller {
     if (!httpRequest.headers?.authorization) {
       return Promise.resolve(forbidden())
     }
-    return Promise.reject()
+
+    await this.decrypter.decrypt(httpRequest.headers.authorization)
+    return Promise.resolve({statusCode: 200})
   }
 }
