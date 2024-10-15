@@ -15,7 +15,11 @@ describe('PgAccountRepository', () => {
     return
   })
   beforeEach(async () => {
-    PgHelper.query('DELETE FROM users')
+    await PgHelper.query('DELETE FROM users')
+    return
+  })
+  afterEach(async () => {
+    await PgHelper.query('DELETE FROM users')
     return
   })
   afterAll(async () => {
@@ -27,5 +31,13 @@ describe('PgAccountRepository', () => {
     const account = await sut.add(makeFakeRequest())
     expect(account.id).toBeTruthy()
     expect(account.name).toBe(makeFakeRequest().name)
+  })
+  it('Should throw if pg throws', async () => {
+    const sut = new PgAccountRepository()
+    jest.spyOn(PgHelper, 'query').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const promise = sut.add(makeFakeRequest())
+    expect(promise).rejects.toThrow()
   })
 })
