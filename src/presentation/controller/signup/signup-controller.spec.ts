@@ -5,6 +5,7 @@ import { SignUpController } from './signup-controller'
 import { HttpRequest, badRequest, ok, serverError } from './signup-controller-protocols'
 import { IAccount } from '../../../domain/protocols/account'
 import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/users/add-account'
+import { ILoadAccountByEmail } from '../../../domain/usecases/users/load-account'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -19,17 +20,29 @@ interface SutTypes {
   sut: SignUpController
   validationStub: IValidation
   addAccountStub: IAddAccount
+  loadAccountStub: ILoadAccountByEmail
 }
 
 const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
   const addAccountStub = makeAddAccountStub()
-  const sut = new SignUpController(validationStub, addAccountStub)
+  const loadAccountStub = makeLoadAccountStub()
+  const sut = new SignUpController(validationStub, addAccountStub, loadAccountStub)
   return {
     sut,
     validationStub,
-    addAccountStub
+    addAccountStub,
+    loadAccountStub
   }
+}
+
+const makeLoadAccountStub = (): ILoadAccountByEmail => {
+  class LoadAccountStub implements ILoadAccountByEmail {
+    async load(email: string): Promise<IAccount | null> {
+      return Promise.resolve(null)
+    }
+  }
+  return new LoadAccountStub()
 }
 
 const makeAddAccountStub = (): IAddAccount => {
@@ -97,5 +110,11 @@ describe('SignUpController', () => {
         email: 'any_mail@mail.com',
         password: 'any_hash'
       }))
+  })
+  it('Should call loadAccount with correct values', async () => {
+    const { sut, loadAccountStub } = makeSut()
+    const loadSpy = jest.spyOn(loadAccountStub, 'load')
+    await sut.handle(makeFakeRequest())
+    expect(loadSpy).toHaveBeenCalledWith('any_mail@mail.com')
   })
 })
