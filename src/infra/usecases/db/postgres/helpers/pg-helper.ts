@@ -1,7 +1,7 @@
  
 import { Pool, QueryResult } from 'pg'
 
-type PgPoolConfig = {
+export type PgPoolConfig = {
   user: string
   host: string
   database: string
