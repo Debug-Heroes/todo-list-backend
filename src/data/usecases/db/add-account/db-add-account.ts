@@ -2,7 +2,7 @@
 import { IAccount } from "../../../../domain/protocols/account";
 import { IAddAccount, IAddAccountModel } from "../../../../domain/usecases/users/add-account";
 import { IAddAccountRepository } from "../../../protocols/add-account-repository";
-import { IHasher } from "../../../protocols/encrypter";
+import { IHasher } from "../../../protocols/hasher";
 
 export class DbAddAccount implements IAddAccount {
   constructor(

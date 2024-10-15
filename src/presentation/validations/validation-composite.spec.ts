@@ -1,6 +1,6 @@
  
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IValidation } from "../../domain/protocols/validation"
+import { IValidation } from "../../domain/usecases/users/validation"
 import { ValidationComposite } from './validation-composite'
 
 interface SutTypes {

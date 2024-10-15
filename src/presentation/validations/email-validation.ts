@@ -1,5 +1,5 @@
  
-import { IValidation } from "../../domain/protocols/validation";
+import { IValidation } from "../../domain/usecases/users/validation";
 import { InvalidParamError } from "../errors/invalid-param-error";
 import { IEmailValidator } from "../protocols/email-validator";
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { IAccount } from '../../../domain/protocols/account'
-import { IValidation } from '../../../domain/protocols/validation'
+import { IValidation } from '../../../domain/usecases/users/validation'
 import {
   IAddAccount,
   IAddAccountModel

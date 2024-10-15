@@ -1,4 +1,4 @@
-import { IValidation } from "../../../domain/protocols/validation"
+import { IValidation } from "../../../domain/usecases/users/validation"
 import { ValidationComposite } from "../../../presentation/validations/validation-composite"
 import { RequiredFieldValidation } from '../../../presentation/validations/required-field-validation'
 import { makeSignUpValidation } from './signup-validation'

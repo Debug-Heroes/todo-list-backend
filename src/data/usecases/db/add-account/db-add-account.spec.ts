@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IHasher } from '../../../protocols/encrypter'
+import { IHasher } from '../../../protocols/hasher'
 import { IAddAccountRepository } from '../../../protocols/add-account-repository'
 import { IAddAccountModel } from '../../../../domain/usecases/users/add-account'
 import { IAccount } from '../../../../domain/protocols/account'

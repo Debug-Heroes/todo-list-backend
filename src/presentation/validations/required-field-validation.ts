@@ -1,5 +1,5 @@
 
-import { IValidation } from "../../domain/protocols/validation";
+import { IValidation } from "../../domain/usecases/users/validation";
 import { MissingParamError } from "../errors/missing-param-error";
 
 export class RequiredFieldValidation implements IValidation {

@@ -1,4 +1,4 @@
-import { IValidation } from '../../../domain/protocols/validation'
+import { IValidation } from '../../../domain/usecases/users/validation'
 import { CompareFieldsValidation } from '../../../presentation/validations/compare-fields-validation'
 import { EmailValidation } from '../../../presentation/validations/email-validation'
 import { RequiredFieldValidation } from '../../../presentation/validations/required-field-validation'
