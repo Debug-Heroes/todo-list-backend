@@ -28,4 +28,9 @@ describe('JwtAdapter', () => {
     const result = await sut.decrypt('any_value')
     expect(result).toBeFalsy()
   })
+  it('Should return an id on verify succeed', async () => {
+    const sut = makeSut()
+    const result = await sut.decrypt('any_value')
+    expect(result).toBe('any_id')
+  })
 })
