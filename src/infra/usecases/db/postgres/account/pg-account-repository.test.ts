@@ -26,18 +26,30 @@ describe('PgAccountRepository', () => {
     PgHelper.disconnect()
     return
   })
-  it('Should return an account', async () => {
-    const sut = new PgAccountRepository()
-    const account = await sut.add(makeFakeRequest())
-    expect(account.id).toBeTruthy()
-    expect(account.name).toBe(makeFakeRequest().name)
-  })
-  it('Should throw if pg throws', async () => {
-    const sut = new PgAccountRepository()
-    jest.spyOn(PgHelper, 'query').mockImplementationOnce(() => {
-      throw new Error()
+  describe('add', () => {
+
+    it('Should return an account', async () => {
+      const sut = new PgAccountRepository()
+      const account = await sut.add(makeFakeRequest())
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe(makeFakeRequest().name)
     })
-    const promise = sut.add(makeFakeRequest())
-    expect(promise).rejects.toThrow()
+    it('Should throw if pg throws', async () => {
+      const sut = new PgAccountRepository()
+      jest.spyOn(PgHelper, 'query').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = sut.add(makeFakeRequest())
+      expect(promise).rejects.toThrow()
+    })
+    
+  })
+  describe('load', () => {
+    it('Should call query with correct values', async () => {
+      const sut = new PgAccountRepository()
+      const querySpy = jest.spyOn(PgHelper, 'query')
+      await sut.load('any_mail@mail.com')
+      expect(querySpy).toHaveBeenCalledWith(expect.anything(), ['any_mail@mail.com'])
+    })
   })
 })
