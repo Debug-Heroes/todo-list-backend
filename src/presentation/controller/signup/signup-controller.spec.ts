@@ -48,12 +48,7 @@ const makeLoadAccountStub = (): ILoadAccountByEmail => {
 const makeAddAccountStub = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
     async add(account: IAddAccountModel): Promise<IAccount> {
-        return new Promise(resolve => resolve({
-          id: 'any_id',
-          name: 'any_name',
-          email: 'any_mail@mail.com',
-          password: 'any_hash'
-        }))
+        return new Promise(resolve => resolve(makeFakeAccount()))
     }
   }
   return new AddAccountStub()
@@ -67,6 +62,13 @@ const makeValidationStub = (): IValidation => {
   }
   return new ValidationStub()
 }
+
+const makeFakeAccount = (): IAccount => ({
+  email: 'any_mail@mail.com',
+  name: 'any_name',
+  password: 'any_password',
+  id: 'any_id'
+})
 
 describe('SignUpController', () => {
   it('Should call validation with correct values', async () => {
@@ -104,12 +106,7 @@ describe('SignUpController', () => {
   it('Should return 200 on AddAccount succeed', async () => {
       const { sut } = makeSut()
       const httpResponse = await sut.handle(makeFakeRequest())
-      expect(httpResponse).toEqual(ok({
-        id: 'any_id',
-        name: 'any_name',
-        email: 'any_mail@mail.com',
-        password: 'any_hash'
-      }))
+      expect(httpResponse).toEqual(ok(makeFakeAccount()))
   })
   it('Should call loadAccount with correct values', async () => {
     const { sut, loadAccountStub } = makeSut()
