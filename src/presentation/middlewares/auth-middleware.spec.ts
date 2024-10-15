@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { forbidden } from '../helpers/http-helper'
+import { forbidden, serverError } from '../helpers/http-helper'
 import { HttpRequest } from '../protocols/http'
 import { IDecrypter } from '../../domain/usecases/cryptography/decrypter'
 import { AuthMiddleware } from './auth-middleware'
@@ -44,5 +44,13 @@ describe('AuthMiddleware', () => {
     const decryptSpy = jest.spyOn(decrypterStub, 'decrypt')
     await sut.handle(makeFakeRequest())
     expect(decryptSpy).toHaveBeenCalledWith('Bearer token')
+  })
+  it('Should return 500 if decrypter throws', async () => {
+    const { sut, decrypterStub } = makeSut()
+    jest.spyOn(decrypterStub, 'decrypt').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(serverError())
   })
 })
