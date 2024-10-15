@@ -26,7 +26,7 @@ const makeSut = (): SutTypes => {
 
 const makeDecrypterStub = () => {
   class DecrypterStub implements IDecrypter {
-    async decrypt(encryptedValue: string): Promise<string> {
+    async decrypt(encryptedValue: string): Promise<string | null> {
       return Promise.resolve('any_value')
     }
   }
@@ -52,5 +52,11 @@ describe('AuthMiddleware', () => {
     })
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(serverError())
+  })
+  it('Should return access denied if decrypter fails', async () => {
+    const { sut, decrypterStub } = makeSut()
+    jest.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(Promise.resolve(null))
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(forbidden())
   })
 })
