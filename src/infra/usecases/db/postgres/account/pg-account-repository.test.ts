@@ -66,5 +66,10 @@ describe('PgAccountRepository', () => {
       const promise = sut.load('any_mail@mail.com')
       expect(promise).rejects.toThrow()
     })
+    it('Should not return if pg fails', async () => {
+      const sut = new PgAccountRepository()
+      const result = await sut.load('inexistent_mail@mail.com')
+      expect(result).toBeFalsy()
+    })
   })
 })
