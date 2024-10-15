@@ -38,7 +38,7 @@ const makeAddAccountRepositoryStub = (): IAddAccountRepository   => {
         email: 'any_mail@mail.com',
         id: 'any_id',
         name: 'any_name',
-        password: 'any_password'
+        password: 'hash_password'
       })
     }
   }
@@ -86,7 +86,14 @@ describe('DbAddAccount', () => {
     const promise = sut.add(makeFakeRequest())
     expect(promise).rejects.toThrow()
   })
+  it('Should return an account on succeed', async () => {
+    const { sut } = makeSut()
+    const account = await sut.add(makeFakeRequest())
+    expect(account).toEqual({
+      email: 'any_mail@mail.com',
+      id: 'any_id',
+      name: 'any_name',
+      password: 'hash_password'
+    })
+  })
 })
-
-// criptografar a senha >> usecase << bcrypt
-// enviar para o repositório >> usecase << postgres repository
