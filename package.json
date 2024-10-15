@@ -25,6 +25,7 @@
   "scripts": {
     "test": "npx jest --passWithNoTests --runInBand --silent --forceExit",
     "test:staged": "npm test -- --findRelatedTests ./src",
+    "test:unit": "npm test -- -c ./jest-unit-config.js",
     "dev": "node ./dist/main/server.js",
     "build": "rimraf dist && tsc",
     "up": "npm run build && docker-compose up",
