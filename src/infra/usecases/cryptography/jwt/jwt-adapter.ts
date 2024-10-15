@@ -8,8 +8,16 @@ export class JwtAdapter implements IEncrypter, IDecrypter {
     private readonly secret: string
   ) {}
   async decrypt(encryptedValue: string): Promise<string | null> {
-    await jwt.verify(encryptedValue, this.secret)
-    return Promise.resolve(null)
+    try {
+      const result = await jwt.verify(encryptedValue, this.secret)
+      if (typeof result !== 'string') {
+        return Promise.resolve(result.id)
+      }
+      throw new Error()
+    } catch (error: any) {
+      console.log(error)
+      return Promise.resolve(null)
+    }
   }
   async encrypt(anyValue: string): Promise<string> {
     return Promise.resolve('')
