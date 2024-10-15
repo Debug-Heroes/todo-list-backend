@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { forbidden, serverError } from '../helpers/http-helper'
+import { forbidden, ok, serverError } from '../helpers/http-helper'
 import { Controller } from '../protocols/controller'
 import { IDecrypter } from '../../domain/usecases/cryptography/decrypter'
 import { HttpRequest, HttpResponse } from '../protocols/http'
@@ -12,11 +12,11 @@ export class AuthMiddleware implements Controller {
         return Promise.resolve(forbidden())
       }
 
-      const account = await this.decrypter.decrypt(httpRequest.headers.authorization)
-      if (!account) {
+      const accountId = await this.decrypter.decrypt(httpRequest.headers.authorization)
+      if (!accountId) {
         return Promise.resolve(forbidden())
       }
-      return Promise.resolve({ statusCode: 200 })
+      return Promise.resolve(ok({id: accountId}))
     } catch (error: any) {
       return new Promise((resolve) => resolve(serverError()))
     }
