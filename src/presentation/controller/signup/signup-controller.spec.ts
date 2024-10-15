@@ -2,7 +2,7 @@
  
 import { IValidation } from '../../../domain/protocols/validation'
 import { SignUpController } from './signup-controller'
-import { HttpRequest, badRequest, ok, serverError } from './signup-controller-protocols'
+import { HttpRequest, badRequest, ok, serverError, EmailAlreadyExistError } from './signup-controller-protocols'
 import { IAccount } from '../../../domain/protocols/account'
 import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/users/add-account'
 import { ILoadAccountByEmail } from '../../../domain/usecases/users/load-account'
@@ -113,5 +113,11 @@ describe('SignUpController', () => {
     const loadSpy = jest.spyOn(loadAccountStub, 'load')
     await sut.handle(makeFakeRequest())
     expect(loadSpy).toHaveBeenCalledWith('any_mail@mail.com')
+  })
+  it('Should return an EmailAlreadyExist if loadAccount returns an account', async () => {
+    const { sut, loadAccountStub } = makeSut()
+    jest.spyOn(loadAccountStub, 'load').mockReturnValueOnce(Promise.resolve(makeFakeAccount()))
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(badRequest(new EmailAlreadyExistError()))
   })
 })
