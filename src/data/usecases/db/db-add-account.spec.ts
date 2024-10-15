@@ -67,6 +67,17 @@ describe('DbAddAccount', () => {
     const promise = sut.add(makeFakeRequest())
     expect(promise).rejects.toThrow()
   })
+  it('Should call addAccountRepository with correct values', async () => {
+    const { sut, AddAccountRepositoryStub } = makeSut()
+    const addSpy = jest.spyOn(AddAccountRepositoryStub, 'add')
+    const request = makeFakeRequest()
+    await sut.add(request)
+    expect(addSpy).toHaveBeenCalledWith({
+      email: request.email,
+      name: request.name,
+      password: 'hash_value'
+    })
+  })
 })
 
 // criptografar a senha >> usecase << bcrypt
