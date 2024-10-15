@@ -12,7 +12,7 @@ export class PgAccountRepository implements IAddAccountRepository, ILoadAccountB
   }
 
   async load(email: string): Promise<IAccount | null> {
-    await PgHelper.query('SELECT * FROM users WHERE email = $1', [email])
-    return null
+    const result = await PgHelper.query('SELECT * FROM users WHERE email = $1', [email])
+    return result.rows?.length > 0 ? result.rows[0] : null
   }
 }
