@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { forbidden, serverError } from '../helpers/http-helper'
+import { forbidden, ok, serverError } from '../helpers/http-helper'
 import { HttpRequest } from '../protocols/http'
 import { IDecrypter } from '../../domain/usecases/cryptography/decrypter'
 import { AuthMiddleware } from './auth-middleware'
@@ -55,8 +55,15 @@ describe('AuthMiddleware', () => {
   })
   it('Should return access denied if decrypter fails', async () => {
     const { sut, decrypterStub } = makeSut()
-    jest.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(Promise.resolve(null))
+    jest
+      .spyOn(decrypterStub, 'decrypt')
+      .mockReturnValueOnce(Promise.resolve(null))
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(forbidden())
+  })
+  it('Should return the user id on decrypter succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(ok({ id: 'any_value' }))
   })
 })
