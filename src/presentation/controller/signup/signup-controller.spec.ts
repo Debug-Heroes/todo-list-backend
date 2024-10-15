@@ -120,4 +120,12 @@ describe('SignUpController', () => {
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(badRequest(new EmailAlreadyExistError()))
   })
+  it('Should return 500 if loadAccount throws', async () => {
+    const { sut, loadAccountStub } = makeSut()
+    jest.spyOn(loadAccountStub, 'load').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(serverError())
+  })
 })
