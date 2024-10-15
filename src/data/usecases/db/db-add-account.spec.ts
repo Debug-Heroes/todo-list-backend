@@ -59,6 +59,14 @@ describe('DbAddAccount', () => {
     await sut.add(request)
     expect(encryptSpy).toHaveBeenCalledWith(request.password)
   })
+  it('Should throw if encrypter throws', async () => {
+    const { sut, encrypterStub } = makeSut()
+    jest.spyOn(encrypterStub, 'encrypt').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const promise = sut.add(makeFakeRequest())
+    expect(promise).rejects.toThrow()
+  })
 })
 
 // criptografar a senha >> usecase << bcrypt
