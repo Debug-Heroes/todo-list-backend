@@ -15,7 +15,6 @@ export class JwtAdapter implements IEncrypter, IDecrypter {
       }
       throw new Error()
     } catch (error: any) {
-      console.log(error)
       return Promise.resolve(null)
     }
   }
