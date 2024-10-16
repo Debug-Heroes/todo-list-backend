@@ -17,6 +17,7 @@ export class JwtAdapter implements IEncrypter, IDecrypter {
     }
   }
   async encrypt(anyValue: string): Promise<string> {
+    jwt.sign({ id: anyValue }, this.secret, { expiresIn: '8h' })
     return Promise.resolve('')
   }
 }
