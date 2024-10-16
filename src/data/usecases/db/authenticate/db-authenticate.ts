@@ -13,7 +13,10 @@ export class DbAuthentication implements IAuthentication {
     if (!foundAccount) {
       return Promise.resolve(null)
     }
-    await this.comparer.compare(account.password, foundAccount.password)
+    const success = await this.comparer.compare(account.password, foundAccount.password)
+    if (!success) {
+      return Promise.resolve(null)
+    }
     return Promise.resolve({} as IAccount)
   }
 }
