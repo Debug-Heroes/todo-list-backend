@@ -17,6 +17,6 @@ export class DbAuthentication implements IAuthentication {
     if (!success) {
       return Promise.resolve(null)
     }
-    return Promise.resolve({} as IAccount)
+    return Promise.resolve(foundAccount)
   }
 }
