@@ -4,22 +4,35 @@ import { badRequest, HttpRequest, unauthorized } from "../signup/signup-controll
 import { LoginController } from './login-controller'
 import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/users/authentication'
 import { IAccount } from "../../../domain/protocols/account"
+import { IEncrypter } from "../../../data/protocols/encrypter"
 
 interface SutTypes {
   sut: LoginController
   validationStub: IValidation
   authenticationStub: IAuthentication
+  encrypterStub: IEncrypter
 }
 
 const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
   const authenticationStub = makeAuthenticationStub()
-  const sut = new LoginController(validationStub, authenticationStub)
+  const encrypterStub = makeEncrypterStub()
+  const sut = new LoginController(validationStub, authenticationStub, encrypterStub)
   return {
     sut,
     validationStub,
-    authenticationStub
+    authenticationStub,
+    encrypterStub
   }
+}
+
+const makeEncrypterStub = (): IEncrypter => {
+  class EncrypterStub implements IEncrypter {
+    encrypt(anyValue: string): Promise<string> {
+      return Promise.resolve('any_token')
+    }
+  }
+  return new EncrypterStub()
 }
 
 const makeAuthenticationStub = (): IAuthentication => {
@@ -76,5 +89,11 @@ describe('LoginController', () => {
     jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(Promise.resolve(null))
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(unauthorized())
+  })
+  it('Should call encrypter with correct values', async () => {
+    const { sut, encrypterStub } = makeSut()
+    const encryptSpy = jest.spyOn(encrypterStub, 'encrypt')
+    await sut.handle(makeFakeRequest())
+    expect(encryptSpy).toHaveBeenCalledWith('any_id')
   })
 })
