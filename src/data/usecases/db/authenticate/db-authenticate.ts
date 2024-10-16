@@ -9,10 +9,12 @@ export class DbAuthentication implements IAuthentication {
     private readonly comparer: IComparer
   ) {}
   async auth(account: IAuthenticationModel): Promise<IAccount | null> {
+    // Dependencia que encontra uma conta com o email recebido
     const foundAccount = await this.loadByEmail.load(account.email)
     if (!foundAccount) {
       return Promise.resolve(null)
     }
+    // Dependencia que compara a senha criptografada do bd com a senha recebida
     const success = await this.comparer.compare(account.password, foundAccount.password)
     if (!success) {
       return Promise.resolve(null)

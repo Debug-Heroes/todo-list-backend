@@ -32,8 +32,8 @@ export class SignUpController implements Controller {
       }
       const { confirmPassword, ...addUser } = httpRequest.body
       // Dependencia que procura conta com o email recebido no banco de dados
-      const existentAccount = await this.loadAccountByEmail.load(addUser.email)
-      if (existentAccount) {
+      const foundAccount = await this.loadAccountByEmail.load(addUser.email)
+      if (foundAccount) {
         return new Promise((resolve) =>
           resolve(badRequest(new EmailAlreadyExistError()))
         )
