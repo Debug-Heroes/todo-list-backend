@@ -10,7 +10,7 @@ import {
   ok,
   serverError,
   unauthorized
-} from '../signup/signup-controller-protocols'
+} from '../login/login-controller-protocols'
 
 export class LoginController implements Controller {
   constructor(
@@ -20,16 +20,19 @@ export class LoginController implements Controller {
   ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      // Dependencia de validação de campos
       const error = this.validation.validate(httpRequest.body)
       if (error) {
         return new Promise((resolve) => resolve(badRequest(error)))
       }
+      // Dependencia de autenticação do usuário
       const user = await this.authenticator.auth(httpRequest.body)
       if (!user) {
         return new Promise((resolve) => resolve(unauthorized()))
       }
+      // Dependencia de geração de token de acesso
       const token = await this.encrypter.encrypt(user.id)
-        return new Promise((resolve) => resolve(ok(token)))
+      return new Promise((resolve) => resolve(ok(token)))
     } catch (error: any) {
       return new Promise((resolve) => resolve(serverError()))
     }

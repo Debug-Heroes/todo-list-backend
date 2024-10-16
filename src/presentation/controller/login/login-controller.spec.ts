@@ -6,7 +6,7 @@ import {
   ok,
   serverError,
   unauthorized
-} from '../signup/signup-controller-protocols'
+} from '../login/login-controller-protocols'
 import { LoginController } from './login-controller'
 import {
   IAuthentication,

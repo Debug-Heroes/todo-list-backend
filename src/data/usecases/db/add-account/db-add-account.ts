@@ -12,7 +12,9 @@ export class DbAddAccount implements IAddAccount {
     private readonly addAccountRepository: IAddAccountRepository
   ) {}
   async add(account: IAddAccountModel): Promise<IAccount> {
+    // Dependencia de criptografia
     const hashedPassword = await this.hasher.hash(account.password)
+    // Repositório que insira o usuário no banco de dados
     const user = await this.addAccountRepository.add(
       Object.assign({}, account, { password: hashedPassword })
     )

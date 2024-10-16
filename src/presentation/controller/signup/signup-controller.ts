@@ -25,17 +25,20 @@ export class SignUpController implements Controller {
   ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      // Dependencia de validação dos campos
       const error = this.validation.validate(httpRequest.body)
       if (error) {
         return new Promise((resolve) => resolve(badRequest(error)))
       }
       const { confirmPassword, ...addUser } = httpRequest.body
+      // Dependencia que procura conta com o email recebido no banco de dados
       const existentAccount = await this.loadAccountByEmail.load(addUser.email)
       if (existentAccount) {
         return new Promise((resolve) =>
           resolve(badRequest(new EmailAlreadyExistError()))
         )
       }
+      // Dependencia que adicione o usuario no banco de dados
       const account = await this.addAccount.add(addUser)
       return new Promise((resolve) => resolve(ok(account)))
     } catch (error) {
