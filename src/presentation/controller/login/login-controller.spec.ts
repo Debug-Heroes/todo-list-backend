@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IValidation } from "../../../domain/usecases/users/validation"
-import { badRequest, HttpRequest, unauthorized } from "../signup/signup-controller-protocols"
+import { badRequest, HttpRequest, serverError, unauthorized } from "../signup/signup-controller-protocols"
 import { LoginController } from './login-controller'
 import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/users/authentication'
 import { IAccount } from "../../../domain/protocols/account"
@@ -95,5 +95,13 @@ describe('LoginController', () => {
     const encryptSpy = jest.spyOn(encrypterStub, 'encrypt')
     await sut.handle(makeFakeRequest())
     expect(encryptSpy).toHaveBeenCalledWith('any_id')
+  })
+  it('Should return 500 if auth throws', async () => {
+    const { sut, authenticationStub } = makeSut()
+    jest.spyOn(authenticationStub, 'auth').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(serverError())
   })
 })
