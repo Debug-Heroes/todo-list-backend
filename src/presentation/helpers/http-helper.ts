@@ -3,14 +3,14 @@ import { AccessDeniedError } from "../errors/access-denied-error";
 import { ServerError } from "../errors/server-error";
 import { HttpResponse } from "../protocols/http";
 
-export const badRequest = (error: any): HttpResponse => ({ 
+export const badRequest = (error: Error): HttpResponse => ({ 
   statusCode: 400,
-  body: error
+  body: error.message
 })
 
 export const serverError = (): HttpResponse => ({
   statusCode: 500,
-  body: new ServerError()
+  body: new ServerError().message
 })
 
 export const ok = (data: any): HttpResponse => ({
@@ -21,5 +21,5 @@ export const ok = (data: any): HttpResponse => ({
 
 export const forbidden = (): HttpResponse => ({
   statusCode: 403,
-  body: new AccessDeniedError()
+  body: new AccessDeniedError().message
 })

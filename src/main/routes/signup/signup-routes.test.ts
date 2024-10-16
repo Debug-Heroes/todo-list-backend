@@ -22,7 +22,7 @@ describe('SignUp Routes', () => {
 
   it('Should return 200 on call login route with correct values', async () => {
     await request(app)
-      .post('/sign')
+      .post('/signup')
       .send({
         name: 'any_name',
         email: 'any_email@mail.com',
