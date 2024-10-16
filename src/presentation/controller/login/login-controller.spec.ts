@@ -3,6 +3,7 @@ import { IValidation } from '../../../domain/usecases/users/validation'
 import {
   badRequest,
   HttpRequest,
+  ok,
   serverError,
   unauthorized
 } from '../signup/signup-controller-protocols'
@@ -127,5 +128,10 @@ describe('LoginController', () => {
     })
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(serverError())
+  })
+  it('Should return token on succeed', async () => {
+    const { sut } = makeSut()
+    const token = await sut.handle(makeFakeRequest())
+    expect(token).toEqual(ok('any_token'))
   })
 })
