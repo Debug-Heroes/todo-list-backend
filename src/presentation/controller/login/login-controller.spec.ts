@@ -2,21 +2,39 @@
 import { IValidation } from "../../../domain/usecases/users/validation"
 import { badRequest, HttpRequest } from "../signup/signup-controller-protocols"
 import { LoginController } from './login-controller'
+import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/users/authentication'
+import { IAccount } from "../../../domain/protocols/account"
 
 interface SutTypes {
   sut: LoginController
   validationStub: IValidation
+  authenticationStub: IAuthentication
 }
 
 const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
-  const sut = new LoginController(validationStub)
+  const authenticationStub = makeAuthenticationStub()
+  const sut = new LoginController(validationStub, authenticationStub)
   return {
     sut,
-    validationStub
+    validationStub,
+    authenticationStub
   }
 }
 
+const makeAuthenticationStub = (): IAuthentication => {
+  class AuthenticationStub implements IAuthentication {
+    async auth(account: IAuthenticationModel): Promise<IAccount> {
+      return Promise.resolve({
+        email: 'any_mail@mail.com',
+        id: 'any_id',
+        name: 'any_name',
+        password: 'any_password'
+      })
+    }
+  }
+  return new AuthenticationStub()
+}
 
 const makeValidationStub = (): IValidation => {
   class ValidationStub implements IValidation {
@@ -46,5 +64,11 @@ describe('LoginController', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error('any_error'))
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(badRequest(new Error('any_error')))
+  })
+  it('Should call auth with correct values', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const authSpy = jest.spyOn(authenticationStub, 'auth')
+    await sut.handle(makeFakeRequest())
+    expect(authSpy).toHaveBeenCalledWith(makeFakeRequest().body)
   })
 })
