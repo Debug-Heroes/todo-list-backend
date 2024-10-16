@@ -1,10 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IValidation } from "../../../domain/usecases/users/validation"
-import { badRequest, HttpRequest, serverError, unauthorized } from "../signup/signup-controller-protocols"
+import { IValidation } from '../../../domain/usecases/users/validation'
+import {
+  badRequest,
+  HttpRequest,
+  serverError,
+  unauthorized
+} from '../signup/signup-controller-protocols'
 import { LoginController } from './login-controller'
-import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/users/authentication'
-import { IAccount } from "../../../domain/protocols/account"
-import { IEncrypter } from "../../../data/protocols/encrypter"
+import {
+  IAuthentication,
+  IAuthenticationModel
+} from '../../../domain/usecases/users/authentication'
+import { IAccount } from '../../../domain/protocols/account'
+import { IEncrypter } from '../../../data/protocols/encrypter'
 
 interface SutTypes {
   sut: LoginController
@@ -17,7 +25,11 @@ const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
   const authenticationStub = makeAuthenticationStub()
   const encrypterStub = makeEncrypterStub()
-  const sut = new LoginController(validationStub, authenticationStub, encrypterStub)
+  const sut = new LoginController(
+    validationStub,
+    authenticationStub,
+    encrypterStub
+  )
   return {
     sut,
     validationStub,
@@ -74,7 +86,9 @@ describe('LoginController', () => {
   })
   it('Should return a 400 if validation fails', async () => {
     const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error('any_error'))
+    jest
+      .spyOn(validationStub, 'validate')
+      .mockReturnValueOnce(new Error('any_error'))
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(badRequest(new Error('any_error')))
   })
@@ -86,7 +100,9 @@ describe('LoginController', () => {
   })
   it('Should return 401 if auth fails', async () => {
     const { sut, authenticationStub } = makeSut()
-    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(Promise.resolve(null))
+    jest
+      .spyOn(authenticationStub, 'auth')
+      .mockReturnValueOnce(Promise.resolve(null))
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(unauthorized())
   })

@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IEncrypter } from "../../../../data/protocols/encrypter";
-import { IDecrypter } from "../../../../domain/usecases/cryptography/decrypter";
+import { IEncrypter } from '../../../../data/protocols/encrypter'
+import { IDecrypter } from '../../../../domain/usecases/cryptography/decrypter'
 import jwt from 'jsonwebtoken'
 
 export class JwtAdapter implements IEncrypter, IDecrypter {
-  constructor(
-    private readonly secret: string
-  ) {}
+  constructor(private readonly secret: string) {}
   async decrypt(encryptedValue: string): Promise<string | null> {
     try {
       const result = await jwt.verify(encryptedValue, this.secret)

@@ -7,7 +7,7 @@ const makeSut = (): BcryptAdapter => {
   return sut
 }
 jest.mock('bcrypt', () => ({
-  hash () {
+  hash() {
     return 'hash_value'
   }
 }))

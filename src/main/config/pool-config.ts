@@ -1,5 +1,5 @@
-import { PgPoolConfig } from "../../infra/usecases/db/postgres/helpers/pg-helper";
-import env from "./env";
+import { PgPoolConfig } from '../../infra/usecases/db/postgres/helpers/pg-helper'
+import env from './env'
 
 export const PoolConfig: PgPoolConfig = {
   database: env.PG_DATABASE || 'postgres',

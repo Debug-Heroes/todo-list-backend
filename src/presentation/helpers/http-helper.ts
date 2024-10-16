@@ -1,10 +1,9 @@
- 
-import { AccessDeniedError } from "../errors/access-denied-error";
-import { ServerError } from "../errors/server-error";
-import { Unauthorized } from "../errors/unauthorized-error";
-import { HttpResponse } from "../protocols/http";
+import { AccessDeniedError } from '../errors/access-denied-error'
+import { ServerError } from '../errors/server-error'
+import { Unauthorized } from '../errors/unauthorized-error'
+import { HttpResponse } from '../protocols/http'
 
-export const badRequest = (error: Error): HttpResponse => ({ 
+export const badRequest = (error: Error): HttpResponse => ({
   statusCode: 400,
   body: error.message
 })
@@ -19,12 +18,10 @@ export const ok = (data: any): HttpResponse => ({
   body: data
 })
 
-
 export const forbidden = (): HttpResponse => ({
   statusCode: 403,
   body: new AccessDeniedError().message
 })
-
 
 export const unauthorized = (): HttpResponse => ({
   statusCode: 401,

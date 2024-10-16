@@ -1,4 +1,3 @@
- 
 import { Pool, QueryResult } from 'pg'
 
 export type PgPoolConfig = {
@@ -18,7 +17,10 @@ export const PgHelper = {
   disconnect: async function () {
     await this.client.end()
   },
-  query: async function (queryString: string, queryParameters?: Array<any>): Promise<QueryResult<any>> {
+  query: async function (
+    queryString: string,
+    queryParameters?: Array<any>
+  ): Promise<QueryResult<any>> {
     const result = await this.client.query(queryString, queryParameters)
     return result
   }

@@ -12,11 +12,13 @@ export class AuthMiddleware implements Controller {
         return Promise.resolve(forbidden())
       }
 
-      const accountId = await this.decrypter.decrypt(httpRequest.headers.authorization)
+      const accountId = await this.decrypter.decrypt(
+        httpRequest.headers.authorization
+      )
       if (!accountId) {
         return Promise.resolve(forbidden())
       }
-      return Promise.resolve(ok({id: accountId}))
+      return Promise.resolve(ok({ id: accountId }))
     } catch (error: any) {
       return new Promise((resolve) => resolve(serverError()))
     }

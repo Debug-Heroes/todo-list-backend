@@ -31,7 +31,7 @@ const makeHasherStub = (): IHasher => {
   return new HasherStub()
 }
 
-const makeAddAccountRepositoryStub = (): IAddAccountRepository   => {
+const makeAddAccountRepositoryStub = (): IAddAccountRepository => {
   class AddAccountRepositoryStub implements IAddAccountRepository {
     add(account: IAddAccountModel): Promise<IAccount> {
       return Promise.resolve({

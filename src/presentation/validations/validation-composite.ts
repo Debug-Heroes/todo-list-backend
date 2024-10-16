@@ -1,4 +1,3 @@
- 
 import { IValidation } from '../../domain/usecases/users/validation'
 
 export class ValidationComposite implements IValidation {

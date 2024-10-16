@@ -1,7 +1,7 @@
-import { IAccount } from "../../protocols/account"
+import { IAccount } from '../../protocols/account'
 
 export interface IAddAccount {
-  add (account: IAddAccountModel): Promise<IAccount>
+  add(account: IAddAccountModel): Promise<IAccount>
 }
 
 export interface IAddAccountModel {

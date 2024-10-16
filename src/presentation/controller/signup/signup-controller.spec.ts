@@ -1,10 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
- 
+
 import { IValidation } from '../../../domain/usecases/users/validation'
 import { SignUpController } from './signup-controller'
-import { HttpRequest, badRequest, ok, serverError, EmailAlreadyExistError } from './signup-controller-protocols'
+import {
+  HttpRequest,
+  badRequest,
+  ok,
+  serverError,
+  EmailAlreadyExistError
+} from './signup-controller-protocols'
 import { IAccount } from '../../../domain/protocols/account'
-import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/users/add-account'
+import {
+  IAddAccount,
+  IAddAccountModel
+} from '../../../domain/usecases/users/add-account'
 import { ILoadAccountByEmail } from '../../../domain/usecases/users/load-account'
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -27,7 +36,11 @@ const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
   const addAccountStub = makeAddAccountStub()
   const loadAccountStub = makeLoadAccountStub()
-  const sut = new SignUpController(validationStub, addAccountStub, loadAccountStub)
+  const sut = new SignUpController(
+    validationStub,
+    addAccountStub,
+    loadAccountStub
+  )
   return {
     sut,
     validationStub,
@@ -48,7 +61,7 @@ const makeLoadAccountStub = (): ILoadAccountByEmail => {
 const makeAddAccountStub = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
     async add(account: IAddAccountModel): Promise<IAccount> {
-        return new Promise(resolve => resolve(makeFakeAccount()))
+      return new Promise((resolve) => resolve(makeFakeAccount()))
     }
   }
   return new AddAccountStub()
@@ -86,14 +99,14 @@ describe('SignUpController', () => {
     expect(httpResponse).toEqual(badRequest(new Error('any_error')))
   })
   it('Should call AddAccount with correct values', async () => {
-   const { sut, addAccountStub } = makeSut()
-   const addSpy = jest.spyOn(addAccountStub, 'add')
-   await sut.handle(makeFakeRequest())
-   expect(addSpy).toHaveBeenCalledWith({
-    name: 'any_name',
-    email: 'any_mail@mail.com',
-    password: 'any_password',
-   })
+    const { sut, addAccountStub } = makeSut()
+    const addSpy = jest.spyOn(addAccountStub, 'add')
+    await sut.handle(makeFakeRequest())
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_mail@mail.com',
+      password: 'any_password'
+    })
   })
   it('Should return 500 if AddAccount throws', async () => {
     const { sut, addAccountStub } = makeSut()
@@ -104,9 +117,9 @@ describe('SignUpController', () => {
     expect(httpResponse).toEqual(serverError())
   })
   it('Should return 200 on AddAccount succeed', async () => {
-      const { sut } = makeSut()
-      const httpResponse = await sut.handle(makeFakeRequest())
-      expect(httpResponse).toEqual(ok(makeFakeAccount()))
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok(makeFakeAccount()))
   })
   it('Should call loadAccount with correct values', async () => {
     const { sut, loadAccountStub } = makeSut()
@@ -116,7 +129,9 @@ describe('SignUpController', () => {
   })
   it('Should return an EmailAlreadyExist if loadAccount returns an account', async () => {
     const { sut, loadAccountStub } = makeSut()
-    jest.spyOn(loadAccountStub, 'load').mockReturnValueOnce(Promise.resolve(makeFakeAccount()))
+    jest
+      .spyOn(loadAccountStub, 'load')
+      .mockReturnValueOnce(Promise.resolve(makeFakeAccount()))
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(badRequest(new EmailAlreadyExistError()))
   })

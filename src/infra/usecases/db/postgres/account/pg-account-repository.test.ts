@@ -1,4 +1,4 @@
-import { IAddAccountModel } from "../../../../../domain/usecases/users/add-account"
+import { IAddAccountModel } from '../../../../../domain/usecases/users/add-account'
 import { PgHelper } from '../helpers/pg-helper'
 import { TestPoolConfig } from '../test/pg-pool-config'
 import { PgAccountRepository } from './pg-account-repository'
@@ -27,7 +27,6 @@ describe('PgAccountRepository', () => {
     return
   })
   describe('add', () => {
-
     it('Should return an account', async () => {
       const sut = new PgAccountRepository()
       const account = await sut.add(makeFakeRequest())
@@ -42,17 +41,21 @@ describe('PgAccountRepository', () => {
       const promise = sut.add(makeFakeRequest())
       expect(promise).rejects.toThrow()
     })
-    
   })
   describe('load', () => {
     it('Should call query with correct values', async () => {
       const sut = new PgAccountRepository()
       const querySpy = jest.spyOn(PgHelper, 'query')
       await sut.load('any_mail@mail.com')
-      expect(querySpy).toHaveBeenCalledWith(expect.anything(), ['any_mail@mail.com'])
+      expect(querySpy).toHaveBeenCalledWith(expect.anything(), [
+        'any_mail@mail.com'
+      ])
     })
     it('Should return an account on succeed', async () => {
-      await PgHelper.query('INSERT INTO users(name, email, password) VALUES($1, $2, $3)', ['any_name', 'any_mail@mail.com', 'any_password'])
+      await PgHelper.query(
+        'INSERT INTO users(name, email, password) VALUES($1, $2, $3)',
+        ['any_name', 'any_mail@mail.com', 'any_password']
+      )
       const sut = new PgAccountRepository()
       const result = await sut.load('any_mail@mail.com')
       expect(result?.id).toBeTruthy()

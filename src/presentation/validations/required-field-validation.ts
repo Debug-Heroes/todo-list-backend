@@ -1,6 +1,5 @@
-
-import { IValidation } from "../../domain/usecases/users/validation";
-import { MissingParamError } from "../errors/missing-param-error";
+import { IValidation } from '../../domain/usecases/users/validation'
+import { MissingParamError } from '../errors/missing-param-error'
 
 export class RequiredFieldValidation implements IValidation {
   constructor(private readonly field: string) {}

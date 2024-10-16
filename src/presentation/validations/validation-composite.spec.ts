@@ -1,6 +1,5 @@
- 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IValidation } from "../../domain/usecases/users/validation"
+import { IValidation } from '../../domain/usecases/users/validation'
 import { ValidationComposite } from './validation-composite'
 
 interface SutTypes {
@@ -9,14 +8,11 @@ interface SutTypes {
 }
 
 const makeSut = (): SutTypes => {
-  const validators: IValidation[] = [
-    makeValidationStub(),
-    makeValidationStub()
-  ]
+  const validators: IValidation[] = [makeValidationStub(), makeValidationStub()]
   const sut = new ValidationComposite(validators)
   return {
     sut,
-    validators 
+    validators
   }
 }
 
@@ -38,8 +34,12 @@ describe('ValidationComposite', () => {
   })
   it('Should return the first error if more than one validation fails', () => {
     const { sut, validators } = makeSut()
-    jest.spyOn(validators[0], 'validate').mockReturnValueOnce(new Error('first_error'))
-    jest.spyOn(validators[1], 'validate').mockReturnValueOnce(new Error('second_error'))
+    jest
+      .spyOn(validators[0], 'validate')
+      .mockReturnValueOnce(new Error('first_error'))
+    jest
+      .spyOn(validators[1], 'validate')
+      .mockReturnValueOnce(new Error('second_error'))
     const error = sut.validate({ field: 'any_value' })
     expect(error).toEqual(new Error('first_error'))
   })
