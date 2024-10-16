@@ -91,4 +91,14 @@ describe('DbAuthenticate', () => {
     const promise = sut.auth(makeFakeRequest())
     expect(promise).rejects.toThrow()
   })
+  it('Should return an account on succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.auth(makeFakeRequest())
+    expect(result).toEqual({
+      email: 'any_mail@mail.com',
+      id: 'any_id',
+      name: 'any_name',
+      password: 'any_hash'
+    })
+  })
 })
