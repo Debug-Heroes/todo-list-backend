@@ -7,6 +7,7 @@ import {
   Controller,
   HttpRequest,
   HttpResponse,
+  ok,
   serverError,
   unauthorized
 } from '../signup/signup-controller-protocols'
@@ -27,8 +28,8 @@ export class LoginController implements Controller {
       if (!user) {
         return new Promise((resolve) => resolve(unauthorized()))
       }
-      await this.encrypter.encrypt(user.id)
-      return new Promise((resolve) => resolve({ statusCode: 200 }))
+      const token = await this.encrypter.encrypt(user.id)
+        return new Promise((resolve) => resolve(ok(token)))
     } catch (error: any) {
       return new Promise((resolve) => resolve(serverError()))
     }
