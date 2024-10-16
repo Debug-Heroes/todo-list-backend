@@ -120,4 +120,12 @@ describe('LoginController', () => {
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(serverError())
   })
+  it('Should return 500 if encrypter throws', async () => {
+    const { sut, encrypterStub } = makeSut()
+    jest.spyOn(encrypterStub, 'encrypt').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(serverError())
+  })
 })
