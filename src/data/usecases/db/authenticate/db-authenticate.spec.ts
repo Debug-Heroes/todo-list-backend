@@ -3,19 +3,32 @@ import { IAccount } from "../../../../domain/protocols/account"
 import { IAuthentication, IAuthenticationModel } from "../../../../domain/usecases/users/authentication"
 import { ILoadAccountByEmail } from "../../../../domain/usecases/users/load-account"
 import { DbAuthentication } from './db-authenticate'
+import { IComparer } from '../../../protocols/criptography/comparer'
 
 interface SutTypes {
   sut: IAuthentication
   loadByEmailStub: ILoadAccountByEmail
+  comparerStub: IComparer
 }
 
 const makeSut = (): SutTypes => {
   const loadByEmailStub = makeLoadByEmail()
-  const sut = new DbAuthentication(loadByEmailStub)
+  const comparerStub = makeComparerStub()
+  const sut = new DbAuthentication(loadByEmailStub, comparerStub)
   return {
     sut,
-    loadByEmailStub
+    loadByEmailStub,
+    comparerStub
   }
+}
+
+const makeComparerStub = (): IComparer => {
+  class ComparerStub implements IComparer {
+    async compare(value: string, hash: string): Promise<boolean> {
+      return Promise.resolve(true)
+    }
+  }
+  return new ComparerStub()
 }
 
 const makeLoadByEmail = (): ILoadAccountByEmail => {
@@ -25,7 +38,7 @@ const makeLoadByEmail = (): ILoadAccountByEmail => {
         email: 'any_mail@mail.com',
         id: 'any_id',
         name: 'any_name',
-        password: 'any_password'
+        password: 'any_hash'
       })
     }
   }
@@ -57,5 +70,11 @@ describe('DbAuthenticate', () => {
     })
     const promise = sut.auth(makeFakeRequest())
     expect(promise).rejects.toThrow()
+  })
+  it('Should call comparer with correct values', async () => {
+    const { sut, comparerStub } = makeSut()
+    const compareSpy = jest.spyOn(comparerStub, 'compare')
+    await sut.auth(makeFakeRequest())
+    expect(compareSpy).toHaveBeenCalledWith('any_password', 'any_hash')
   })
 })
