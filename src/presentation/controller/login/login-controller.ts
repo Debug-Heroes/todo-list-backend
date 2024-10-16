@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IEncrypter } from '../../../data/protocols/encrypter'
+import { IEncrypter } from '../../../data/protocols/criptography/encrypter'
 import { IAuthentication } from '../../../domain/usecases/users/authentication'
 import { IValidation } from '../../../domain/usecases/users/validation'
 import {

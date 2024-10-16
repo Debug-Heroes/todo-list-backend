@@ -13,7 +13,7 @@ import {
   IAuthenticationModel
 } from '../../../domain/usecases/users/authentication'
 import { IAccount } from '../../../domain/protocols/account'
-import { IEncrypter } from '../../../data/protocols/encrypter'
+import { IEncrypter } from '../../../data/protocols/criptography/encrypter'
 
 interface SutTypes {
   sut: LoginController

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IEncrypter } from '../../../../data/protocols/encrypter'
+import { IEncrypter } from '../../../../data/protocols/criptography/encrypter'
 import { IDecrypter } from '../../../../domain/usecases/cryptography/decrypter'
 import jwt from 'jsonwebtoken'
 

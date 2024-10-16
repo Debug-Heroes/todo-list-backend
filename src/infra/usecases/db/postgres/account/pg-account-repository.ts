@@ -1,4 +1,4 @@
-import { IAddAccountRepository } from '../../../../../data/protocols/add-account-repository'
+import { IAddAccountRepository } from '../../../../../data/protocols/db/add-account-repository'
 import { IAccount } from '../../../../../domain/protocols/account'
 import { IAddAccountModel } from '../../../../../domain/usecases/users/add-account'
 import { ILoadAccountByEmail } from '../../../../../domain/usecases/users/load-account'
