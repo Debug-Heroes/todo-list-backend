@@ -4,12 +4,14 @@ import fs from 'fs'
 export default (app: Express) => {
   const router = Router()
 
-  fs.readdirSync(`${__dirname}/../routes/signup`).map(async (file) => {
-    if (!file.includes('test') && !file.includes('map')) {
-      (await import(`../routes/signup/${file}`)).default(router)
-      console.log(file)
-    }
-  })
+  for (const route of ['signup', 'login']) {
+    fs.readdirSync(`${__dirname}/../routes/${route}`).map(async (file) => {
+      if (!file.includes('test') && !file.includes('map')) {
+        (await import(`../routes/${route}/${file}`)).default(router)
+        console.log(file)
+      }
+    })
+  }
 
   app.use('/', router)
 }
