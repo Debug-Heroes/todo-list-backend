@@ -8,13 +8,16 @@ const salt = 12
 describe('SignUp Routes', () => {
   beforeAll(async () => {
     PgHelper.connect(TestPoolConfig).then(() => {})
-    await PgHelper.query('INSERT INTO users(name, email, password) VALUES($1, $2, $3)', ['any_name', 'any_email@mail.com', await hash('any_password', salt)]).then(() => {})
+    await PgHelper.query(
+      'INSERT INTO users(name, email, password) VALUES($1, $2, $3)',
+      ['any_name', 'any_email@mail.com', await hash('any_password', salt)]
+    ).then(() => {})
   })
 
   beforeEach(async () => {
     await PgHelper.query('DELETE FROM users')
   })
-  
+
   afterAll(async () => {
     await PgHelper.query('DELETE FROM users')
     PgHelper.disconnect().then(() => {})

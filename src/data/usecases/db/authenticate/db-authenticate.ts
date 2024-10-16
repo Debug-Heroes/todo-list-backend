@@ -1,7 +1,10 @@
-import { IAuthentication, IAuthenticationModel } from "../../../../domain/usecases/users/authentication";
-import { ILoadAccountByEmail } from "../../../../domain/usecases/users/load-account";
-import { IComparer } from "../../../protocols/criptography/comparer";
-import { IEncrypter } from "../../../protocols/criptography/encrypter";
+import {
+  IAuthentication,
+  IAuthenticationModel
+} from '../../../../domain/usecases/users/authentication'
+import { ILoadAccountByEmail } from '../../../../domain/usecases/users/load-account'
+import { IComparer } from '../../../protocols/criptography/comparer'
+import { IEncrypter } from '../../../protocols/criptography/encrypter'
 
 export class DbAuthentication implements IAuthentication {
   constructor(
@@ -16,7 +19,10 @@ export class DbAuthentication implements IAuthentication {
       return Promise.resolve(null)
     }
     // Dependencia que compara a senha criptografada do bd com a senha recebida
-    const success = await this.comparer.compare(account.password, foundAccount.password)
+    const success = await this.comparer.compare(
+      account.password,
+      foundAccount.password
+    )
     if (!success) {
       return Promise.resolve(null)
     }

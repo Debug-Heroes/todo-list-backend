@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IAccount } from "../../../../domain/protocols/account"
-import { IAuthentication, IAuthenticationModel } from "../../../../domain/usecases/users/authentication"
-import { ILoadAccountByEmail } from "../../../../domain/usecases/users/load-account"
+import { IAccount } from '../../../../domain/protocols/account'
+import {
+  IAuthentication,
+  IAuthenticationModel
+} from '../../../../domain/usecases/users/authentication'
+import { ILoadAccountByEmail } from '../../../../domain/usecases/users/load-account'
 import { DbAuthentication } from './db-authenticate'
 import { IComparer } from '../../../protocols/criptography/comparer'
-import { IEncrypter } from "../../../protocols/criptography/encrypter"
+import { IEncrypter } from '../../../protocols/criptography/encrypter'
 
 interface SutTypes {
   sut: IAuthentication
@@ -72,7 +75,9 @@ describe('DbAuthenticate', () => {
   })
   it('Should not return if LoadByEmail return null', async () => {
     const { sut, loadByEmailStub } = makeSut()
-    jest.spyOn(loadByEmailStub, 'load').mockReturnValueOnce(Promise.resolve(null))
+    jest
+      .spyOn(loadByEmailStub, 'load')
+      .mockReturnValueOnce(Promise.resolve(null))
     const result = await sut.auth(makeFakeRequest())
     expect(result).toBeFalsy()
   })
@@ -92,7 +97,9 @@ describe('DbAuthenticate', () => {
   })
   it('Should not return if comparer fails', async () => {
     const { sut, comparerStub } = makeSut()
-    jest.spyOn(comparerStub, 'compare').mockReturnValueOnce(Promise.resolve(false))
+    jest
+      .spyOn(comparerStub, 'compare')
+      .mockReturnValueOnce(Promise.resolve(false))
     const result = await sut.auth(makeFakeRequest())
     expect(result).toBeFalsy()
   })
