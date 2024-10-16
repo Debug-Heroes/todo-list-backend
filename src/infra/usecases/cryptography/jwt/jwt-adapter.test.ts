@@ -42,5 +42,13 @@ describe('JwtAdapter', () => {
       await sut.encrypt('any_value')
       expect(signSpy).toHaveBeenCalledWith({ id: 'any_value' }, 'any_secret', { expiresIn: '8h' })
     })
+    it('Should throw if sign throws', async () => {
+      const sut = makeSut()
+      jest.spyOn(jwt, 'sign').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = sut.encrypt('any_value')
+      expect(promise).rejects.toThrow()
+    })
   })
 })
