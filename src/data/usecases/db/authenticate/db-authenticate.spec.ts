@@ -4,22 +4,35 @@ import { IAuthentication, IAuthenticationModel } from "../../../../domain/usecas
 import { ILoadAccountByEmail } from "../../../../domain/usecases/users/load-account"
 import { DbAuthentication } from './db-authenticate'
 import { IComparer } from '../../../protocols/criptography/comparer'
+import { IEncrypter } from "../../../protocols/criptography/encrypter"
 
 interface SutTypes {
   sut: IAuthentication
   loadByEmailStub: ILoadAccountByEmail
   comparerStub: IComparer
+  encrypterStub: IEncrypter
 }
 
 const makeSut = (): SutTypes => {
   const loadByEmailStub = makeLoadByEmail()
   const comparerStub = makeComparerStub()
-  const sut = new DbAuthentication(loadByEmailStub, comparerStub)
+  const encrypterStub = makeEncrypterStub()
+  const sut = new DbAuthentication(loadByEmailStub, comparerStub, encrypterStub)
   return {
     sut,
     loadByEmailStub,
-    comparerStub
+    comparerStub,
+    encrypterStub
   }
+}
+
+const makeEncrypterStub = (): IEncrypter => {
+  class EncrypterStub implements IEncrypter {
+    async encrypt(anyValue: string): Promise<string> {
+      return Promise.resolve('any_token')
+    }
+  }
+  return new EncrypterStub()
 }
 
 const makeComparerStub = (): IComparer => {
@@ -91,14 +104,23 @@ describe('DbAuthenticate', () => {
     const promise = sut.auth(makeFakeRequest())
     expect(promise).rejects.toThrow()
   })
-  it('Should return an account on succeed', async () => {
-    const { sut } = makeSut()
-    const result = await sut.auth(makeFakeRequest())
-    expect(result).toEqual({
-      email: 'any_mail@mail.com',
-      id: 'any_id',
-      name: 'any_name',
-      password: 'any_hash'
+  it('Should call encrypter with correct values', async () => {
+    const { sut, encrypterStub } = makeSut()
+    const encryptSpy = jest.spyOn(encrypterStub, 'encrypt')
+    await sut.auth(makeFakeRequest())
+    expect(encryptSpy).toHaveBeenCalledWith('any_id')
+  })
+  it('Should throw if encrypter throws', async () => {
+    const { sut, encrypterStub } = makeSut()
+    jest.spyOn(encrypterStub, 'encrypt').mockImplementationOnce(() => {
+      throw new Error()
     })
+    const promise = sut.auth(makeFakeRequest())
+    expect(promise).rejects.toThrow()
+  })
+  it('Should return an token on succeed', async () => {
+    const { sut } = makeSut()
+    const token = await sut.auth(makeFakeRequest())
+    expect(token).toEqual('any_token')
   })
 })

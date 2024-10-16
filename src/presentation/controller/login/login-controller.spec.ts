@@ -12,51 +12,31 @@ import {
   IAuthentication,
   IAuthenticationModel
 } from '../../../domain/usecases/users/authentication'
-import { IAccount } from '../../../domain/protocols/account'
-import { IEncrypter } from '../../../data/protocols/criptography/encrypter'
 
 interface SutTypes {
   sut: LoginController
   validationStub: IValidation
   authenticationStub: IAuthentication
-  encrypterStub: IEncrypter
 }
 
 const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
   const authenticationStub = makeAuthenticationStub()
-  const encrypterStub = makeEncrypterStub()
   const sut = new LoginController(
     validationStub,
-    authenticationStub,
-    encrypterStub
+    authenticationStub
   )
   return {
     sut,
     validationStub,
-    authenticationStub,
-    encrypterStub
+    authenticationStub
   }
-}
-
-const makeEncrypterStub = (): IEncrypter => {
-  class EncrypterStub implements IEncrypter {
-    encrypt(anyValue: string): Promise<string> {
-      return Promise.resolve('any_token')
-    }
-  }
-  return new EncrypterStub()
 }
 
 const makeAuthenticationStub = (): IAuthentication => {
   class AuthenticationStub implements IAuthentication {
-    async auth(account: IAuthenticationModel): Promise<IAccount> {
-      return Promise.resolve({
-        email: 'any_mail@mail.com',
-        id: 'any_id',
-        name: 'any_name',
-        password: 'any_password'
-      })
+    async auth(account: IAuthenticationModel): Promise<string | null> {
+      return Promise.resolve('any_token')
     }
   }
   return new AuthenticationStub()
@@ -106,28 +86,6 @@ describe('LoginController', () => {
       .mockReturnValueOnce(Promise.resolve(null))
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(unauthorized())
-  })
-  it('Should call encrypter with correct values', async () => {
-    const { sut, encrypterStub } = makeSut()
-    const encryptSpy = jest.spyOn(encrypterStub, 'encrypt')
-    await sut.handle(makeFakeRequest())
-    expect(encryptSpy).toHaveBeenCalledWith('any_id')
-  })
-  it('Should return 500 if auth throws', async () => {
-    const { sut, authenticationStub } = makeSut()
-    jest.spyOn(authenticationStub, 'auth').mockImplementationOnce(() => {
-      throw new Error()
-    })
-    const result = await sut.handle(makeFakeRequest())
-    expect(result).toEqual(serverError())
-  })
-  it('Should return 500 if encrypter throws', async () => {
-    const { sut, encrypterStub } = makeSut()
-    jest.spyOn(encrypterStub, 'encrypt').mockImplementationOnce(() => {
-      throw new Error()
-    })
-    const result = await sut.handle(makeFakeRequest())
-    expect(result).toEqual(serverError())
   })
   it('Should return token on succeed', async () => {
     const { sut } = makeSut()

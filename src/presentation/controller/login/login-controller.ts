@@ -15,8 +15,7 @@ import {
 export class LoginController implements Controller {
   constructor(
     private readonly validation: IValidation,
-    private readonly authenticator: IAuthentication,
-    private readonly encrypter: IEncrypter
+    private readonly authenticator: IAuthentication
   ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
@@ -26,12 +25,10 @@ export class LoginController implements Controller {
         return new Promise((resolve) => resolve(badRequest(error)))
       }
       // Dependencia de autenticação do usuário
-      const user = await this.authenticator.auth(httpRequest.body)
-      if (!user) {
+      const token = await this.authenticator.auth(httpRequest.body)
+      if (!token) {
         return new Promise((resolve) => resolve(unauthorized()))
       }
-      // Dependencia de geração de token de acesso
-      const token = await this.encrypter.encrypt(user.id)
       return new Promise((resolve) => resolve(ok(token)))
     } catch (error: any) {
       return new Promise((resolve) => resolve(serverError()))
