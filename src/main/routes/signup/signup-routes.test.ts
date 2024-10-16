@@ -20,7 +20,7 @@ describe('SignUp Routes', () => {
     PgHelper.disconnect().then(() => {})
   })
 
-  it('Should return 200 on call login route with correct values', async () => {
+  it('Should return 200 on call signup route with correct values', async () => {
     await request(app)
       .post('/signup')
       .send({
