@@ -77,4 +77,10 @@ describe('DbAuthenticate', () => {
     await sut.auth(makeFakeRequest())
     expect(compareSpy).toHaveBeenCalledWith('any_password', 'any_hash')
   })
+  it('Should not return if comparer fails', async () => {
+    const { sut, comparerStub } = makeSut()
+    jest.spyOn(comparerStub, 'compare').mockReturnValueOnce(Promise.resolve(false))
+    const result = await sut.auth(makeFakeRequest())
+    expect(result).toBeFalsy()
+  })
 })
