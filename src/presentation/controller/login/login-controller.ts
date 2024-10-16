@@ -1,6 +1,6 @@
 import { IAuthentication } from "../../../domain/usecases/users/authentication";
 import { IValidation } from "../../../domain/usecases/users/validation";
-import { badRequest, Controller, HttpRequest, HttpResponse } from "../signup/signup-controller-protocols";
+import { badRequest, Controller, HttpRequest, HttpResponse, unauthorized } from "../signup/signup-controller-protocols";
 
 export class LoginController implements Controller {
   constructor(
@@ -12,7 +12,10 @@ export class LoginController implements Controller {
     if (error) {
       return new Promise(resolve => resolve(badRequest(error)))
     }
-    await this.authenticator.auth(httpRequest.body)
+    const user = await this.authenticator.auth(httpRequest.body)
+    if (!user) {
+      return new Promise(resolve => resolve(unauthorized()))
+    }
     return new Promise(resolve => resolve({statusCode: 200}))
   }
 }
