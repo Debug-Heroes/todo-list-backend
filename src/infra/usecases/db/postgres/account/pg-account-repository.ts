@@ -12,7 +12,6 @@ export class PgAccountRepository
       'INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING *',
       [account.name, account.email, account.password]
     )
-    console.log(newUser.rows)
     return newUser.rows[0]
   }
 
