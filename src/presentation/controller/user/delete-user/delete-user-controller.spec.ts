@@ -103,4 +103,12 @@ describe('DeleteUserController', () => {
     await sut.handle(makeFakeRequest())
     expect(deleteSpy).toHaveBeenCalledWith('any_id')
   })
+  it('Should return 500 if DbDeleteAccount throws', async () => {
+    const { sut, dbDeleteAccountStub } = makeSut()
+    jest.spyOn(dbDeleteAccountStub, 'delete').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.handle(makeFakeRequest())
+    expect(response).toEqual(serverError())
+  })
 })
