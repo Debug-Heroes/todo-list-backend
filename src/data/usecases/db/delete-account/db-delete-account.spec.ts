@@ -1,5 +1,6 @@
 import { DbDeleteAccount } from './db-delete-account'
 import { IDeleteAccountRepository } from '../../../protocols/db/delete-account-repository'
+import { ok } from '../../../../presentation/helpers/http-helper'
 
 interface SutTypes {
   sut: DbDeleteAccount
@@ -38,5 +39,10 @@ describe('DbDeleteAccount', () => {
     })
     const response = sut.delete('any_id')
     expect(response).rejects.toThrow()
+  })
+  it('Should return affected rows on repository succeed', async () => {
+    const { sut } = makeSut()
+    const response = await sut.delete('any_id')
+    expect(response).toEqual('affected rows 1')
   })
 })
