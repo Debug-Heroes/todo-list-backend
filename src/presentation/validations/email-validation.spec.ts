@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IValidation } from '../protocols/validation'
 import { InvalidParamError } from '../errors/invalid-param-error'
 import { IEmailValidator } from '../protocols/email-validator'

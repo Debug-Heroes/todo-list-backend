@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { IValidation } from '../../protocols/validation'
 import {
-  IAddAccount,
-  IAddAccountModel
+  IAddAccount
 } from '../../../domain/usecases/users/add-account'
 import { ILoadAccountByEmail } from '../../../domain/usecases/users/load-account'
 import {
