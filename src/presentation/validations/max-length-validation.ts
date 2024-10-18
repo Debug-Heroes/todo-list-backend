@@ -1,4 +1,4 @@
-import { IValidation } from '../../domain/usecases/users/validation'
+import { IValidation } from '../protocols/validation'
 import { CharactersLimitReached } from '../errors/characters-limit-reached-error'
 
 export class MaxLengthValidation implements IValidation {

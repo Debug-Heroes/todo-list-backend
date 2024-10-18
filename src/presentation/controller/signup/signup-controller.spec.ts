@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { IValidation } from '../../../domain/usecases/users/validation'
+import { IValidation } from '../../protocols/validation'
 import { SignUpController } from './signup-controller'
 import {
   HttpRequest,
