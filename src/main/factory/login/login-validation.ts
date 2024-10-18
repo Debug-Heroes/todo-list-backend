@@ -1,4 +1,4 @@
-import { IValidation } from '../../../domain/usecases/users/validation'
+import { IValidation } from '../../../presentation/protocols/validation'
 import { EmailValidation } from '../../../presentation/validations/email-validation'
 import { RequiredFieldValidation } from '../../../presentation/validations/required-field-validation'
 import { ValidationComposite } from '../../../presentation/validations/validation-composite'

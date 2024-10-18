@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { forbidden, ok, serverError } from '../helpers/http-helper'
 import { HttpRequest } from '../protocols/http'
 import { IDecrypter } from '../../domain/usecases/cryptography/decrypter'

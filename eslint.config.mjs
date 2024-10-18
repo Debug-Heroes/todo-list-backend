@@ -9,5 +9,8 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   {ignores: ['node_modules/', 'dist', '*.js', 'coverage']},
-  {rules: {'@typescript-eslint/no-explicit-any': 'off'}}
+  {rules: {
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'off'
+  }}
 ];

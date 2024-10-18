@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IHasher } from '../../../protocols/criptography/hasher'
 import { IAddAccountRepository } from '../../../protocols/db/add-account-repository'
 import { IAddAccountModel } from '../../../../domain/usecases/users/add-account'
