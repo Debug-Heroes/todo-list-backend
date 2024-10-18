@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IValidation } from '../protocols/validation'
 import { ValidationComposite } from './validation-composite'
 
