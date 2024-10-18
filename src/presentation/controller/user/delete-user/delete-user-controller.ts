@@ -12,11 +12,11 @@ export class DeleteUserController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       // validar se tem id >> 400
-      const error = this.validation.validate(httpRequest.body)
+      const error = this.validation.validate(httpRequest.query)
       if (error) {
         return new Promise(resolve => resolve(badRequest(error)))
       }
-      const { id } = httpRequest.body
+      const { id } = httpRequest.query
       // Verificar se usuario existe 404 || 500
       const user = await this.loadAccountById.load(id)
       if (!user) {
