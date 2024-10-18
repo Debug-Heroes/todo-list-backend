@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 import { HttpRequest } from '../../../protocols/http'
 import { IValidation } from '../../../protocols/validation'
 import { badRequest, NotFound, serverError } from '../../signup/signup-controller-protocols'
@@ -76,5 +76,13 @@ describe('DeleteUserController', () => {
     jest.spyOn(loadAccountByIdStub, 'load').mockReturnValueOnce(new Promise(resolve => resolve(null)))
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(NotFound())
+  })
+  it('Should return 500 if loadAccountById throws', async () => {
+    const { sut, loadAccountByIdStub } = makeSut()
+    jest.spyOn(loadAccountByIdStub, 'load').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.handle(makeFakeRequest())
+    expect(response).toEqual(serverError())
   })
 })
