@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { HttpRequest } from '../../../protocols/http'
 import { IValidation } from '../../../protocols/validation'
+import { badRequest } from '../../signup/signup-controller-protocols'
 import { DeleteUserController } from './delete-user-controller'
 
 interface SutTypes {
@@ -38,5 +39,11 @@ describe('DeleteUserController', () => {
     const validateSpy = jest.spyOn(validationStub, 'validate')
     await sut.handle(makeFakeRequest())
     expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().body)
+  })
+  it('Should return a 400 if validation fails', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error('any_error'))
+    const response = await sut.handle(makeFakeRequest())
+    expect(response).toEqual(badRequest(new Error('any_error')))
   })
 })
