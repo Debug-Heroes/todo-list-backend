@@ -1,6 +1,7 @@
 import { AccessDeniedError } from '../errors/access-denied-error'
 import { ServerError } from '../errors/server-error'
 import { Unauthorized } from '../errors/unauthorized-error'
+import { NotFoundError } from '../errors/not-found-error'
 import { HttpResponse } from '../protocols/http'
 
 export const badRequest = (error: Error): HttpResponse => ({
@@ -26,4 +27,9 @@ export const forbidden = (): HttpResponse => ({
 export const unauthorized = (): HttpResponse => ({
   statusCode: 401,
   body: new Unauthorized().message
+})
+
+export const NotFound = (): HttpResponse => ({
+  statusCode: 404,
+  body: new NotFoundError().message
 })

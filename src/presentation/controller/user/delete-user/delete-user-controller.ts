@@ -1,6 +1,6 @@
 import { ILoadAccountById } from "../../../../domain/usecases/users/load-account-by-id";
 import { IValidation } from "../../../protocols/validation";
-import { badRequest, Controller, HttpRequest, HttpResponse, ok } from "../../login/login-controller-protocols";
+import { badRequest, Controller, HttpRequest, HttpResponse, NotFound, ok } from "../../login/login-controller-protocols";
 
 export class DeleteUserController implements Controller {
   constructor (
@@ -14,7 +14,10 @@ export class DeleteUserController implements Controller {
       return new Promise(resolve => resolve(badRequest(error)))
     }
     const { id } = httpRequest.body
-    await this.loadAccountById.load(id)
+    const user = await this.loadAccountById.load(id)
+    if (!user) {
+      return new Promise(resolve => resolve(NotFound()))
+    }
     // verificar se usuario existe >> 404 || 500
     // deletar usuario >> 200 || 500
     return new Promise(resolve => resolve(ok('')))
