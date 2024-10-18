@@ -1,6 +1,6 @@
 import { HttpRequest } from '../../../protocols/http'
 import { IValidation } from '../../../protocols/validation'
-import { badRequest, NotFound, serverError } from '../../signup/signup-controller-protocols'
+import { badRequest, NotFound, ok, serverError } from '../../signup/signup-controller-protocols'
 import { DeleteUserController } from './delete-user-controller'
 import { ILoadAccountById } from '../../../../domain/usecases/users/load-account-by-id'
 import { IAccount } from '../../../../domain/protocols/account'
@@ -110,5 +110,10 @@ describe('DeleteUserController', () => {
     })
     const response = await sut.handle(makeFakeRequest())
     expect(response).toEqual(serverError())
+  })
+  it('Should return affected rows on DbDeleteAccount succeed', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle(makeFakeRequest())
+    expect(response).toEqual(ok('1 row affected'))
   })
 })
