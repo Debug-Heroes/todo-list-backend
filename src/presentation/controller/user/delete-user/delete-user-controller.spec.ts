@@ -59,7 +59,7 @@ const makeDbDeleteAccountStub = (): IDeleteAccount => {
 }
 
 const makeFakeRequest = (): HttpRequest => ({
-  body: {
+  query: {
     id: 'any_id'
   }
 })
@@ -69,7 +69,7 @@ describe('DeleteUserController', () => {
     const { sut, validationStub } = makeSut()
     const validateSpy = jest.spyOn(validationStub, 'validate')
     await sut.handle(makeFakeRequest())
-    expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().body)
+    expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().query)
   })
   it('Should return a 400 if validation fails', async () => {
     const { sut, validationStub } = makeSut()
