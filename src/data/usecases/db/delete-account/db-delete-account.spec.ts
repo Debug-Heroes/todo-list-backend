@@ -31,4 +31,12 @@ describe('DbDeleteAccount', () => {
     await sut.delete('any_id')
     expect(deleteSpy).toHaveBeenCalledWith('any_id')
   })
+  it('Should throw if repository throws', async () => {
+    const { sut, deleteAccountRepositoryStub } = makeSut() 
+    jest.spyOn(deleteAccountRepositoryStub, 'delete').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = sut.delete('any_id')
+    expect(response).rejects.toThrow()
+  })
 })
