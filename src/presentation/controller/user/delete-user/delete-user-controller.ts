@@ -23,8 +23,8 @@ export class DeleteUserController implements Controller {
         return new Promise(resolve => resolve(NotFound()))
       }
       // deletar usuario >> 200 || 500
-      await this.deleteAccount.delete(id)
-      return new Promise(resolve => resolve(ok('')))
+      const affectedRows = await this.deleteAccount.delete(id)
+      return new Promise(resolve => resolve(ok(affectedRows)))
     } catch (error) {
       return new Promise(resolve => resolve(serverError()))
     }
