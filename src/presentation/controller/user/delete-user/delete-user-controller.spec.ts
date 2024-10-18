@@ -1,25 +1,28 @@
- 
 import { HttpRequest } from '../../../protocols/http'
 import { IValidation } from '../../../protocols/validation'
 import { badRequest, NotFound, serverError } from '../../signup/signup-controller-protocols'
 import { DeleteUserController } from './delete-user-controller'
 import { ILoadAccountById } from '../../../../domain/usecases/users/load-account-by-id'
 import { IAccount } from '../../../../domain/protocols/account'
+import { IDeleteAccount } from '../../../../domain/usecases/users/delete-account'
 
 interface SutTypes {
   sut: DeleteUserController
   validationStub: IValidation
   loadAccountByIdStub: ILoadAccountById
+  dbDeleteAccountStub: IDeleteAccount
 }
 
 const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
   const loadAccountByIdStub = makeLoadAccountStub()
-  const sut = new DeleteUserController(validationStub, loadAccountByIdStub)
+  const dbDeleteAccountStub = makeDbDeleteAccountStub()
+  const sut = new DeleteUserController(validationStub, loadAccountByIdStub, dbDeleteAccountStub)
   return {
     sut,
     validationStub,
-    loadAccountByIdStub
+    loadAccountByIdStub,
+    dbDeleteAccountStub
   }
 }
 
@@ -44,6 +47,15 @@ const makeLoadAccountStub = (): ILoadAccountById => {
     }
   }
   return new LoadAccountByIdStub()
+}
+
+const makeDbDeleteAccountStub = (): IDeleteAccount => {
+  class DeleteAccountStub implements IDeleteAccount {
+    async delete(id: string): Promise<string> {
+      return new Promise(resolve => resolve('1 row affected'))
+    }
+  }
+  return new DeleteAccountStub()
 }
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -84,5 +96,11 @@ describe('DeleteUserController', () => {
     })
     const response = await sut.handle(makeFakeRequest())
     expect(response).toEqual(serverError())
+  })
+  it('Should call DbDeleteAccount with correct values', async () => {
+    const { sut, dbDeleteAccountStub } = makeSut()
+    const deleteSpy = jest.spyOn(dbDeleteAccountStub, 'delete')
+    await sut.handle(makeFakeRequest())
+    expect(deleteSpy).toHaveBeenCalledWith('any_id')
   })
 })
