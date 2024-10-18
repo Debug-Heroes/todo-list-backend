@@ -1,6 +1,5 @@
 import { DbDeleteAccount } from './db-delete-account'
 import { IDeleteAccountRepository } from '../../../protocols/db/delete-account-repository'
-import { ok } from '../../../../presentation/helpers/http-helper'
 
 interface SutTypes {
   sut: DbDeleteAccount
