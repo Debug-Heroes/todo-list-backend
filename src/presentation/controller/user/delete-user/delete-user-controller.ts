@@ -18,7 +18,7 @@ export class DeleteUserController implements Controller {
       }
       const { id } = httpRequest.query
       // Verificar se usuario existe 404 || 500
-      const user = await this.loadAccountById.load(id)
+      const user = await this.loadAccountById.loadById(id)
       if (!user) {
         return new Promise(resolve => resolve(NotFound()))
       }
