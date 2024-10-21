@@ -1,6 +1,6 @@
 import { HttpRequest } from '../../../protocols/http'
 import { IValidation } from '../../../protocols/validation'
-import { badRequest, forbidden, NotFound, ok, serverError } from '../../signup/signup-controller-protocols'
+import { badRequest, forbidden, NotFound, ok, serverError } from './delete-user-protocols'
 import { DeleteUserController } from './delete-user-controller'
 import { ILoadAccountById } from '../../../../domain/usecases/users/load-account-by-id'
 import { IAccount } from '../../../../domain/protocols/account'
