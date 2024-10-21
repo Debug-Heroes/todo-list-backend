@@ -42,7 +42,7 @@ describe('AuthMiddleware', () => {
     const { sut, decrypterStub } = makeSut()
     const decryptSpy = jest.spyOn(decrypterStub, 'decrypt')
     await sut.handle(makeFakeRequest())
-    expect(decryptSpy).toHaveBeenCalledWith('Bearer token')
+    expect(decryptSpy).toHaveBeenCalledWith('token')
   })
   it('Should return 500 if decrypter throws', async () => {
     const { sut, decrypterStub } = makeSut()
