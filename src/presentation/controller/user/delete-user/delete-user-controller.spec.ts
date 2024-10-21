@@ -37,7 +37,7 @@ const makeValidationStub = (): IValidation => {
 
 const makeLoadAccountStub = (): ILoadAccountById => {
   class LoadAccountByIdStub implements ILoadAccountById {
-    async load(id: string): Promise<IAccount | null> {
+    async loadById(id: string): Promise<IAccount | null> {
       return new Promise(resolve => resolve({
         email: 'any_mail@mail.com',
         password: 'any_hash',
@@ -79,19 +79,19 @@ describe('DeleteUserController', () => {
   })
   it('Should call loadAccountById with correct values', async () => {
     const { sut, loadAccountByIdStub } = makeSut()
-    const loadSpy = jest.spyOn(loadAccountByIdStub, 'load')
+    const loadSpy = jest.spyOn(loadAccountByIdStub, 'loadById')
     await sut.handle(makeFakeRequest())
     expect(loadSpy).toHaveBeenCalledWith('any_id')
   })
   it('Should return 404 if loadAccountById fails', async () => {
     const { sut, loadAccountByIdStub } = makeSut()
-    jest.spyOn(loadAccountByIdStub, 'load').mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    jest.spyOn(loadAccountByIdStub, 'loadById').mockReturnValueOnce(new Promise(resolve => resolve(null)))
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(NotFound())
   })
   it('Should return 500 if loadAccountById throws', async () => {
     const { sut, loadAccountByIdStub } = makeSut()
-    jest.spyOn(loadAccountByIdStub, 'load').mockImplementationOnce(() => {
+    jest.spyOn(loadAccountByIdStub, 'loadById').mockImplementationOnce(() => {
       throw new Error()
     })
     const response = await sut.handle(makeFakeRequest())
