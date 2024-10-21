@@ -1,6 +1,6 @@
 import { HttpRequest } from '../../../protocols/http'
 import { IValidation } from '../../../protocols/validation'
-import { badRequest, NotFound, ok, serverError } from '../signup/signup-controller-protocols'
+import { badRequest, forbidden, NotFound, ok, serverError } from '../../signup/signup-controller-protocols'
 import { DeleteUserController } from './delete-user-controller'
 import { ILoadAccountById } from '../../../../domain/usecases/users/load-account-by-id'
 import { IAccount } from '../../../../domain/protocols/account'
@@ -61,7 +61,8 @@ const makeDbDeleteAccountStub = (): IDeleteAccount => {
 const makeFakeRequest = (): HttpRequest => ({
   query: {
     id: 'any_id'
-  }
+  },
+  user: 'any_id'
 })
 
 describe('DeleteUserController', () => {
@@ -115,5 +116,10 @@ describe('DeleteUserController', () => {
     const { sut } = makeSut()
     const response = await sut.handle(makeFakeRequest())
     expect(response).toEqual(ok('1 row affected'))
+  })
+  it('Should return 403 if user try to remove an different id', async () => {
+    const { sut } = makeSut()
+    const result = await sut.handle({ query: { id: 'different_id' } })
+    expect(result).toEqual(forbidden())
   })
 })
