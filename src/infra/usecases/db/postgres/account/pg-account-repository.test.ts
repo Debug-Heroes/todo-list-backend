@@ -90,5 +90,11 @@ describe('PgAccountRepository', () => {
       const promise = sut.delete('any_id')
       expect(promise).rejects.toThrow()
     })
+    it('Should return rowCount on query succeed', async () => {
+      await PgHelper.query('INSERT INTO users(id, name, email, password) VALUES($1, $2, $3, $4)', ['any_id', 'any_name', 'any_mail@mail.com', 'any_password'])
+      const sut = new PgAccountRepository()
+      const rows = await sut.delete('any_id')
+      expect(rows).toBe(`1 affected rows`)
+    })
   })
 })
