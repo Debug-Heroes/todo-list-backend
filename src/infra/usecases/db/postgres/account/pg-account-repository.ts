@@ -31,7 +31,7 @@ export class PgAccountRepository
   }
 
   async loadById(id: string): Promise<IAccount | null> {
-    await PgHelper.query('SELECT * FROM users WHERE id = $1', [id])
-    return Promise.resolve(null)
+    const result = await PgHelper.query('SELECT * FROM users WHERE id = $1', [id])
+    return Promise.resolve(result.rows?.length > 0 ? result.rows[0] : null)
   }
 }
