@@ -25,7 +25,7 @@ export class PgAccountRepository
   }
 
   async delete(id: string): Promise<string> {
-    await PgHelper.query('DELETE FROM users WHERE id = $1', [id])
-    return Promise.resolve('')
+    const result = await PgHelper.query('DELETE FROM users WHERE id = $1', [id])
+    return Promise.resolve(`${result.rowCount} affected rows`)
   }
 }
