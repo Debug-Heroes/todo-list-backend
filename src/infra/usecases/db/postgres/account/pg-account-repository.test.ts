@@ -96,5 +96,10 @@ describe('PgAccountRepository', () => {
       const rows = await sut.delete('any_id')
       expect(rows).toBe(`1 affected rows`)
     })
+    it('Should return rowCount on query fails', async () => {
+      const sut = new PgAccountRepository()
+      const rows = await sut.delete('any_id')
+      expect(rows).toBe(`0 affected rows`)
+    })
   })
 })
