@@ -102,4 +102,12 @@ describe('PgAccountRepository', () => {
       expect(rows).toBe(`0 affected rows`)
     })
   })
+  describe('loadById', () => {
+    it('Should call query with correct values', async () => {
+      const sut = new PgAccountRepository()
+      const querySpy = jest.spyOn(PgHelper, 'query')
+      await sut.loadById('any_id')
+      expect(querySpy).toHaveBeenCalledWith(expect.anything(), ['any_id'])
+    })
+  })
 })
