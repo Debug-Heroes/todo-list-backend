@@ -10,10 +10,9 @@ export class AuthMiddleware implements Controller {
       if (!httpRequest.headers?.authorization) {
         return Promise.resolve(forbidden())
       }
-
-      const accountId = await this.decrypter.decrypt(
-        httpRequest.headers.authorization
-      )
+      const token = httpRequest.headers.authorization.replace('Bearer ', '')
+      const accountId = await this.decrypter.decrypt(token)
+      console.log(accountId)
       if (!accountId) {
         return Promise.resolve(forbidden())
       }
