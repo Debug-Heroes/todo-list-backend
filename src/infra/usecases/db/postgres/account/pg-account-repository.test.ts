@@ -82,5 +82,13 @@ describe('PgAccountRepository', () => {
       await sut.delete('any_id')
       expect(querySpy).toHaveBeenCalledWith(expect.anything(), ['any_id'])
     })
+    it('Should throw if query throws', async () => {
+      const sut = new PgAccountRepository()
+      jest.spyOn(PgHelper, 'query').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = sut.delete('any_id')
+      expect(promise).rejects.toThrow()
+    })
   })
 })
