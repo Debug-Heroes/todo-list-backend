@@ -117,5 +117,13 @@ describe('PgAccountRepository', () => {
       const promise = sut.loadById('any_id')
       expect(promise).rejects.toThrow()
     })
+    it('Should return an account if query succeed', async () => {
+      PgHelper.query('INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING *', ['any_name', 'any_mail@mail.com', 'any_password']).then(async (user) => {
+        const sut = new PgAccountRepository()
+        const account = await sut.loadById(user.rows[0].id)
+        expect(account?.email).toBe('any_mail@mail.com')
+        expect(account?.name).toBe('any_name')
+      })
+    })
   })
 })
