@@ -8,7 +8,10 @@ export default (middleware: Controller) => {
     next: NextFunction
   ): Promise<any> => {
     const response = await middleware.handle(req.body)
-    if (response.statusCode === 200) return next()
+    if (response.statusCode === 200) {
+      req.user = response.body.id
+      return next()
+    }
     return res.status(response.statusCode).json(response.body)
   }
 }
