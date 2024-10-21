@@ -125,5 +125,10 @@ describe('PgAccountRepository', () => {
         expect(account?.name).toBe('any_name')
       })
     })
+    it('Should not return if query fails', async () => {
+      const sut = new PgAccountRepository()
+      const account = await sut.loadById('any_id')
+      expect(account).toBeFalsy()
+    })
   })
 })
