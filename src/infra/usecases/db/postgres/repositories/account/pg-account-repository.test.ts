@@ -1,6 +1,6 @@
-import { IAddAccountModel } from '../../../../../domain/usecases/users/add-account'
-import { PgHelper } from '../helpers/pg-helper'
-import { TestPoolConfig } from '../test/pg-pool-config'
+import { IAddAccountModel } from '../../../../../../domain/usecases/users/add-account'
+import { PgHelper } from '../../helpers/pg-helper'
+import { TestPoolConfig } from '../../test/pg-pool-config'
 import { PgAccountRepository } from './pg-account-repository'
 
 const makeFakeRequest = (): IAddAccountModel => ({
