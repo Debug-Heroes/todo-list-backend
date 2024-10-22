@@ -2,7 +2,7 @@ import { DbAuthentication } from '../../../data/usecases/db/authenticate/db-auth
 import { BcryptAdapter } from '../../../infra/usecases/cryptography/bcrypt/bcrypt-adapter'
 import { JwtAdapter } from '../../../infra/usecases/cryptography/jwt/jwt-adapter'
 import { PgAccountRepository } from '../../../infra/usecases/db/postgres/account/pg-account-repository'
-import { LoginController } from '../../../presentation/controller/login/login-controller'
+import { LoginController } from '../../../presentation/controller/user/login/login-controller'
 import env from '../../config/env'
 import { makeLoginValidation } from './login-validation'
 

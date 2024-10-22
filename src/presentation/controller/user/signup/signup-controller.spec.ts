@@ -1,18 +1,18 @@
-import { IValidation } from '../../protocols/validation'
 import { SignUpController } from './signup-controller'
 import {
   HttpRequest,
   badRequest,
   ok,
+  IValidation,
   serverError,
   EmailAlreadyExistError
 } from './signup-controller-protocols'
-import { IAccount } from '../../../domain/protocols/account'
+import { IAccount } from '../../../../domain/protocols/account'
 import {
   IAddAccount,
   IAddAccountModel
-} from '../../../domain/usecases/users/add-account'
-import { ILoadAccountByEmail } from '../../../domain/usecases/users/load-account'
+} from '../../../../domain/usecases/users/add-account'
+import { ILoadAccountByEmail } from '../../../../domain/usecases/users/load-account'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {

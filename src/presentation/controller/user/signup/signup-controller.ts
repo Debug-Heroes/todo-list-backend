@@ -1,8 +1,8 @@
-import { IValidation } from '../../protocols/validation'
+import { IValidation } from '../../../protocols/validation'
 import {
   IAddAccount
-} from '../../../domain/usecases/users/add-account'
-import { ILoadAccountByEmail } from '../../../domain/usecases/users/load-account'
+} from '../../../../domain/usecases/users/add-account'
+import { ILoadAccountByEmail } from '../../../../domain/usecases/users/load-account'
 import {
   HttpRequest,
   Controller,
