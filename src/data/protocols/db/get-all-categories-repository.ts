@@ -1,4 +1,4 @@
-import { ICategory } from "../../../domain/protocols/category";
+import { ICategory } from '../../../domain/protocols/category'
 
 export interface IGetAllCategoriesRepository {
   getAll(): Promise<ICategory[]>
