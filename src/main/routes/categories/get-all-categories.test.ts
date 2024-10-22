@@ -4,7 +4,10 @@ import { NextFunction } from 'express'
 import { PgHelper } from '../../../infra/usecases/db/postgres/helpers/pg-helper'
 import { TestPoolConfig } from '../../../infra/usecases/db/postgres/test/pg-pool-config'
 
-jest.mock('../../adapters/middleware-adapter', () => () => async (req: Request, res: Response, next: NextFunction) => next())
+jest.mock(
+  '../../adapters/middleware-adapter',
+  () => () => async (req: Request, res: Response, next: NextFunction) => next()
+)
 
 describe('GetAllCategoriesRoutes', () => {
   beforeAll(async () => {
@@ -14,8 +17,6 @@ describe('GetAllCategoriesRoutes', () => {
     PgHelper.disconnect().then(() => {})
   })
   it('Should return 200 on succeed', async () => {
-    await request(app)
-      .get('/api/categories')
-      .expect(200)
+    await request(app).get('/api/categories').expect(200)
   })
 })
