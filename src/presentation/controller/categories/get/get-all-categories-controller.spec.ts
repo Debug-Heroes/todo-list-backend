@@ -1,6 +1,6 @@
 import { ICategory } from '../../../../domain/protocols/category'
 import { IGetAllCategories } from '../../../../domain/usecases/categories/get-all-categories'
-import { serverError } from '../../../helpers/http-helper'
+import { ok, serverError } from '../../../helpers/http-helper'
 import { HttpRequest } from '../../../protocols/http'
 import { GetAllCategoriesController } from './get-all-categories-controller'
 
@@ -54,5 +54,19 @@ describe('GetAllCategoriesController', () => {
     })
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(serverError())
+  })
+  it('Should return categories on DbGetAllCategories succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(ok([
+      {
+        id: 'any_id',
+        name: 'any_name'
+      },
+      {
+        id: 'any_id',
+        name: 'any_name'
+      }
+    ]))
   })
 })
