@@ -1,6 +1,6 @@
-import { DbGetAllCategories } from '../../../data/usecases/db/categories/get/get-all-categories'
-import { PgCategoriesRepository } from '../../../infra/usecases/db/postgres/repositories/categories/pg-categories-repository'
-import { GetAllCategoriesController } from '../../../presentation/controller/categories/get/get-all-categories-controller'
+import { DbGetAllCategories } from '@data/usecases/db/categories/get/get-all-categories'
+import { PgCategoriesRepository } from '@infra/usecases/db/postgres/repositories/categories/pg-categories-repository'
+import { GetAllCategoriesController } from '@presentation/controller/categories/get/get-all-categories-controller'
 
 export const makeGetAllCategoriesController =
   (): GetAllCategoriesController => {

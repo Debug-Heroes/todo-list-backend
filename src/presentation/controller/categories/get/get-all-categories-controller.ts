@@ -10,8 +10,7 @@ export class GetAllCategoriesController implements Controller {
       const categories = await this.getAllCategories.getAll()
       return new Promise((resolve) => resolve(ok(categories)))
     } catch (error) {
-      console.log(error)
-      return new Promise((resolve) => resolve(serverError()))
+      return new Promise(resolve => resolve(serverError()))
     }
   }
 }
