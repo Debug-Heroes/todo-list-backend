@@ -49,4 +49,18 @@ describe('DbGetAllCategories', () => {
     const promise = sut.getAll()
     expect(promise).rejects.toThrow()
   })
+  it('Should return categories on GetAllCategoriesRepository succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.getAll()
+    expect(result).toEqual([
+      {
+        name: 'any_name',
+        id: 'any_id'
+      },
+      {
+        name: 'any_name',
+        id: 'any_id'
+      }
+    ])
+  })
 })
