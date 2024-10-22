@@ -41,4 +41,12 @@ describe('DbGetAllCategories', () => {
     await sut.getAll()
     expect(getAllSpy).toHaveBeenCalledTimes(1)
   })
+  it('Should throw if GetAllCategoriesRepository throws', async () => {
+    const { sut, GetAllCategoriesRepository } = makeSut()
+    jest.spyOn(GetAllCategoriesRepository, 'getAll').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const promise = sut.getAll()
+    expect(promise).rejects.toThrow()
+  })
 })
