@@ -1,12 +1,12 @@
-import { IAccount } from '../../../../domain/protocols/account'
+import { IAccount } from '../../../../../domain/protocols/account'
 import {
   IAuthentication,
   IAuthenticationModel
-} from '../../../../domain/usecases/users/authentication'
-import { ILoadAccountByEmail } from '../../../../domain/usecases/users/load-account'
+} from '../../../../../domain/usecases/users/authentication'
+import { ILoadAccountByEmail } from '../../../../../domain/usecases/users/load-account'
 import { DbAuthentication } from './db-authenticate'
-import { IComparer } from '../../../protocols/criptography/comparer'
-import { IEncrypter } from '../../../protocols/criptography/encrypter'
+import { IComparer } from '../../../../protocols/criptography/comparer'
+import { IEncrypter } from '../../../../protocols/criptography/encrypter'
 
 interface SutTypes {
   sut: IAuthentication

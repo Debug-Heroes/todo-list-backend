@@ -1,10 +1,10 @@
 import {
   IAuthentication,
   IAuthenticationModel
-} from '../../../../domain/usecases/users/authentication'
-import { ILoadAccountByEmail } from '../../../../domain/usecases/users/load-account'
-import { IComparer } from '../../../protocols/criptography/comparer'
-import { IEncrypter } from '../../../protocols/criptography/encrypter'
+} from '../../../../../domain/usecases/users/authentication'
+import { ILoadAccountByEmail } from '../../../../../domain/usecases/users/load-account'
+import { IComparer } from '../../../../protocols/criptography/comparer'
+import { IEncrypter } from '../../../../protocols/criptography/encrypter'
 
 export class DbAuthentication implements IAuthentication {
   constructor(
