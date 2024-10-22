@@ -4,7 +4,7 @@ import { PgHelper } from "../../helpers/pg-helper";
 
 export class PgCategoriesRepository implements IGetAllCategoriesRepository {
   async getAll(): Promise<ICategory[]> {
-    await PgHelper.query('SELECT * FROM categories')
-    return Promise.resolve([])
+    const categories = await PgHelper.query('SELECT * FROM categories')
+    return new Promise(resolve => resolve(categories.rows))
   }
 }
