@@ -5,7 +5,7 @@ import { IGetAllCategoriesRepository } from "../../../../protocols/db/get-all-ca
 export class DbGetAllCategories implements IGetAllCategories {
   constructor(private readonly getAllCategoriesRepository: IGetAllCategoriesRepository) {}
   async getAll(): Promise<ICategory[]> {
-    await this.getAllCategoriesRepository.getAll()
-    return Promise.resolve([])
+    const categories = await this.getAllCategoriesRepository.getAll()
+    return Promise.resolve(categories)
   }
 }
