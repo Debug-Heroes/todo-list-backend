@@ -1,7 +1,7 @@
 import { IDeleteAccount } from "../../../../domain/usecases/users/delete-account";
 import { ILoadAccountById } from "../../../../domain/usecases/users/load-account-by-id";
 import { IValidation } from "../../../protocols/validation";
-import { badRequest, Controller, HttpRequest, HttpResponse, NotFound, ok, serverError } from "../../login/login-controller-protocols";
+import { badRequest, Controller, HttpRequest, HttpResponse, NotFound, ok, serverError } from "../login/login-controller-protocols";
 
 export class DeleteUserController implements Controller {
   constructor (

@@ -1,16 +1,15 @@
-import { IValidation } from '../../protocols/validation'
 import {
   badRequest,
   HttpRequest,
   ok,
-  serverError,
+  IValidation,
   unauthorized
 } from '../login/login-controller-protocols'
 import { LoginController } from './login-controller'
 import {
   IAuthentication,
   IAuthenticationModel
-} from '../../../domain/usecases/users/authentication'
+} from '../../../../domain/usecases/users/authentication'
 
 interface SutTypes {
   sut: LoginController

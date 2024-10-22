@@ -1,14 +1,14 @@
-import { IAuthentication } from '../../../domain/usecases/users/authentication'
-import { IValidation } from '../../protocols/validation'
+import { IAuthentication } from '../../../../domain/usecases/users/authentication'
 import {
   badRequest,
   Controller,
   HttpRequest,
   HttpResponse,
+  IValidation,
   ok,
   serverError,
   unauthorized
-} from '../login/login-controller-protocols'
+} from './login-controller-protocols'
 
 export class LoginController implements Controller {
   constructor(
