@@ -26,5 +26,13 @@ describe('PgCategoriesRepository', () => {
       await sut.getAll()
       expect(querySpy).toHaveBeenCalledWith('SELECT * FROM categories')
     })
+    it('Should throw if query throws', async () => {
+      const sut = new PgCategoriesRepository()
+      jest.spyOn(PgHelper, 'query').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = sut.getAll()
+      expect(promise).rejects.toThrow()
+    })
   })
 })
