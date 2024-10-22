@@ -1,7 +1,7 @@
-import { IHasher } from '../../../protocols/criptography/hasher'
-import { IAddAccountRepository } from '../../../protocols/db/add-account-repository'
-import { IAddAccountModel } from '../../../../domain/usecases/users/add-account'
-import { IAccount } from '../../../../domain/protocols/account'
+import { IHasher } from '../../../../protocols/criptography/hasher'
+import { IAddAccountRepository } from '../../../../protocols/db/add-account-repository'
+import { IAddAccountModel } from '../../../../../domain/usecases/users/add-account'
+import { IAccount } from '../../../../../domain/protocols/account'
 import { DbAddAccount } from './db-add-account'
 
 interface SutTypes {
