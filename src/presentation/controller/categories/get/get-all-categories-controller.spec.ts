@@ -11,7 +11,7 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const dbGetAllCategories = makeDbGetAllCategories()
-  const sut  = new GetAllCategoriesController(dbGetAllCategories)
+  const sut = new GetAllCategoriesController(dbGetAllCategories)
   return {
     sut,
     dbGetAllCategories
@@ -58,15 +58,17 @@ describe('GetAllCategoriesController', () => {
   it('Should return categories on DbGetAllCategories succeed', async () => {
     const { sut } = makeSut()
     const result = await sut.handle(makeFakeRequest())
-    expect(result).toEqual(ok([
-      {
-        id: 'any_id',
-        name: 'any_name'
-      },
-      {
-        id: 'any_id',
-        name: 'any_name'
-      }
-    ]))
+    expect(result).toEqual(
+      ok([
+        {
+          id: 'any_id',
+          name: 'any_name'
+        },
+        {
+          id: 'any_id',
+          name: 'any_name'
+        }
+      ])
+    )
   })
 })
