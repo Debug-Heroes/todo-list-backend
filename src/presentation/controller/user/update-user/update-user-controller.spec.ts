@@ -1,17 +1,22 @@
 import { UpdateUserController } from './update-user-controller'
 import { badRequest, forbidden, IValidation, HttpRequest } from './update-user-protocols'
+import { IUpdateUser, UpdateUserModel } from '../../../../domain/usecases/users/update-user'
+import { IAccount } from '../../../../domain/protocols/account'
 
 interface SutTypes {
   sut: UpdateUserController
   validationStub: IValidation
+  dbUpdateUserStub: IUpdateUser
 }
 
 const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
-  const sut = new UpdateUserController(validationStub)
+  const dbUpdateUserStub = makeDbUpdateUserStub()
+  const sut = new UpdateUserController(validationStub, dbUpdateUserStub)
   return {
     sut,
-    validationStub
+    validationStub,
+    dbUpdateUserStub
   }
 }
 
@@ -22,6 +27,21 @@ const makeValidationStub = (): IValidation => {
     }
   }
   return new ValidationStub()
+}
+
+
+const makeDbUpdateUserStub = (): IUpdateUser => {
+  class UpdateUserStub implements IUpdateUser {
+    async update(values: UpdateUserModel): Promise<IAccount> {
+      return Promise.resolve({
+        id: 'any_id',
+        name: 'updated_name',
+        email: 'any_mail@mail.com',
+        password: 'any_password'
+      })
+    }
+  }
+  return new UpdateUserStub()
 }
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -49,5 +69,11 @@ describe('UpdateUserController', () => {
     const { sut } = makeSut()
     const result = await sut.handle({body: {id: 'different_id'}, user: 'any_id'})
     expect(result).toEqual(forbidden())
+  })
+  it('Should call DbUpdateUser with correct values', async () => {
+    const { sut, dbUpdateUserStub } = makeSut()
+    const updateSpy = jest.spyOn(dbUpdateUserStub, 'update')
+    await sut.handle(makeFakeRequest())
+    expect(updateSpy).toHaveBeenCalledWith(makeFakeRequest().body)
   })
 })
