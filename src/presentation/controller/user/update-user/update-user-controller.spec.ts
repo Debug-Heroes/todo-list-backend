@@ -1,5 +1,5 @@
 import { UpdateUserController } from './update-user-controller'
-import { badRequest, forbidden, IValidation, HttpRequest, serverError } from './update-user-protocols'
+import { badRequest, forbidden, IValidation, HttpRequest, serverError, ok } from './update-user-protocols'
 import { IUpdateUser, UpdateUserModel } from '../../../../domain/usecases/users/update-user'
 import { IAccount } from '../../../../domain/protocols/account'
 
@@ -47,7 +47,7 @@ const makeDbUpdateUserStub = (): IUpdateUser => {
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     id: 'any_id',
-    name: 'any_name'
+    name: 'updated_name'
   },
   user: 'any_id'
 })
@@ -83,5 +83,15 @@ describe('UpdateUserController', () => {
     })
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(serverError())
+  })
+  it('Should return an account on DbUpdateUser succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(ok({
+      id: 'any_id',
+      name: 'updated_name',
+      email: 'any_mail@mail.com',
+      password: 'any_password'
+    }))
   })
 })
