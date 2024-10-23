@@ -6,6 +6,6 @@ export class DbUpdateAccount implements IUpdateAccount {
   async update(values: UpdateAccountModel): Promise<IUpdatedAccount> {
     const account = await this.repository.update(values)
     const { password, ...updatedAccount } = account
-    return Promise.resolve(updatedAccount)
+    return new Promise(resolve => resolve(updatedAccount))
   }
 }
