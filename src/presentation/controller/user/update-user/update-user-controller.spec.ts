@@ -1,5 +1,5 @@
 import { UpdateUserController } from './update-user-controller'
-import { badRequest, forbidden, IValidation, HttpRequest } from './update-user-protocols'
+import { badRequest, forbidden, IValidation, HttpRequest, serverError } from './update-user-protocols'
 import { IUpdateUser, UpdateUserModel } from '../../../../domain/usecases/users/update-user'
 import { IAccount } from '../../../../domain/protocols/account'
 
@@ -75,5 +75,13 @@ describe('UpdateUserController', () => {
     const updateSpy = jest.spyOn(dbUpdateUserStub, 'update')
     await sut.handle(makeFakeRequest())
     expect(updateSpy).toHaveBeenCalledWith(makeFakeRequest().body)
+  })
+  it('Should return 500 if DbUpdateUser throws', async () => {
+    const { sut, dbUpdateUserStub } = makeSut()
+    jest.spyOn(dbUpdateUserStub, 'update').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(serverError())
   })
 })
