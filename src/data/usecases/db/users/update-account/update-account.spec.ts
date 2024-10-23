@@ -43,4 +43,12 @@ describe('DbUpdateAccount', () => {
     await sut.update(makeFakeRequest())
     expect(updateSpy).toHaveBeenCalledWith(makeFakeRequest())
   })
+  it('Should throw if repository throws', async () => {
+    const { sut, updateAccountRepositoryStub } = makeSut()
+    jest.spyOn(updateAccountRepositoryStub, 'update').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const promise = sut.update(makeFakeRequest())
+    expect(promise).rejects.toThrow()
+  })
 })
