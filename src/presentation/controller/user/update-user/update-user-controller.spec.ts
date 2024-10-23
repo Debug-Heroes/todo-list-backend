@@ -1,12 +1,12 @@
 import { UpdateUserController } from './update-user-controller'
 import { badRequest, forbidden, IValidation, HttpRequest, serverError, ok } from './update-user-protocols'
-import { IUpdateUser, UpdateUserModel } from '../../../../domain/usecases/users/update-user'
+import { IUpdateAccount, UpdateAccountModel } from '../../../../domain/usecases/users/update-account'
 import { IAccount } from '../../../../domain/protocols/account'
 
 interface SutTypes {
   sut: UpdateUserController
   validationStub: IValidation
-  dbUpdateUserStub: IUpdateUser
+  dbUpdateUserStub: IUpdateAccount
 }
 
 const makeSut = (): SutTypes => {
@@ -30,9 +30,9 @@ const makeValidationStub = (): IValidation => {
 }
 
 
-const makeDbUpdateUserStub = (): IUpdateUser => {
-  class UpdateUserStub implements IUpdateUser {
-    async update(values: UpdateUserModel): Promise<IAccount> {
+const makeDbUpdateUserStub = (): IUpdateAccount => {
+  class UpdateUserStub implements IUpdateAccount {
+    async update(values: UpdateAccountModel): Promise<IAccount> {
       return Promise.resolve({
         id: 'any_id',
         name: 'updated_name',

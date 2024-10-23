@@ -1,4 +1,4 @@
-import { IUpdateUser } from '../../../../domain/usecases/users/update-user'
+import { IUpdateAccount } from '../../../../domain/usecases/users/update-account'
 import {
   badRequest,
   Controller,
@@ -13,7 +13,7 @@ import {
 export class UpdateUserController implements Controller {
   constructor(
     private readonly validation: IValidation,
-    private readonly updateUser: IUpdateUser
+    private readonly updateUser: IUpdateAccount
   ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
