@@ -1,7 +1,5 @@
-import { IValidation } from '../../../protocols/validation'
-import { HttpRequest } from '../../../protocols/http'
 import { UpdateUserController } from './update-user-controller'
-import { badRequest, forbidden } from '../login/login-controller-protocols'
+import { badRequest, forbidden, IValidation, HttpRequest } from './update-user-protocols'
 
 interface SutTypes {
   sut: UpdateUserController
