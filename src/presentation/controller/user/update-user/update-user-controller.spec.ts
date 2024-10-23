@@ -1,7 +1,7 @@
 import { IValidation } from '../../../protocols/validation'
 import { HttpRequest } from '../../../protocols/http'
 import { UpdateUserController } from './update-user-controller'
-import { badRequest } from '../login/login-controller-protocols'
+import { badRequest, forbidden } from '../login/login-controller-protocols'
 
 interface SutTypes {
   sut: UpdateUserController
@@ -46,5 +46,10 @@ describe('UpdateUserController', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error('any_error'))
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(badRequest(new Error('any_error')))
+  })
+  it('Should return 403 if received id and user id are different', async () => {
+    const { sut } = makeSut()
+    const result = await sut.handle({body: {id: 'different_id'}, user: 'any_id'})
+    expect(result).toEqual(forbidden())
   })
 })
