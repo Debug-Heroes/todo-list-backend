@@ -1,10 +1,10 @@
-import { IAddAccountRepository } from '../../../../../data/protocols/db/add-account-repository'
-import { IDeleteAccountRepository } from '../../../../../data/protocols/db/delete-account-repository'
-import { IAccount } from '../../../../../domain/protocols/account'
-import { IAddAccountModel } from '../../../../../domain/usecases/users/add-account'
-import { ILoadAccountByEmail } from '../../../../../domain/usecases/users/load-account'
-import { ILoadAccountById } from '../../../../../domain/usecases/users/load-account-by-id'
-import { PgHelper } from '../helpers/pg-helper'
+import { IAddAccountRepository } from '../../../../../../data/protocols/db/add-account-repository'
+import { IDeleteAccountRepository } from '../../../../../../data/protocols/db/delete-account-repository'
+import { IAccount } from '../../../../../../domain/protocols/account'
+import { IAddAccountModel } from '../../../../../../domain/usecases/users/add-account'
+import { ILoadAccountByEmail } from '../../../../../../domain/usecases/users/load-account'
+import { ILoadAccountById } from '../../../../../../domain/usecases/users/load-account-by-id'
+import { PgHelper } from '../../helpers/pg-helper'
 
 export class PgAccountRepository
   implements IAddAccountRepository, ILoadAccountByEmail, IDeleteAccountRepository, ILoadAccountById

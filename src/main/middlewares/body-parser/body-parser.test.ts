@@ -2,7 +2,10 @@ import { NextFunction, Request, Response } from 'express'
 import app from '../../config/app'
 import request from 'supertest'
 
-jest.mock('../../adapters/middleware-adapter', () => () => async (req: Request, res: Response, next: NextFunction) => next())
+jest.mock(
+  '../../adapters/middleware-adapter',
+  () => () => async (req: Request, res: Response, next: NextFunction) => next()
+)
 
 describe('BodyParser', () => {
   it('Should parse body as json', async () => {
