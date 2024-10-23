@@ -1,4 +1,4 @@
-import { PgAccountRepository } from '../../../../infra/usecases/db/postgres/account/pg-account-repository'
+import { PgAccountRepository } from '../../../../infra/usecases/db/postgres/repositories/account/pg-account-repository'
 import { DeleteUserController } from '../../../../presentation/controller/user/delete-user/delete-user-controller'
 import { makeDeleteValidation } from './delete-validation'
 

@@ -3,10 +3,11 @@ import { IDeleteAccountRepository } from '../../../../../../data/protocols/db/de
 import { IAccount } from '../../../../../../domain/protocols/account'
 import { IAddAccountModel } from '../../../../../../domain/usecases/users/add-account'
 import { ILoadAccountByEmail } from '../../../../../../domain/usecases/users/load-account'
+import { ILoadAccountById } from '../../../../../../domain/usecases/users/load-account-by-id'
 import { PgHelper } from '../../helpers/pg-helper'
 
 export class PgAccountRepository
-  implements IAddAccountRepository, ILoadAccountByEmail, IDeleteAccountRepository
+  implements IAddAccountRepository, ILoadAccountByEmail, IDeleteAccountRepository, ILoadAccountById
 {
   async add(account: IAddAccountModel): Promise<IAccount> {
     const newUser = await PgHelper.query(
@@ -27,5 +28,10 @@ export class PgAccountRepository
   async delete(id: string): Promise<string> {
     const result = await PgHelper.query('DELETE FROM users WHERE id = $1', [id])
     return Promise.resolve(`${result.rowCount} affected rows`)
+  }
+
+  async loadById(id: string): Promise<IAccount | null> {
+    const result = await PgHelper.query('SELECT * FROM users WHERE id = $1', [id])
+    return Promise.resolve(result.rows?.length > 0 ? result.rows[0] : null)
   }
 }
