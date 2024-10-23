@@ -1,6 +1,7 @@
 import { IValidation } from '../../../protocols/validation'
 import { HttpRequest } from '../../../protocols/http'
 import { UpdateUserController } from './update-user-controller'
+import { badRequest } from '../login/login-controller-protocols'
 
 interface SutTypes {
   sut: UpdateUserController
@@ -39,5 +40,11 @@ describe('UpdateUserController', () => {
     const validateSpy = jest.spyOn(validationStub, 'validate')
     await sut.handle(makeFakeRequest())
     expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().body)
+  })
+  it('Should return 400 if validation fails', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error('any_error'))
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(badRequest(new Error('any_error')))
   })
 })
