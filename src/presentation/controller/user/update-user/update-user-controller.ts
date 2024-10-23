@@ -6,6 +6,7 @@ import {
   HttpRequest,
   HttpResponse,
   IValidation,
+  ok,
   serverError
 } from './update-user-protocols'
 
@@ -26,9 +27,9 @@ export class UpdateUserController implements Controller {
         return new Promise((resolve) => resolve(forbidden()))
       }
   
-      await this.updateUser.update(httpRequest.body)
+      const updatedUser = await this.updateUser.update(httpRequest.body)
   
-      return Promise.resolve({ statusCode: 200 })
+      return new Promise(resolve => resolve(ok(updatedUser)))
     } catch (error) {
       return new Promise(resolve => resolve(serverError()))
     }
