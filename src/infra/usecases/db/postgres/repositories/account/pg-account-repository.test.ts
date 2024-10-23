@@ -1,4 +1,5 @@
 import { IAddAccountModel } from '../../../../../../domain/usecases/users/add-account'
+import { UpdateAccountModel } from '../../../../../../domain/usecases/users/update-account'
 import { PgHelper } from '../../helpers/pg-helper'
 import { TestPoolConfig } from '../../test/pg-pool-config'
 import { PgAccountRepository } from './pg-account-repository'
@@ -129,6 +130,18 @@ describe('PgAccountRepository', () => {
       const sut = new PgAccountRepository()
       const account = await sut.loadById('any_id')
       expect(account).toBeFalsy()
+    })
+  })
+  describe('update', () => {
+    const makeFakeRequest = (): UpdateAccountModel => ({
+      id: 'any_id',
+      email: 'any_mail'
+    })
+    it('Should call query with correct values', async () => {
+      const sut = new PgAccountRepository()
+      const querySpy = jest.spyOn(PgHelper, 'query')
+      await sut.update(makeFakeRequest())
+      expect(querySpy).toHaveBeenCalledWith('UPDATE users SET email = $1 WHERE id = $2', ['any_mail', 'any_id'])
     })
   })
 })
