@@ -51,4 +51,13 @@ describe('DbUpdateAccount', () => {
     const promise = sut.update(makeFakeRequest())
     expect(promise).rejects.toThrow()
   })
+  it('Should return an account on repository succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.update(makeFakeRequest())
+    expect(result).toEqual({
+      email: 'any_mail@mail.com',
+      id: 'any_id',
+      name: 'any_name'
+    })
+  })
 })
