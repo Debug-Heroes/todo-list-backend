@@ -54,14 +54,12 @@ export class PgAccountRepository
     }
 
     queryValues.push(account.id)
-    queryString += ` WHERE id = $${queryIndex}`
+    queryString += ` WHERE id = $${queryIndex} RETURNING *`
 
-    await PgHelper.query(queryString, queryValues)
-    return Promise.resolve({
-      id: 'any_id',
-      email: 'any_mail@Mail.cmasdoa',
-      name: 'a',
-      password: 'a'
-    })
+    const result = await PgHelper.query(queryString, queryValues)
+    console.log(queryValues)
+    console.log(queryString)
+    console.log(result)
+    return result.rows[0]
   }
 }
