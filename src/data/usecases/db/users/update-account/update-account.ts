@@ -4,12 +4,8 @@ import { IUpdateAccountRepository } from "../../../../protocols/db/update-accoun
 export class DbUpdateAccount implements IUpdateAccount {
   constructor(private readonly repository: IUpdateAccountRepository) {}
   async update(values: UpdateAccountModel): Promise<IUpdatedAccount> {
-    await this.repository.update(values)
-    return Promise.resolve({
-      id: 'any_id',
-      email: 'any_mail',
-      name: 'any_name',
-      password: 'any_password'
-    })
+    const account = await this.repository.update(values)
+    const { password, ...updatedAccount } = account
+    return Promise.resolve(updatedAccount)
   }
 }
