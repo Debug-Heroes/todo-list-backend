@@ -1,4 +1,4 @@
-import { badRequest, Controller, HttpRequest, HttpResponse, IValidation } from "../login/login-controller-protocols";
+import { badRequest, Controller, forbidden, HttpRequest, HttpResponse, IValidation } from "../login/login-controller-protocols";
 
 export class UpdateUserController implements Controller {
   constructor(private readonly validation: IValidation) {}
@@ -7,6 +7,11 @@ export class UpdateUserController implements Controller {
     if (error) {
       return new Promise(resolve => resolve(badRequest(error)))
     }
+
+    if (httpRequest.user !== httpRequest.body.id) {
+      return new Promise(resolve => resolve(forbidden()))
+    }
+
     return Promise.resolve({statusCode: 200})
   }
 }
