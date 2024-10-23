@@ -143,5 +143,13 @@ describe('PgAccountRepository', () => {
       await sut.update(makeFakeRequest())
       expect(querySpy).toHaveBeenCalledWith('UPDATE users SET email = $1 WHERE id = $2', ['any_mail', 'any_id'])
     })
+    it('Should throw if query throws', async () => {
+      const sut = new PgAccountRepository()
+      jest.spyOn(PgHelper, 'query').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = sut.update(makeFakeRequest())
+      expect(promise).rejects.toThrow()
+    })
   })
 })
