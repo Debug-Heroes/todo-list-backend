@@ -7,4 +7,9 @@ describe('RequiredAtLeastOneIn', () => {
     const result = sut.validate({ anotherField: 'any_value' })
     expect(result).toEqual(new MissingParamError('to change'))
   })
+  it('Should not return if found the field', async () => {
+    const sut = new RequiredAtLeastOneIn(['field'])
+    const result = sut.validate({ field: 'any_value' })
+    expect(result).toBeFalsy()
+  })
 })
