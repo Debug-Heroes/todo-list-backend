@@ -19,6 +19,7 @@ export class UpdateUserController implements Controller {
     try {
       const error = this.validation.validate(httpRequest.body)
       if (error) {
+        console.log(error)
         return new Promise((resolve) => resolve(badRequest(error)))
       }
   
