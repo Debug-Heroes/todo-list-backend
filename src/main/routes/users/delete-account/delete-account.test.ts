@@ -1,10 +1,10 @@
 import { NextFunction } from 'express'
-import { PgHelper } from '../../../infra/usecases/db/postgres/helpers/pg-helper'
-import { TestPoolConfig } from '../../../infra/usecases/db/postgres/test/pg-pool-config'
-import app from '../../config/app'
+import { PgHelper } from '../../../../infra/usecases/db/postgres/helpers/pg-helper'
+import { TestPoolConfig } from '../../../../infra/usecases/db/postgres/test/pg-pool-config'
+import app from '../../../config/app'
 import request from 'supertest'
 
-jest.mock('../../adapters/middleware-adapter', () => () => async (req: any, res: any, next: NextFunction) => {
+jest.mock('../../../adapters/middleware-adapter', () => () => async (req: any, res: any, next: NextFunction) => {
   req.user = 'any_id'
   next()
 })
