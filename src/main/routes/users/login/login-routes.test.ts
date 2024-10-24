@@ -1,8 +1,8 @@
 import { hash } from 'bcrypt'
-import { PgHelper } from '../../../infra/usecases/db/postgres/helpers/pg-helper'
-import { TestPoolConfig } from '../../../infra/usecases/db/postgres/test/pg-pool-config'
+import { PgHelper } from '../../../../infra/usecases/db/postgres/helpers/pg-helper'
+import { TestPoolConfig } from '../../../../infra/usecases/db/postgres/test/pg-pool-config'
 import request from 'supertest'
-import app from '../../config/app'
+import app from '../../../config/app'
 
 const salt = 12
 describe('LoginRoute', () => {

@@ -1,7 +1,7 @@
 import request from 'supertest'
-import { PgHelper } from '../../../infra/usecases/db/postgres/helpers/pg-helper'
-import { TestPoolConfig } from '../../../infra/usecases/db/postgres/test/pg-pool-config'
-import app from '../../config/app'
+import { PgHelper } from '../../../../infra/usecases/db/postgres/helpers/pg-helper'
+import { TestPoolConfig } from '../../../../infra/usecases/db/postgres/test/pg-pool-config'
+import app from '../../../config/app'
 import { hash } from 'bcrypt'
 
 const salt = 12
