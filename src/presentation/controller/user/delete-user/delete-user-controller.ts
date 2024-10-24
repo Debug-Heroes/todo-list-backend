@@ -38,6 +38,7 @@ export class DeleteUserController implements Controller {
       const affectedRows = await this.deleteAccount.delete(id)
       return new Promise((resolve) => resolve(ok(affectedRows)))
     } catch (error) {
+      console.log(error)
       return new Promise((resolve) => resolve(serverError()))
     }
   }
