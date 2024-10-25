@@ -1,7 +1,7 @@
 import { HttpRequest } from '../../../protocols/http'
 import { IValidation } from '../../../protocols/validation'
 import { GetByCategoriesController } from './get-by-categories-controller'
-import { badRequest, serverError } from '../../../helpers/http-helper'
+import { badRequest, ok, serverError } from '../../../helpers/http-helper'
 import { IGetByCategories, IGetByCategoriesModel } from '../../../../domain/usecases/categories/get-by-categories'
 import { ICategory } from '../../../../domain/protocols/category'
 
@@ -81,5 +81,19 @@ describe('GetByCategoriesController', () => {
     })
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(serverError())
+  })
+  it('Should return categories on DbGetByCategories succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(ok([
+      {
+        id: 'any_id',
+        name: 'any_name'
+      },
+      {
+        id: 'any_id2',
+        name: 'any_name2'
+      }
+    ]))
   })
 })
