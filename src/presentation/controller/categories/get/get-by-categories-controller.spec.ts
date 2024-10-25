@@ -68,4 +68,10 @@ describe('GetByCategoriesController', () => {
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(badRequest(new Error('any_error')))
   })
+  it('Should call DbGetByCategories with correct values', async () => {
+    const { sut, dbGetByCategories } = makeSut()
+    const getBySpy = jest.spyOn(dbGetByCategories, 'getBy')
+    await sut.handle(makeFakeRequest())
+    expect(getBySpy).toHaveBeenCalledWith(makeFakeRequest().query)
+  })
 })
