@@ -62,4 +62,10 @@ describe('GetByCategoriesController', () => {
     await sut.handle(makeFakeRequest())
     expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().query)
   })
+  it('Should return 400 if validation fails', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error('any_error'))
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(badRequest(new Error('any_error')))
+  })
 })
