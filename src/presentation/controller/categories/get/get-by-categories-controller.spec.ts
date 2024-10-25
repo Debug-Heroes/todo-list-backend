@@ -1,7 +1,7 @@
 import { HttpRequest } from '../../../protocols/http'
 import { IValidation } from '../../../protocols/validation'
 import { GetByCategoriesController } from './get-by-categories-controller'
-import { badRequest } from '../../../helpers/http-helper'
+import { badRequest, serverError } from '../../../helpers/http-helper'
 import { IGetByCategories, IGetByCategoriesModel } from '../../../../domain/usecases/categories/get-by-categories'
 import { ICategory } from '../../../../domain/protocols/category'
 
@@ -73,5 +73,13 @@ describe('GetByCategoriesController', () => {
     const getBySpy = jest.spyOn(dbGetByCategories, 'getBy')
     await sut.handle(makeFakeRequest())
     expect(getBySpy).toHaveBeenCalledWith(makeFakeRequest().query)
+  })
+  it('Should return 500 if DbGetByCategories throws', async () => {
+    const { sut, dbGetByCategories } = makeSut()
+    jest.spyOn(dbGetByCategories, 'getBy').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(serverError())
   })
 })
