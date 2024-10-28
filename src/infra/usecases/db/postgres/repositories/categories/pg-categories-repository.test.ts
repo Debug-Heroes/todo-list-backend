@@ -1,6 +1,7 @@
 import { PgCategoriesRepository } from './pg-categories-repository'
 import { PgHelper } from "../../helpers/pg-helper"
 import { TestPoolConfig } from '../../test/pg-pool-config'
+import { GetByCategoriesModel } from '../../../../../../data/protocols/db/get-by-categories-repository'
 
 describe('PgCategoriesRepository', () => {
   beforeAll(async () => {
@@ -41,6 +42,17 @@ describe('PgCategoriesRepository', () => {
         expect(result[0].id).toBeTruthy()
         expect(result[0].name).toBe('any_category')
       })
+    })
+  })
+  describe('GetBy', () => {
+    const makeFakeRequest = (): GetByCategoriesModel => ({
+      name: 'any_name'
+    })
+    it('Should call query with correct values', async () => {
+      const sut = new PgCategoriesRepository()
+      const querySpy = jest.spyOn(PgHelper, 'query')
+      await sut.getBy(makeFakeRequest())
+      expect(querySpy).toHaveBeenCalledWith('SELECT * FROM categories WHERE name LIKE $1', ['%any_name%'])
     })
   })
 })
