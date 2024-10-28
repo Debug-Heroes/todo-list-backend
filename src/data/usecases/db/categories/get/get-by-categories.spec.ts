@@ -1,5 +1,8 @@
 import { ICategory } from '../../../../../domain/protocols/category'
-import { GetByCategoriesModel, IGetByCategoriesRepository } from '../../../../protocols/db/get-by-categories-repository'
+import {
+  GetByCategoriesModel,
+  IGetByCategoriesRepository
+} from '../../../../protocols/db/get-by-categories-repository'
 import { DbGetByCategories } from './get-by-categories'
 
 const makeFakeRequest = (): GetByCategoriesModel => ({
@@ -52,5 +55,19 @@ describe('DbGetByCategories', () => {
     })
     const promise = sut.getBy(makeFakeRequest())
     expect(promise).rejects.toThrow()
+  })
+  it('Should return categories on repository succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.getBy(makeFakeRequest())
+    expect(result).toEqual([
+      {
+        id: 'any_id',
+        name: 'any_name'
+      },
+      {
+        id: 'any_id',
+        name: 'any_name'
+      }
+    ])
   })
 })
