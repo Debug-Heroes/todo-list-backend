@@ -1,8 +1,8 @@
-import { IValidation } from '@presentation/protocols/validation'
 import { HttpRequest } from '@presentation/protocols/http'
 import { GetAllTasksController } from './get-all-tasks-controller'
 import { IGetAllTasks } from '@domain/usecases/tasks/get-all-tasks'
 import { ITask } from '@domain/protocols/task'
+import { serverError } from './get-all-tasks-protocols'
 
 interface SutTypes {
   sut: GetAllTasksController
@@ -50,5 +50,13 @@ describe('GetAllTasksController', () => {
     const getAllSpy = jest.spyOn(dbGetAllTasks, 'getAll')
     await sut.handle(makeFakeRequest())
     expect(getAllSpy).toHaveBeenCalledWith(makeFakeRequest().user)
+  })
+  it('Should return 500 if DbGetAllTasks throws', async () => {
+    const { sut, dbGetAllTasks } = makeSut()
+    jest.spyOn(dbGetAllTasks, 'getAll').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(serverError())
   })
 })
