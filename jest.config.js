@@ -15,7 +15,10 @@ const config = {
   transform: {
     '.+\\.ts$': 'ts-jest'
   },
-  testTimeout: 20000
+  testTimeout: 20000,
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
+  }
 }
 
 module.exports = config;
