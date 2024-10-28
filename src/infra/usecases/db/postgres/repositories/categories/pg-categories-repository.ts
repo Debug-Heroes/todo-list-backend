@@ -26,8 +26,6 @@ export class PgCategoriesRepository
         queryLength++
       }
     }
-    console.log(queryString)
-    console.log(queryValues)
     const categories = await PgHelper.query(queryString, queryValues)
     return Promise.resolve(categories.rows)
   }
