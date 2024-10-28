@@ -14,11 +14,13 @@ export default (app: Express) => {
   }
 
   for (const route of ['categories']) {
-    fs.readdirSync(`${__dirname}/../routes/${route}`).map(async (file) => {
-      if (!file.includes('test') && !file.includes('map')) {
-        (await import(`../routes/${route}/${file}`)).default(apiRoutes)
-      }
-    })
+    for (const path of ['get']) {
+      fs.readdirSync(`${__dirname}/../routes/${route}/${path}`).map(async (file) => {
+        if (!file.includes('test') && !file.includes('map')) {
+          (await import(`../routes/${route}/${path}/${file}`)).default(apiRoutes)
+        }
+      })
+    }
   }
 
   app.use('/', authRoutes)

@@ -1,11 +1,11 @@
 import request from 'supertest'
-import app from '../../config/app'
+import app from '../../../config/app'
 import { NextFunction } from 'express'
-import { PgHelper } from '../../../infra/usecases/db/postgres/helpers/pg-helper'
-import { TestPoolConfig } from '../../../infra/usecases/db/postgres/test/pg-pool-config'
+import { PgHelper } from '../../../../infra/usecases/db/postgres/helpers/pg-helper'
+import { TestPoolConfig } from '../../../../infra/usecases/db/postgres/test/pg-pool-config'
 
 jest.mock(
-  '../../adapters/middleware-adapter',
+  '../../../adapters/middleware-adapter',
   () => () => async (req: Request, res: Response, next: NextFunction) => next()
 )
 
