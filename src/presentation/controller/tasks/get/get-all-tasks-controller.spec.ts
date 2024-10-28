@@ -2,7 +2,7 @@ import { HttpRequest } from '@presentation/protocols/http'
 import { GetAllTasksController } from './get-all-tasks-controller'
 import { IGetAllTasks } from '@domain/usecases/tasks/get-all-tasks'
 import { ITask } from '@domain/protocols/task'
-import { serverError } from './get-all-tasks-protocols'
+import { ok, serverError } from './get-all-tasks-protocols'
 
 interface SutTypes {
   sut: GetAllTasksController
@@ -58,5 +58,25 @@ describe('GetAllTasksController', () => {
     })
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(serverError())
+  })
+  it('Should return tasks on DbGetAllTasks succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(
+      ok([
+        {
+          id: 'any_id',
+          name: 'any_name',
+          text: 'any_text',
+          userId: 'any_userId'
+        },
+        {
+          id: 'any_id2',
+          name: 'any_name2',
+          text: 'any_text2',
+          userId: 'any_userId2'
+        }
+      ])
+    )
   })
 })
