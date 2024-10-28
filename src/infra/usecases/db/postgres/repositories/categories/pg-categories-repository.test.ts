@@ -77,5 +77,10 @@ describe('PgCategoriesRepository', () => {
       expect(result[0].id).toBeTruthy()
       expect(result[0].name).toBe('any_name')
     })
+    it('Should return an empty array on pg fails', async () => {
+      const sut = new PgCategoriesRepository()
+      const result = await sut.getBy(makeFakeRequest())
+      expect(result).toEqual([])
+    })
   })
 })
