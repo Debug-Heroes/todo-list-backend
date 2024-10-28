@@ -21,12 +21,15 @@ export class PgCategoriesRepository
         if (queryLength > 1) {
           queryString += 'AND '
         }
-        queryString += `${pos} LIKE $${queryLength}`
-        queryValues.push('%' + values[pos] + '%')
+        queryString += `LOWER(${pos}) LIKE $${queryLength}`
+        queryValues.push('%' + values[pos].toLowerCase() + '%')
         queryLength++
       }
     }
+    console.log(queryValues)
+    console.log(queryString)
     const categories = await PgHelper.query(queryString, queryValues)
+    console.log(categories.rows)
     return Promise.resolve(categories.rows)
   }
 }

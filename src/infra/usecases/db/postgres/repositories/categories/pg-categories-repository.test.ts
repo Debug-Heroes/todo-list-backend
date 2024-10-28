@@ -55,7 +55,7 @@ describe('PgCategoriesRepository', () => {
       const querySpy = jest.spyOn(PgHelper, 'query')
       await sut.getBy(makeFakeRequest())
       expect(querySpy).toHaveBeenCalledWith(
-        'SELECT * FROM categories WHERE name LIKE $1',
+        'SELECT * FROM categories WHERE LOWER(name) LIKE $1',
         ['%any_name%']
       )
     })
