@@ -37,4 +37,12 @@ describe('DbGetAllTasks', () => {
     await sut.getAll('any_id')
     expect(getAllSpy).toHaveBeenCalledWith('any_id')
   })
+  it('Should throw if repository throws', async () => {
+    const { sut, repository } = makeSut()
+    jest.spyOn(repository, 'getAll').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const promise = sut.getAll('any_id')
+    expect(promise).rejects.toThrow()
+  })
 })
