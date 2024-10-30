@@ -24,5 +24,13 @@ describe('PgTasksRepository', () => {
       await sut.getAll('any_id')
       expect(querySpy).toHaveBeenCalledWith('SELECT * FROM tasks WHERE userid = $1', ['any_id'])
     })
+    it('Should throw if query throws', async () => {
+      const sut = new PgTasksRepository()
+      jest.spyOn(PgHelper, 'query').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = sut.getAll('any_id')
+      expect(promise).rejects.toThrow()
+    })
   })
 })
