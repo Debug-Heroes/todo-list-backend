@@ -36,6 +36,14 @@
     "up": "npm run build && docker-compose up",
     "down": "docker-compose down"
   },
+  "_moduleAliases": {
+    "@infra": "dist/infra",
+    "@main": "dist/main",
+    "@utils": "dist/utils",
+    "@presentation": "dist/presentation",
+    "@data": "dist/data",
+    "@domain": "dist/domain"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -46,6 +54,7 @@
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
     "morgan": "^1.10.0",
     "pg": "^8.13.0"
   }
