@@ -45,4 +45,14 @@ describe('DbGetAllTasks', () => {
     const promise = sut.getAll('any_id')
     expect(promise).rejects.toThrow()
   })
+  it('Should return tasks on repository succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.getAll('any_id')
+    expect(result).toEqual([{
+      id: 'any_id',
+      name: 'any_name',
+      text: 'any_text',
+      userId: 'any_user'
+    }])
+  })
 })
