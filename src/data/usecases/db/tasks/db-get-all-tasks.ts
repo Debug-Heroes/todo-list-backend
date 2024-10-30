@@ -5,7 +5,7 @@ import { IGetAllTasks } from "@domain/usecases/tasks/get-all-tasks";
 export class DbGetAllTasks implements IGetAllTasks {
   constructor(private readonly repository: IGetAllTasksRepository) {}
   async getAll(id: string): Promise<ITask[]> {
-    await this.repository.getAll(id)
-    return Promise.resolve([])
+    const result = await this.repository.getAll(id)
+    return new Promise(resolve => resolve(result))
   }
 }
