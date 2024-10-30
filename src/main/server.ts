@@ -1,4 +1,5 @@
-import { PgHelper } from '../infra/usecases/db/postgres/helpers/pg-helper'
+import 'module-alias/register'
+import { PgHelper } from '@infra/usecases/db/postgres/helpers/pg-helper'
 import app from './config/app'
 import env from './config/env'
 import { PoolConfig } from './config/pool-config'
