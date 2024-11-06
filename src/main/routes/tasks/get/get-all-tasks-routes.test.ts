@@ -30,7 +30,7 @@ describe('GetAllTasksRoutes', () => {
   })
   it('Should return 200 on succeed', async () => {
     await request(app)
-      .get('/tasks')
+      .get('/api/tasks')
       .expect(200)
   })
 })
