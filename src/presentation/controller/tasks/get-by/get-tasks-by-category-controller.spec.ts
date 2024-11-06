@@ -1,12 +1,9 @@
-import { HttpRequest } from '@presentation/protocols/http'
-import { IValidation } from '@presentation/protocols/validation'
+import { HttpRequest, IValidation, badRequest, ok, serverError  } from './get-tasks-by-category-protocols'
 import { GetTasksByCategoryController } from './get-tasks-by-category-controller'
-import { badRequest, ok, serverError } from '@presentation/helpers/http-helper'
 import {
   GetTasksByCategoryModel,
   IGetTasksByCategory
 } from '@domain/usecases/tasks/get-tasks-by-category'
-import { ICategory } from '@domain/protocols/category'
 import { TaskByCategory } from '@domain/protocols/task-by-category'
 
 const makeFakeRequest = (): HttpRequest => ({
