@@ -1,7 +1,7 @@
 import { HttpRequest } from '@presentation/protocols/http'
 import { IValidation } from '@presentation/protocols/validation'
 import { GetTasksBycCategoryController } from './get-tasks-by-category-controller'
-import { badRequest } from '@presentation/helpers/http-helper'
+import { badRequest, serverError } from '@presentation/helpers/http-helper'
 import {
   GetTasksByCategoryModel,
   IGetTasksByCategory
@@ -85,5 +85,11 @@ describe('GetTasksByCategoryController', () => {
     const getBySpy = jest.spyOn(dbGetTasksByCategoryStub, 'getByCategory')
     await sut.handle(makeFakeRequest())
     expect(getBySpy).toHaveBeenCalledWith(makeFakeRequest().query)
+  })
+  it('Should return 500 if DbGetTasksByCategory throws', async () => {
+    const { sut, dbGetTasksByCategoryStub } = makeSut()
+    jest.spyOn(dbGetTasksByCategoryStub, 'getByCategory').mockRejectedValueOnce(new Error())
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(serverError())
   })
 })
