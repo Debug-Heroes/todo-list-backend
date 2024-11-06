@@ -1,7 +1,7 @@
 import { HttpRequest } from '@presentation/protocols/http'
 import { IValidation } from '@presentation/protocols/validation'
-import { GetTasksBycCategoryController } from './get-tasks-by-category-controller'
-import { badRequest, serverError } from '@presentation/helpers/http-helper'
+import { GetTasksByCategoryController } from './get-tasks-by-category-controller'
+import { badRequest, ok, serverError } from '@presentation/helpers/http-helper'
 import {
   GetTasksByCategoryModel,
   IGetTasksByCategory
@@ -16,7 +16,7 @@ const makeFakeRequest = (): HttpRequest => ({
 })
 
 interface SutTypes {
-  sut: GetTasksBycCategoryController
+  sut: GetTasksByCategoryController
   validationStub: IValidation
   dbGetTasksByCategoryStub: IGetTasksByCategory
 }
@@ -24,7 +24,7 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
   const dbGetTasksByCategoryStub = makeDbGetTasksByCategory()
-  const sut = new GetTasksBycCategoryController(validationStub, dbGetTasksByCategoryStub)
+  const sut = new GetTasksByCategoryController(validationStub, dbGetTasksByCategoryStub)
   return {
     sut,
     validationStub,
@@ -91,5 +91,23 @@ describe('GetTasksByCategoryController', () => {
     jest.spyOn(dbGetTasksByCategoryStub, 'getByCategory').mockRejectedValueOnce(new Error())
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(serverError())
+  })
+  it('Should return tasks with categories on DbGetTasksByCategory', async () => {
+    const { sut } = makeSut()
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(ok([
+      {
+        id: 'any_id',
+        name: 'any_name',
+        text: 'any_text',
+        userId: 'any_user_id',
+        categories: [
+          {
+            id: 'any_id',
+            name: 'any_name'
+          }
+        ]
+      }
+    ]))
   })
 })
