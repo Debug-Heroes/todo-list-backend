@@ -1,6 +1,7 @@
 import { HttpRequest } from "@presentation/protocols/http"
 import { IValidation } from "@presentation/protocols/validation"
 import { GetTasksBycCategoryController } from "./get-tasks-by-category-controller"
+import { badRequest } from "@presentation/helpers/http-helper"
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -37,5 +38,11 @@ describe('GetTasksBycCategoryController', () => {
     const validateSpy = jest.spyOn(validationStub, 'validate')
     await sut.handle(makeFakeRequest())
     expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().query)
+  })
+  it('Should return 400 if validation fails', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error('any_error'))
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(badRequest(new Error('any_error')))
   })
 })
