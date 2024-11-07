@@ -53,4 +53,12 @@ describe('DbGetByTasks', () => {
     await sut.getByCategory(makeFakeRequest())
     expect(getBySpy).toHaveBeenCalledWith(makeFakeRequest())
   })
+  it('Should throw if repository throws', async () => {
+    const { sut, repository } = makeSut()
+    jest.spyOn(repository, 'getByCategory').mockImplementationOnce(() => {
+      throw new Error('any_error')
+    })
+    const promise = sut.getByCategory(makeFakeRequest())
+    expect(promise).rejects.toThrow(new Error('any_error'))
+  })
 })
