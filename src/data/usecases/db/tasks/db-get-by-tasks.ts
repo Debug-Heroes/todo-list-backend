@@ -10,7 +10,7 @@ export class DbGetByTasks implements IGetTasksByCategory {
   async getByCategory(
     model: GetTasksByCategoryModel
   ): Promise<TaskByCategory[]> {
-    this.repository.getByCategory(model)
-    return Promise.resolve([])
+    const tasks = await this.repository.getByCategory(model)
+    return tasks
   }
 }
