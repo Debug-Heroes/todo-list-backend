@@ -58,5 +58,13 @@ describe('PgTasksRepository', () => {
       await sut.getByCategory(makeFakeRequest())
       expect(querySpy).toHaveBeenCalledWith('SELECT tasks.id, tasks.name, tasks.text, categories.name as categoria  FROM tasks INNER JOIN taskByCategory ON tasks.id = taskByCategory.taskId INNER JOIN categories ON taskByCategory.categoryId = categories.id WHERE taskByCategory.userId = $1 AND categories.id = $2', [makeFakeRequest().id, makeFakeRequest().categoryId])
     })
+    it('Should throw if query throws', async () => {
+      const sut = new PgTasksRepository()
+      jest.spyOn(PgHelper, 'query').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = sut.getByCategory(makeFakeRequest())
+      expect(promise).rejects.toThrow()
+    })
   })
 })
