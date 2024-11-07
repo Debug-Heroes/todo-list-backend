@@ -61,4 +61,22 @@ describe('DbGetByTasks', () => {
     const promise = sut.getByCategory(makeFakeRequest())
     expect(promise).rejects.toThrow(new Error('any_error'))
   })
+  it('Should return tasks on repository succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.getByCategory(makeFakeRequest())
+    expect(result).toEqual([
+      {
+        id: 'any_id',
+        name: 'any_name',
+        text: 'any_text',
+        userId: 'any_user',
+        categories: [
+          {
+            id: 'any_id',
+            name: 'any_name'
+          }
+        ]
+      }
+    ])
+  })
 })
