@@ -1,7 +1,7 @@
 import { HttpRequest } from "@presentation/protocols/http"
 import { IValidation } from "@presentation/protocols/validation"
 import { CreateTaskController } from "./create-task-controller"
-import { badRequest } from "@presentation/helpers/http-helper"
+import { badRequest, created } from "@presentation/helpers/http-helper"
 import { ICreateTask, ITaskModel } from "@domain/usecases/tasks/create-task"
 import { ITask } from "@domain/protocols/task"
 
@@ -79,5 +79,15 @@ describe('CreateTaskController', () => {
     })
     const promise = sut.handle(makeFakeRequest())
     expect(promise).rejects.toThrow()
+  })
+  it('Should return 201 on DbCreateTask succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(created({
+      id: 'any_id',
+      name: 'any_name',
+      text: 'any_text',
+      userId: 'any_user'
+    }))
   })
 })
