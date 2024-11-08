@@ -1,6 +1,7 @@
 import { HttpRequest } from "@presentation/protocols/http"
 import { IValidation } from "@presentation/protocols/validation"
 import { CreateTaskController } from "./create-task-controller"
+import { badRequest } from "@presentation/helpers/http-helper"
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -39,5 +40,11 @@ describe('CreateTaskController', () => {
     const validateSpy = jest.spyOn(validationStub, 'validate')
     await sut.handle(makeFakeRequest())
     expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().body)
+  })
+  it('Should return badRequest on validation fails', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error('any_error'))
+    const response = await sut.handle(makeFakeRequest())
+    expect(response).toEqual(badRequest(new Error('any_error')))
   })
 })
