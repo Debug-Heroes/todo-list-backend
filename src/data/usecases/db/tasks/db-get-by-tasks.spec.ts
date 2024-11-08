@@ -5,7 +5,7 @@ import { DbGetByTasks } from './db-get-by-tasks'
 
 const makeFakeRequest = (): GetTasksByCategoryModel => ({
   categoryId: 'any_id',
-  id: 'user_id'
+  userId: 'user_id'
 })
 
 interface SutTypes {

@@ -5,6 +5,6 @@ export interface IGetTasksByCategory {
 }
 
 export interface GetTasksByCategoryModel {
-  id: string
+  userId: string
   categoryId: string
 }
