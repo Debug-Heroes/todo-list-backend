@@ -72,4 +72,12 @@ describe('CreateTaskController', () => {
     await sut.handle(makeFakeRequest())
     expect(createSpy).toHaveBeenCalledWith(makeFakeRequest().body)
   })
+  it('Should return 500 if DbCreateTask throw', async () => {
+    const { sut, dbCreateTaskStub } = makeSut()
+    jest.spyOn(dbCreateTaskStub, 'create').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const promise = sut.handle(makeFakeRequest())
+    expect(promise).rejects.toThrow()
+  })
 })
