@@ -2,6 +2,8 @@ import { HttpRequest } from "@presentation/protocols/http"
 import { IValidation } from "@presentation/protocols/validation"
 import { CreateTaskController } from "./create-task-controller"
 import { badRequest } from "@presentation/helpers/http-helper"
+import { ICreateTask, ITaskModel } from "@domain/usecases/tasks/create-task"
+import { ITask } from "@domain/protocols/task"
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -14,15 +16,32 @@ const makeFakeRequest = (): HttpRequest => ({
 interface SutTypes {
   sut: CreateTaskController
   validationStub: IValidation
+  dbCreateTaskStub: ICreateTask
 }
 
 const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
-  const sut = new CreateTaskController(validationStub)
+  const dbCreateTaskStub = makeDbCreateTaskStub()
+  const sut = new CreateTaskController(validationStub, dbCreateTaskStub)
   return {
     sut,
-    validationStub
+    validationStub,
+    dbCreateTaskStub
   }
+}
+
+const makeDbCreateTaskStub = (): ICreateTask => {
+  class DbCreateTaskStub implements ICreateTask {
+    create(task: ITaskModel): Promise<ITask> {
+      return Promise.resolve({
+        id: 'any_id',
+        name: 'any_name',
+        text: 'any_text',
+        userId: 'any_user'
+      })
+    }
+  }
+  return new DbCreateTaskStub()
 }
 
 const makeValidationStub = (): IValidation => {
@@ -46,5 +65,11 @@ describe('CreateTaskController', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error('any_error'))
     const response = await sut.handle(makeFakeRequest())
     expect(response).toEqual(badRequest(new Error('any_error')))
+  })
+  it('Should call DbCreateTask with correct values', async () => {
+    const { sut, dbCreateTaskStub } = makeSut()
+    const createSpy = jest.spyOn(dbCreateTaskStub, 'create')
+    await sut.handle(makeFakeRequest())
+    expect(createSpy).toHaveBeenCalledWith(makeFakeRequest().body)
   })
 })
