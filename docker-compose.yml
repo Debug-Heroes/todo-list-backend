@@ -1,4 +1,27 @@
 services:
+  my-postgres:
+    image: postgres
+    container_name: my-postgres
+    restart: always
+    networks:
+      - todolist-network
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./tables.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_PASSWORD=postgres
+  my-pgadmin:
+    image: dpage/pgadmin4
+    container_name: my-pgadmin
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=todolist@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+    networks: 
+      - todolist-network
+    ports:
+      - "15432:80"
   api:
     container_name: todolist
     image: node:20
@@ -10,6 +33,7 @@ services:
       - PG_HOST=my-postgres
       - PG_PASSWORD=postgres
       - PG_DATABASE=todolist
+      - SERVER_PORT=3000
     volumes:
       - './package.json:/usr/src/todolist/package.json'
       - './package-lock.json:/usr/src/todolist/package-lock.json'
