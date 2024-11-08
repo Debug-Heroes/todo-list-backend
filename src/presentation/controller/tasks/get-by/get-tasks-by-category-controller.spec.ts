@@ -1,4 +1,10 @@
-import { HttpRequest, IValidation, badRequest, ok, serverError  } from './get-tasks-by-category-protocols'
+import {
+  HttpRequest,
+  IValidation,
+  badRequest,
+  ok,
+  serverError
+} from './get-tasks-by-category-protocols'
 import { GetTasksByCategoryController } from './get-tasks-by-category-controller'
 import {
   GetTasksByCategoryModel,
@@ -21,7 +27,10 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
   const dbGetTasksByCategoryStub = makeDbGetTasksByCategory()
-  const sut = new GetTasksByCategoryController(validationStub, dbGetTasksByCategoryStub)
+  const sut = new GetTasksByCategoryController(
+    validationStub,
+    dbGetTasksByCategoryStub
+  )
   return {
     sut,
     validationStub,
@@ -85,26 +94,30 @@ describe('GetTasksByCategoryController', () => {
   })
   it('Should return 500 if DbGetTasksByCategory throws', async () => {
     const { sut, dbGetTasksByCategoryStub } = makeSut()
-    jest.spyOn(dbGetTasksByCategoryStub, 'getByCategory').mockRejectedValueOnce(new Error())
+    jest
+      .spyOn(dbGetTasksByCategoryStub, 'getByCategory')
+      .mockRejectedValueOnce(new Error())
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(serverError())
   })
   it('Should return tasks with categories on DbGetTasksByCategory', async () => {
     const { sut } = makeSut()
     const result = await sut.handle(makeFakeRequest())
-    expect(result).toEqual(ok([
-      {
-        id: 'any_id',
-        name: 'any_name',
-        text: 'any_text',
-        userId: 'any_user_id',
-        categories: [
-          {
-            id: 'any_id',
-            name: 'any_name'
-          }
-        ]
-      }
-    ]))
+    expect(result).toEqual(
+      ok([
+        {
+          id: 'any_id',
+          name: 'any_name',
+          text: 'any_text',
+          userId: 'any_user_id',
+          categories: [
+            {
+              id: 'any_id',
+              name: 'any_name'
+            }
+          ]
+        }
+      ])
+    )
   })
 })
