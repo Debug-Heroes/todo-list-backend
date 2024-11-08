@@ -59,15 +59,15 @@ describe('PgTasksRepository', () => {
   describe('GetByCategory', () => {
     const makeFakeRequest = (): GetTasksByCategoryModel => ({
       categoryId: 'any_id',
-      id: 'any_id'
+      userId: 'any_id'
     })
     it('Should call query with correct values', async () => {
       const sut = new PgTasksRepository()
       const querySpy = jest.spyOn(PgHelper, 'query')
       await sut.getByCategory(makeFakeRequest())
       expect(querySpy).toHaveBeenCalledWith(
-        'SELECT tasks.id, tasks.name, tasks.text, taskByCategory.userId AS userId, categories.name AS categoria  FROM tasks INNER JOIN taskByCategory ON tasks.id = taskByCategory.taskId INNER JOIN categories ON taskByCategory.categoryId = categories.id WHERE taskByCategory.userId = $1 AND categories.id = $2',
-        [makeFakeRequest().id, makeFakeRequest().categoryId]
+        'SELECT tasks.id, tasks.name, tasks.text, taskByCategory.userId AS userId, categories.name AS categoria, categories.id AS categoryId  FROM tasks INNER JOIN taskByCategory ON tasks.id = taskByCategory.taskId INNER JOIN categories ON taskByCategory.categoryId = categories.id WHERE taskByCategory.userId = $1 AND categories.id = $2',
+        [makeFakeRequest().userId, makeFakeRequest().categoryId]
       )
     })
     it('Should throw if query throws', async () => {
@@ -98,14 +98,14 @@ describe('PgTasksRepository', () => {
       const sut = new PgTasksRepository()
       const result = await sut.getByCategory({
         categoryId: category.rows[0].id,
-        id: user.rows[0].id
+        userId: user.rows[0].id
       })
       console.log(result)
       expect(result[0].id).toBeTruthy()
       expect(result[0].name).toBe('any_name')
       expect(result[0].text).toBe('any_text')
       expect(result[0].userId).toBe(user.rows[0].id)
-      expect(result[0].categories[0].name).toBe('any_name')
+      expect(result[0].categories[0].name).toBe('any_category')
     })
   })
 })
