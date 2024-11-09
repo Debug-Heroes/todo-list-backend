@@ -1,15 +1,56 @@
+version: '3.8'
+
 services:
+  my-postgres:
+    container_name: postgres-container
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      SCHEMA_TODO_LIST: ${SCHEMA_TODO_LIST}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-database.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - todolist-network
+
+  my-pgadmin:
+    container_name: pgadmin-container
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${DATABASE_PASSWORD}
+    depends_on:
+      - my-postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - todolist-network
+
   api:
     container_name: todolist
-    image: node:20
+    image: node:20-lts
     working_dir: /usr/src/todolist
-    restart: always
+    restart: unless-stopped
     environment:
-      - PG_PORT=5432
-      - PG_USER=postgres
-      - PG_HOST=my-postgres
-      - PG_PASSWORD=postgres
-      - PG_DATABASE=todolist
+      PG_PORT: ${PG_PORT}
+      PG_USER: ${DATABASE_USER}
+      PG_HOST: ${PG_HOST}
+      PG_PASSWORD: ${DATABASE_PASSWORD}
+      PG_DATABASE: ${DATABASE_NAME}
+      SERVER_PORT: ${SERVER_PORT}
     volumes:
       - './package.json:/usr/src/todolist/package.json'
       - './package-lock.json:/usr/src/todolist/package-lock.json'
@@ -17,9 +58,15 @@ services:
     ports:
       - "3000:3000"
     command: bash -c "npm install --omit=dev --force && npm run dev -- --exitcrash"
+    depends_on:
+      - my-postgres
     networks:
       - todolist-network
+
 networks:
   todolist-network:
-    name: todolist-network
     external: true
+
+volumes:
+  postgres_data:
+  pgadmin_data:
