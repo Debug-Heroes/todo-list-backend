@@ -1,4 +1,4 @@
-import { DbGetAllTasks } from "@data/usecases/db/tasks/db-get-all-tasks";
+import { DbGetAllTasks } from "@data/usecases/db/tasks/get/db-get-all-tasks";
 import { PgTasksRepository } from "@infra/usecases/db/postgres/tasks/pg-tasks-repository";
 import { GetAllTasksController } from "@presentation/controller/tasks/get/get-all-tasks-controller";
 
