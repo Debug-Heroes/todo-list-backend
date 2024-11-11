@@ -14,7 +14,7 @@ export default (app: Express) => {
   }
   
   for (const route of ['tasks']) {
-    for (const path of ['get']) {
+    for (const path of ['get', 'post']) {
       fs.readdirSync(`${__dirname}/../routes/${route}/${path}/`).map(async (file) => {
         if (!file.includes('test') && !file.includes('map')) {
           (await import(`../routes/${route}/${path}/${file}`)).default(apiRoutes)
