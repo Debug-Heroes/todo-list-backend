@@ -13,9 +13,12 @@ CREATE TABLE IF NOT EXISTS sch_todo_list.users(
 
 CREATE TABLE IF NOT EXISTS sch_todo_list.task_by_category(
   id VARCHAR(100) DEFAULT(gen_random_uuid()) PRIMARY KEY,
-  task_id VARCHAR(100) FOREIGN KEY REFERENCES tasks(id),
-  category_id VARCHAR(100) FOREIGN KEY REFERENCES categories(id),
-  user_id VARCHAR(100) FOREIGN KEY REFERENCES user(id)
+  task_id VARCHAR(100) NOT NULL,
+  category_id VARCHAR(100) NOT NULL,
+  user_id VARCHAR(100) FOREIGN KEY REFERENCES user(id),
+  FOREIGN KEY (task_id) REFERENCES tasks(id),
+  FOREIGN KEY (category_id) REFERENCES categories(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS sch_todo_list.tasks(
