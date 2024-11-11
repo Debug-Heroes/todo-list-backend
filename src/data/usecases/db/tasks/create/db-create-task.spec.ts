@@ -44,4 +44,12 @@ describe('DbCreateTask', () => {
     await sut.create(makeFakeRequest())
     expect(createSpy).toHaveBeenCalledWith(makeFakeRequest())
   })
+  it('Should throw if repository throws', async () => {
+    const { sut, repository } = makeSut()
+    jest.spyOn(repository, 'create').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const promise = sut.create(makeFakeRequest())
+    expect(promise).rejects.toThrow()
+  })
 })
