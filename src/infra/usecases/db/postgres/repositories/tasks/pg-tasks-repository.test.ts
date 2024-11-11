@@ -1,6 +1,6 @@
 import { GetTasksByCategoryModel } from '@domain/usecases/tasks/get-tasks-by-category'
-import { PgHelper } from '../helpers/pg-helper'
-import { TestPoolConfig } from '../test/pg-pool-config'
+import { PgHelper } from '../../helpers/pg-helper'
+import { TestPoolConfig } from '../../test/pg-pool-config'
 import { PgTasksRepository } from './pg-tasks-repository'
 import { ITaskModel } from '@domain/usecases/tasks/create-task'
 
