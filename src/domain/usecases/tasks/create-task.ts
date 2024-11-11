@@ -6,6 +6,6 @@ export interface ICreateTask {
 
 export interface ITaskModel {
   name: string
-  text: string
+  text?: string
   userId: string
 }

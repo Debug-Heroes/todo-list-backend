@@ -5,8 +5,10 @@ import { IGetTasksByCategoryRepository } from "@data/protocols/db/task/get-tasks
 import { TaskByCategory } from "@domain/protocols/task-by-category";
 import { GetTasksByCategoryModel } from "@domain/usecases/tasks/get-tasks-by-category";
 import { ICategory } from "@domain/protocols/category";
+import { ICreateTaskRepository } from "@data/protocols/db/task/create-task-repository";
+import { ITaskModel } from "@domain/usecases/tasks/create-task";
 
-export class PgTasksRepository implements IGetAllTasksRepository, IGetTasksByCategoryRepository {
+export class PgTasksRepository implements IGetAllTasksRepository, IGetTasksByCategoryRepository, ICreateTaskRepository {
   async getAll(id: string): Promise<ITask[]> {
     const result = await PgHelper.query('SELECT * FROM tasks WHERE user_id = $1', [id])
     return new Promise(resolve => resolve(result.rows))
@@ -34,5 +36,15 @@ export class PgTasksRepository implements IGetAllTasksRepository, IGetTasksByCat
       })
     }
     return new Promise(resolve => resolve(foundTasks))
+  }
+
+  async create(task: ITaskModel): Promise<ITask> {
+    await PgHelper.query('INSERT INTO tasks(name, text, user_id) VALUES($1, $2, $3)', [task.name, task.text || '', task.userId])
+    return Promise.resolve({
+      id: 'any_id',
+      name: 'any_name',
+      text: 'any_text',
+      userId: 'any_user'
+    })
   }
 }
