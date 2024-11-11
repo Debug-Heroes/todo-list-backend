@@ -9,8 +9,8 @@ describe('makeGetTasksByCategoryValidation', () => {
   it('Should call ValidationComposite with correct values', async () => {
     makeGetTasksByCategoryValidation()
     const validations: IValidation[] = []
-    validations.push(new RequiredFieldValidation('userId'))
-    validations.push(new RequiredFieldValidation('categoryId'))
+    validations.push(new RequiredFieldValidation('user_id'))
+    validations.push(new RequiredFieldValidation('category_id'))
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })
 })
