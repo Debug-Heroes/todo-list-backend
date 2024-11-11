@@ -1,5 +1,5 @@
 import { IDeleteAccount } from "../../../../../domain/usecases/users/delete-account";
-import { IDeleteAccountRepository } from "../../../../protocols/db/delete-account-repository";
+import { IDeleteAccountRepository } from "../../../../protocols/db/users/delete-account-repository";
 
 export class DbDeleteAccount implements IDeleteAccount {
   constructor (private readonly deleteAccountRepository: IDeleteAccountRepository) {}

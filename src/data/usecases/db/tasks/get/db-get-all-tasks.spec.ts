@@ -1,4 +1,4 @@
-import { IGetAllTasksRepository } from "@data/protocols/db/get-all-tasks-repository"
+import { IGetAllTasksRepository } from "@data/protocols/db/task/get-all-tasks-repository"
 import { ITask } from "@domain/protocols/task"
 import { DbGetAllTasks } from "./db-get-all-tasks"
 

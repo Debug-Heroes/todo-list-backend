@@ -1,5 +1,5 @@
 import { IUpdateAccount, IUpdatedAccount, UpdateAccountModel } from "../../../../../domain/usecases/users/update-account";
-import { IUpdateAccountRepository } from "../../../../protocols/db/update-account-repository";
+import { IUpdateAccountRepository } from "../../../../protocols/db/users/update-account-repository";
 
 export class DbUpdateAccount implements IUpdateAccount {
   constructor(private readonly repository: IUpdateAccountRepository) {}

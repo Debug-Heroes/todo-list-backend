@@ -1,7 +1,7 @@
-import { IGetAllCategoriesRepository } from '../../../../../../data/protocols/db/get-all-categories-repository'
+import { IGetAllCategoriesRepository } from '../../../../../../data/protocols/db/categories/get-all-categories-repository'
 import { ICategory } from '../../../../../../domain/protocols/category'
 import { PgHelper } from '../../helpers/pg-helper'
-import { GetByCategoriesModel, IGetByCategoriesRepository } from '../../../../../../data/protocols/db/get-by-categories-repository'
+import { GetByCategoriesModel, IGetByCategoriesRepository } from '../../../../../../data/protocols/db/categories/get-by-categories-repository'
 
 export class PgCategoriesRepository
   implements IGetAllCategoriesRepository, IGetByCategoriesRepository

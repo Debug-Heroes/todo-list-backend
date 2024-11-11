@@ -1,7 +1,7 @@
 import { PgCategoriesRepository } from './pg-categories-repository'
 import { PgHelper } from '../../helpers/pg-helper'
 import { TestPoolConfig } from '../../test/pg-pool-config'
-import { GetByCategoriesModel } from '../../../../../../data/protocols/db/get-by-categories-repository'
+import { GetByCategoriesModel } from '../../../../../../data/protocols/db/categories/get-by-categories-repository'
 
 describe('PgCategoriesRepository', () => {
   beforeAll(async () => {

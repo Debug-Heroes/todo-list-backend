@@ -1,5 +1,5 @@
 import { ICategory } from '../../../../../domain/protocols/category'
-import { IGetAllCategoriesRepository } from '../../../../protocols/db/get-all-categories-repository'
+import { IGetAllCategoriesRepository } from '../../../../protocols/db/categories/get-all-categories-repository'
 import { DbGetAllCategories } from './get-all-categories'
 
 interface SutTypes {

@@ -1,6 +1,6 @@
 import { IAccount } from '../../../../../domain/protocols/account'
 import { IUpdatedAccount, UpdateAccountModel } from '../../../../../domain/usecases/users/update-account'
-import { IUpdateAccountRepository } from '../../../../protocols/db/update-account-repository'
+import { IUpdateAccountRepository } from '../../../../protocols/db/users/update-account-repository'
 import { DbUpdateAccount } from './update-account'
 
 interface SutTypes {

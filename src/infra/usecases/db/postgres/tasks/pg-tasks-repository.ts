@@ -1,7 +1,7 @@
-import { IGetAllTasksRepository } from "@data/protocols/db/get-all-tasks-repository";
+import { IGetAllTasksRepository } from "@data/protocols/db/task/get-all-tasks-repository";
 import { ITask } from "@domain/protocols/task";
 import { PgHelper } from "../helpers/pg-helper";
-import { IGetTasksByCategoryRepository } from "@data/protocols/db/get-tasks-by-category-repository";
+import { IGetTasksByCategoryRepository } from "@data/protocols/db/task/get-tasks-by-category-repository";
 import { TaskByCategory } from "@domain/protocols/task-by-category";
 import { GetTasksByCategoryModel } from "@domain/usecases/tasks/get-tasks-by-category";
 import { ICategory } from "@domain/protocols/category";
