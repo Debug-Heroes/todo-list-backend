@@ -126,5 +126,13 @@ describe('PgTasksRepository', () => {
       const { ...user } = makeFakeRequest()
       expect(querySpy).toHaveBeenCalledWith('INSERT INTO tasks(name, text, user_id) VALUES($1, $2, $3)', [user.name, user.text, user.userId])
     })
+    it('Should throw if query throws', async () => {
+      const sut = new PgTasksRepository()
+      jest.spyOn(PgHelper, 'query').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const promise = sut.create(makeFakeRequest())
+      expect(promise).rejects.toThrow()
+    })
   })
 })
