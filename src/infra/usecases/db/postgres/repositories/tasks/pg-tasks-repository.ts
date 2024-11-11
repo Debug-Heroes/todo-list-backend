@@ -39,12 +39,7 @@ export class PgTasksRepository implements IGetAllTasksRepository, IGetTasksByCat
   }
 
   async create(task: ITaskModel): Promise<ITask> {
-    await PgHelper.query('INSERT INTO tasks(name, text, user_id) VALUES($1, $2, $3)', [task.name, task.text || '', task.userId])
-    return Promise.resolve({
-      id: 'any_id',
-      name: 'any_name',
-      text: 'any_text',
-      userId: 'any_user'
-    })
+    const createdTask = await PgHelper.query('INSERT INTO tasks(name, text, user_id) VALUES($1, $2, $3) RETURNING *', [task.name, task.text || '', task.userId])
+    return new Promise(resolve => resolve(createdTask.rows[0]))
   }
 }
