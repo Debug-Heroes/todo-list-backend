@@ -2,6 +2,7 @@ import { GetTasksByCategoryModel } from '@domain/usecases/tasks/get-tasks-by-cat
 import { PgHelper } from '../helpers/pg-helper'
 import { TestPoolConfig } from '../test/pg-pool-config'
 import { PgTasksRepository } from './pg-tasks-repository'
+import { ITaskModel } from '@domain/usecases/tasks/create-task'
 
 describe('PgTasksRepository', () => {
   beforeAll(async () => {
@@ -106,6 +107,24 @@ describe('PgTasksRepository', () => {
       expect(result[0].text).toBe('any_text')
       expect(result[0].userId).toBe(user.rows[0].id)
       expect(result[0].categories[0].name).toBe('any_category')
+    })
+  })
+  describe('CreateTask', () => {
+    const makeFakeRequest = (): ITaskModel => ({
+      name: 'any_name',
+      text: 'any_text',
+      userId: 'any_user'
+    })
+    it('Should call query with correct values', async () => {
+      await PgHelper.query(
+        'INSERT INTO users(id, name, email, password) VALUES($1, $2, $3, $4) RETURNING *',
+        ['any_user', 'any_name', 'any_mail@mail.com', 'any_passord']
+      )
+      const sut = new PgTasksRepository()
+      const querySpy = jest.spyOn(PgHelper, 'query')
+      await sut.create(makeFakeRequest())
+      const { ...user } = makeFakeRequest()
+      expect(querySpy).toHaveBeenCalledWith('INSERT INTO tasks(name, text, user_id) VALUES($1, $2, $3)', [user.name, user.text, user.userId])
     })
   })
 })
