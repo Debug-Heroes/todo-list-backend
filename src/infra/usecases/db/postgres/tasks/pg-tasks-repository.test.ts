@@ -9,14 +9,14 @@ describe('PgTasksRepository', () => {
     return
   })
   beforeEach(async () => {
-    await PgHelper.query('DELETE FROM taskByCategory')
+    await PgHelper.query('DELETE FROM task_by_category')
     await PgHelper.query('DELETE FROM categories')
     await PgHelper.query('DELETE FROM tasks')
     await PgHelper.query('DELETE FROM users')
     return
   })
   afterEach(async () => {
-    await PgHelper.query('DELETE FROM taskByCategory')
+    await PgHelper.query('DELETE FROM task_by_category')
     await PgHelper.query('DELETE FROM categories')
     await PgHelper.query('DELETE FROM tasks')
     await PgHelper.query('DELETE FROM users')
@@ -28,7 +28,7 @@ describe('PgTasksRepository', () => {
       const querySpy = jest.spyOn(PgHelper, 'query')
       await sut.getAll('any_id')
       expect(querySpy).toHaveBeenCalledWith(
-        'SELECT * FROM tasks WHERE userid = $1',
+        'SELECT * FROM tasks WHERE user_id = $1',
         ['any_id']
       )
     })
@@ -46,7 +46,7 @@ describe('PgTasksRepository', () => {
         ['any_name', 'any_mail@mail.com', 'any_passord']
       )
       await PgHelper.query(
-        'INSERT INTO tasks(name, text, userid) VALUES($1, $2, $3)',
+        'INSERT INTO tasks(name, text, user_id) VALUES($1, $2, $3)',
         ['any_name', 'any_text', user.rows[0].id]
       )
       const sut = new PgTasksRepository()
@@ -66,7 +66,7 @@ describe('PgTasksRepository', () => {
       const querySpy = jest.spyOn(PgHelper, 'query')
       await sut.getByCategory(makeFakeRequest())
       expect(querySpy).toHaveBeenCalledWith(
-        'SELECT tasks.id, tasks.name, tasks.text, taskByCategory.userId AS userId, categories.name AS categoria, categories.id AS categoryId  FROM tasks INNER JOIN taskByCategory ON tasks.id = taskByCategory.taskId INNER JOIN categories ON taskByCategory.categoryId = categories.id WHERE taskByCategory.userId = $1 AND categories.id = $2',
+        'SELECT tasks.id, tasks.name, tasks.text, task_by_category.user_id AS user_id, categories.name AS categoria, categories.id AS category_id  FROM tasks INNER JOIN task_by_category ON tasks.id = task_by_category.task_id INNER JOIN categories ON task_by_category.category_id = categories.id WHERE task_by_category.user_id = $1 AND categories.id = $2',
         [makeFakeRequest().userId, makeFakeRequest().categoryId]
       )
     })
@@ -84,7 +84,7 @@ describe('PgTasksRepository', () => {
         ['any_name', 'any_mail@mail.com', 'any_passord']
       )
       const task = await PgHelper.query(
-        'INSERT INTO tasks(name, text, userid) VALUES($1, $2, $3) RETURNING *',
+        'INSERT INTO tasks(name, text, user_id) VALUES($1, $2, $3) RETURNING *',
         ['any_name', 'any_text', user.rows[0].id]
       )
       const category = await PgHelper.query(
@@ -92,7 +92,7 @@ describe('PgTasksRepository', () => {
         ['any_category']
       )
       await PgHelper.query(
-        'INSERT INTO taskByCategory(userId, taskId, categoryId) VALUES($1, $2, $3)',
+        'INSERT INTO task_by_category(user_id, task_id, category_id) VALUES($1, $2, $3)',
         [user.rows[0].id, task.rows[0].id, category.rows[0].id]
       )
       const sut = new PgTasksRepository()
