@@ -41,7 +41,7 @@ services:
 
   api:
     container_name: todolist
-    image: node:20-lts
+    image: node:20
     working_dir: /usr/src/todolist
     restart: unless-stopped
     environment:
