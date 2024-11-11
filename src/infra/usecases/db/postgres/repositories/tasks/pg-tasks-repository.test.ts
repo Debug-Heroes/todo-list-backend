@@ -124,7 +124,7 @@ describe('PgTasksRepository', () => {
       const querySpy = jest.spyOn(PgHelper, 'query')
       await sut.create(makeFakeRequest())
       const { ...user } = makeFakeRequest()
-      expect(querySpy).toHaveBeenCalledWith('INSERT INTO tasks(name, text, user_id) VALUES($1, $2, $3)', [user.name, user.text, user.userId])
+      expect(querySpy).toHaveBeenCalledWith('INSERT INTO tasks(name, text, user_id) VALUES($1, $2, $3) RETURNING *', [user.name, user.text, user.userId])
     })
     it('Should throw if query throws', async () => {
       const sut = new PgTasksRepository()
@@ -133,6 +133,13 @@ describe('PgTasksRepository', () => {
       })
       const promise = sut.create(makeFakeRequest())
       expect(promise).rejects.toThrow()
+    })
+    it('Should return created task on succeed', async () => {
+      await PgHelper.query('INSERT INTO users VALUES($1, $2, $3, $4)', ['any_user', 'any_name', 'any_mail@mail.com', '123123123'])
+      const sut = new PgTasksRepository()
+      const result = await sut.create(makeFakeRequest())
+      expect(result.id).toBeTruthy()
+      expect(result.name).toBe('any_name')
     })
   })
 })
