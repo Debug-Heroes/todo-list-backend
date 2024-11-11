@@ -58,8 +58,8 @@ describe('PgTasksRepository', () => {
   })
   describe('GetByCategory', () => {
     const makeFakeRequest = (): GetTasksByCategoryModel => ({
-      categoryId: 'any_id',
-      userId: 'any_id'
+      category_id: 'any_id',
+      user_id: 'any_id'
     })
     it('Should call query with correct values', async () => {
       const sut = new PgTasksRepository()
@@ -67,7 +67,7 @@ describe('PgTasksRepository', () => {
       await sut.getByCategory(makeFakeRequest())
       expect(querySpy).toHaveBeenCalledWith(
         'SELECT tasks.id, tasks.name, tasks.text, task_by_category.user_id AS user_id, categories.name AS categoria, categories.id AS category_id  FROM tasks INNER JOIN task_by_category ON tasks.id = task_by_category.task_id INNER JOIN categories ON task_by_category.category_id = categories.id WHERE task_by_category.user_id = $1 AND categories.id = $2',
-        [makeFakeRequest().userId, makeFakeRequest().categoryId]
+        [makeFakeRequest().user_id, makeFakeRequest().category_id]
       )
     })
     it('Should throw if query throws', async () => {
@@ -97,8 +97,8 @@ describe('PgTasksRepository', () => {
       )
       const sut = new PgTasksRepository()
       const result = await sut.getByCategory({
-        categoryId: category.rows[0].id,
-        userId: user.rows[0].id
+        category_id: category.rows[0].id,
+        user_id: user.rows[0].id
       })
       console.log(result)
       expect(result[0].id).toBeTruthy()

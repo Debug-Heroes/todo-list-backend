@@ -6,7 +6,7 @@ import { Router } from 'express'
 
 export default (router: Router) => {
   router.get(
-    '/tasksByCategory',
+    '/tasks_by_category',
     middlewareAdapter(makeAuthMiddleware()),
     routeAdapter(makeGetTasksByCategoryController())
   )

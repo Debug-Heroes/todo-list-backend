@@ -30,7 +30,7 @@ describe('GetByTasksRoutes', () => {
   })
   it('Should return 200 on succeed', async () => {
     await request(app)
-      .get('/api/tasksByCategory?userId=any_id&categoryId=any_category')
+      .get('/api/tasks_by_category?user_id=any_id&category_id=any_category')
       .expect(200)
   })
 })
