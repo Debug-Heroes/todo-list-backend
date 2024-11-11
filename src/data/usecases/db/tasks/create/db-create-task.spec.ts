@@ -52,4 +52,14 @@ describe('DbCreateTask', () => {
     const promise = sut.create(makeFakeRequest())
     expect(promise).rejects.toThrow()
   })
+  it('Should return created task on succeed', async () => {
+    const { sut } = makeSut()
+    const result = await sut.create(makeFakeRequest())
+    expect(result).toEqual({
+      id: 'any_id',
+      name: 'any_name',
+      text: 'any_text',
+      userId: 'any_user'
+    })
+  })
 })
