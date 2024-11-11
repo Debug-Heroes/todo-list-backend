@@ -1,6 +1,6 @@
 import { ICategory } from '../../../../../domain/protocols/category'
 import { IGetAllCategories } from '../../../../../domain/usecases/categories/get-all-categories'
-import { IGetAllCategoriesRepository } from '../../../../protocols/db/get-all-categories-repository'
+import { IGetAllCategoriesRepository } from '../../../../protocols/db/categories/get-all-categories-repository'
 
 export class DbGetAllCategories implements IGetAllCategories {
   constructor(

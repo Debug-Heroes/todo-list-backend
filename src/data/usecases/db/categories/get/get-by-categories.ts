@@ -3,7 +3,7 @@ import {
   IGetByCategories,
   IGetByCategoriesModel
 } from '../../../../../domain/usecases/categories/get-by-categories'
-import { IGetByCategoriesRepository } from '../../../../protocols/db/get-by-categories-repository'
+import { IGetByCategoriesRepository } from '../../../../protocols/db/categories/get-by-categories-repository'
 
 export class DbGetByCategories implements IGetByCategories {
   constructor(private readonly repository: IGetByCategoriesRepository) {}

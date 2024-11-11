@@ -3,7 +3,7 @@ import {
   IAddAccount,
   IAddAccountModel
 } from '../../../../../domain/usecases/users/add-account'
-import { IAddAccountRepository } from '../../../../protocols/db/add-account-repository'
+import { IAddAccountRepository } from '../../../../protocols/db/users/add-account-repository'
 import { IHasher } from '../../../../protocols/criptography/hasher'
 
 export class DbAddAccount implements IAddAccount {

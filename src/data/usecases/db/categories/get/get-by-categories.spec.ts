@@ -2,7 +2,7 @@ import { ICategory } from '../../../../../domain/protocols/category'
 import {
   GetByCategoriesModel,
   IGetByCategoriesRepository
-} from '../../../../protocols/db/get-by-categories-repository'
+} from '../../../../protocols/db/categories/get-by-categories-repository'
 import { DbGetByCategories } from './get-by-categories'
 
 const makeFakeRequest = (): GetByCategoriesModel => ({

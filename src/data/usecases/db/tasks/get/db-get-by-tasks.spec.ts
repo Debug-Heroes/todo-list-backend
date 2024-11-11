@@ -1,4 +1,4 @@
-import { IGetTasksByCategoryRepository } from '@data/protocols/db/get-tasks-by-category-repository'
+import { IGetTasksByCategoryRepository } from '@data/protocols/db/task/get-tasks-by-category-repository'
 import { TaskByCategory } from '@domain/protocols/task-by-category'
 import { GetTasksByCategoryModel } from '@domain/usecases/tasks/get-tasks-by-category'
 import { DbGetByTasks } from './db-get-by-tasks'
