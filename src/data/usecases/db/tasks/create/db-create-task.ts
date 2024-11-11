@@ -5,12 +5,7 @@ import { ICreateTask, ITaskModel } from "@domain/usecases/tasks/create-task";
 export class DbCreateTask implements ICreateTask {
   constructor(private readonly repository: ICreateTaskRepository) {}
   async create(task: ITaskModel): Promise<ITask> {
-    await this.repository.create(task)
-    return Promise.resolve({
-      id:'',
-      name: '',
-      text: '',
-      userId: ''
-    })
+    const createdTask = await this.repository.create(task)
+    return new Promise(resolve => resolve(createdTask))
   }
 }
