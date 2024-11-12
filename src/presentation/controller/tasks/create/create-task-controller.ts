@@ -22,7 +22,7 @@ export class CreateTaskController implements Controller {
         return new Promise(resolve => resolve(unauthorized()))
       }
       const createdTask = await this.dbCreateTask.create(httpRequest.body)
-      return Promise.resolve(created(createdTask))
+      return  new Promise(resolve => resolve(created(createdTask)))
     } catch (error) {
       return new Promise(resolve => resolve(serverError()))
     }
