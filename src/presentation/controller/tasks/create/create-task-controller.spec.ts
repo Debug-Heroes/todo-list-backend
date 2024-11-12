@@ -1,11 +1,16 @@
-import { HttpRequest } from "@presentation/protocols/http"
-import { IValidation } from "@presentation/protocols/validation"
-import { CreateTaskController } from "./create-task-controller"
-import { badRequest, created, serverError, unauthorized } from "@presentation/helpers/http-helper"
-import { ICreateTask, ITaskModel } from "@domain/usecases/tasks/create-task"
-import { ITask } from "@domain/protocols/task"
-import { ILoadAccountById } from "@domain/usecases/users/load-account-by-id"
-import { IAccount } from "@domain/protocols/account"
+import { HttpRequest } from '@presentation/protocols/http'
+import { IValidation } from '@presentation/protocols/validation'
+import { CreateTaskController } from './create-task-controller'
+import {
+  badRequest,
+  created,
+  serverError,
+  unauthorized
+} from '@presentation/helpers/http-helper'
+import { ICreateTask, ITaskModel } from '@domain/usecases/tasks/create-task'
+import { ITask } from '@domain/protocols/task'
+import { ILoadAccountById } from '@domain/usecases/users/load-account-by-id'
+import { IAccount } from '@domain/protocols/account'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -26,7 +31,11 @@ const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
   const dbCreateTaskStub = makeDbCreateTaskStub()
   const loadUserByIdStub = makeLoadUserByIdStub()
-  const sut = new CreateTaskController(validationStub, dbCreateTaskStub, loadUserByIdStub)
+  const sut = new CreateTaskController(
+    validationStub,
+    dbCreateTaskStub,
+    loadUserByIdStub
+  )
   return {
     sut,
     validationStub,
@@ -81,7 +90,9 @@ describe('CreateTaskController', () => {
   })
   it('Should return badRequest on validation fails', async () => {
     const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error('any_error'))
+    jest
+      .spyOn(validationStub, 'validate')
+      .mockReturnValueOnce(new Error('any_error'))
     const response = await sut.handle(makeFakeRequest())
     expect(response).toEqual(badRequest(new Error('any_error')))
   })
@@ -101,12 +112,12 @@ describe('CreateTaskController', () => {
   })
   it('Should call LoadUserById with correct values', async () => {
     const { sut, loadUserByIdStub } = makeSut()
-    const loadSpy = jest.spyOn(loadUserByIdStub,   'loadById')
+    const loadSpy = jest.spyOn(loadUserByIdStub, 'loadById')
     await sut.handle(makeFakeRequest())
     expect(loadSpy).toHaveBeenCalledWith(makeFakeRequest().body.userId)
   })
   it('Should return 500 if LoadUserById throws', async () => {
-    const { sut, loadUserByIdStub } = makeSut() 
+    const { sut, loadUserByIdStub } = makeSut()
     jest.spyOn(loadUserByIdStub, 'loadById').mockImplementationOnce(() => {
       throw new Error()
     })
@@ -115,18 +126,22 @@ describe('CreateTaskController', () => {
   })
   it('Should return 401 if user not found', async () => {
     const { sut, loadUserByIdStub } = makeSut()
-    jest.spyOn(loadUserByIdStub, 'loadById').mockReturnValueOnce(Promise.resolve(null))
+    jest
+      .spyOn(loadUserByIdStub, 'loadById')
+      .mockReturnValueOnce(Promise.resolve(null))
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(unauthorized())
   })
   it('Should return 201 on DbCreateTask succeed', async () => {
     const { sut } = makeSut()
     const result = await sut.handle(makeFakeRequest())
-    expect(result).toEqual(created({
-      id: 'any_id',
-      name: 'any_name',
-      text: 'any_text',
-      userId: 'any_user'
-    }))
+    expect(result).toEqual(
+      created({
+        id: 'any_id',
+        name: 'any_name',
+        text: 'any_text',
+        userId: 'any_user'
+      })
+    )
   })
 })

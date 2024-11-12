@@ -1,4 +1,4 @@
-import { ICategory } from "../../protocols/category"
+import { ICategory } from '../../protocols/category'
 
 export interface IGetByCategories {
   getBy(values: IGetByCategoriesModel): Promise<ICategory[]>

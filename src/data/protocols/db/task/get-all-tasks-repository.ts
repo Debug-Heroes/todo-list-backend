@@ -1,4 +1,4 @@
-import { ITask } from "@domain/protocols/task";
+import { ITask } from '@domain/protocols/task'
 
 export interface IGetAllTasksRepository {
   getAll(id: string): Promise<ITask[]>
