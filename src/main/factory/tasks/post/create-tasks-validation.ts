@@ -4,7 +4,7 @@ import { ValidationComposite } from '@presentation/validations/validation-compos
 
 export const makeCreateTasksValidation = (): IValidation => {
   const validators: IValidation[] = []
-  for (const pos of ['name', 'text', 'user_id']) {
+  for (const pos of ['name', 'text', 'userId']) {
     validators.push(new RequiredFieldValidation(pos))
   }
   return new ValidationComposite(validators)
