@@ -1,7 +1,7 @@
-import { ICreateTaskRepository } from "@data/protocols/db/task/create-task-repository"
-import { ITask } from "@domain/protocols/task"
-import { ITaskModel } from "@domain/usecases/tasks/create-task"
-import { DbCreateTask } from "./db-create-task"
+import { ICreateTaskRepository } from '@data/protocols/db/task/create-task-repository'
+import { ITask } from '@domain/protocols/task'
+import { ITaskModel } from '@domain/usecases/tasks/create-task'
+import { DbCreateTask } from './db-create-task'
 
 interface SutTypes {
   sut: DbCreateTask
@@ -31,7 +31,7 @@ const makeCreateTaskRepository = (): ICreateTaskRepository => {
   return new CreateTRepositoryStub()
 }
 
-const makeFakeRequest  = (): ITaskModel => ({
+const makeFakeRequest = (): ITaskModel => ({
   name: 'any_name',
   text: 'any_text',
   userId: 'any_user'
