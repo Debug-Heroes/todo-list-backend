@@ -4,6 +4,8 @@ import { CreateTaskController } from "./create-task-controller"
 import { badRequest, created } from "@presentation/helpers/http-helper"
 import { ICreateTask, ITaskModel } from "@domain/usecases/tasks/create-task"
 import { ITask } from "@domain/protocols/task"
+import { ILoadAccountById } from "@domain/usecases/users/load-account-by-id"
+import { IAccount } from "@domain/protocols/account"
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -17,16 +19,19 @@ interface SutTypes {
   sut: CreateTaskController
   validationStub: IValidation
   dbCreateTaskStub: ICreateTask
+  loadUserByIdStub: ILoadAccountById
 }
 
 const makeSut = (): SutTypes => {
   const validationStub = makeValidationStub()
   const dbCreateTaskStub = makeDbCreateTaskStub()
-  const sut = new CreateTaskController(validationStub, dbCreateTaskStub)
+  const loadUserByIdStub = makeLoadUserByIdStub()
+  const sut = new CreateTaskController(validationStub, dbCreateTaskStub, loadUserByIdStub)
   return {
     sut,
     validationStub,
-    dbCreateTaskStub
+    dbCreateTaskStub,
+    loadUserByIdStub
   }
 }
 
@@ -51,6 +56,20 @@ const makeValidationStub = (): IValidation => {
     }
   }
   return new ValidationStub()
+}
+
+const makeLoadUserByIdStub = (): ILoadAccountById => {
+  class LoadAccByIdStub implements ILoadAccountById {
+    async loadById(id: string): Promise<IAccount | null> {
+      return Promise.resolve({
+        email: 'any_mail@mail.com',
+        id: 'any_id',
+        name: 'any_name',
+        password: 'any_password'
+      })
+    }
+  }
+  return new LoadAccByIdStub()
 }
 
 describe('CreateTaskController', () => {
@@ -79,6 +98,12 @@ describe('CreateTaskController', () => {
     })
     const promise = sut.handle(makeFakeRequest())
     expect(promise).rejects.toThrow()
+  })
+  it('Should call LoadUserById with correct values', async () => {
+    const { sut, loadUserByIdStub } = makeSut()
+    const loadSpy = jest.spyOn(loadUserByIdStub,   'loadById')
+    await sut.handle(makeFakeRequest())
+    expect(loadSpy).toHaveBeenCalledWith(makeFakeRequest().body.userId)
   })
   it('Should return 201 on DbCreateTask succeed', async () => {
     const { sut } = makeSut()
