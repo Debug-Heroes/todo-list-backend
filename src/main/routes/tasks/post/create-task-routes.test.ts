@@ -29,12 +29,18 @@ describe('CreateTaskRoute', () => {
     return
   })
   it('Should return 200 on succeed', async () => {
+    await PgHelper.query('INSERT INTO users VALUES($1, $2, $3, $4)', [
+      'any_user',
+      'any_name',
+      'any_mail@mail.com',
+      'any_password'
+    ])
     await request(app)
       .post('/api/tasks')
       .send({
         name: 'any_name',
         text: 'any_text',
-        user_id: 'any_user'
+        userId: 'any_user'
       })
       .expect(201)
   })
