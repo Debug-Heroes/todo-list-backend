@@ -1,6 +1,6 @@
-import { IGetAllTasksRepository } from "@data/protocols/db/task/get-all-tasks-repository"
-import { ITask } from "@domain/protocols/task"
-import { DbGetAllTasks } from "./db-get-all-tasks"
+import { IGetAllTasksRepository } from '@data/protocols/db/task/get-all-tasks-repository'
+import { ITask } from '@domain/protocols/task'
+import { DbGetAllTasks } from './db-get-all-tasks'
 
 interface SutTypes {
   sut: DbGetAllTasks
@@ -19,12 +19,14 @@ const makeSut = (): SutTypes => {
 const makeGetAllRepository = (): IGetAllTasksRepository => {
   class GetAllTasks implements IGetAllTasksRepository {
     async getAll(id: string): Promise<ITask[]> {
-      return Promise.resolve([{
-        id: 'any_id',
-        name: 'any_name',
-        text: 'any_text',
-        userId: 'any_user'
-      }])
+      return Promise.resolve([
+        {
+          id: 'any_id',
+          name: 'any_name',
+          text: 'any_text',
+          userId: 'any_user'
+        }
+      ])
     }
   }
   return new GetAllTasks()
@@ -48,11 +50,13 @@ describe('DbGetAllTasks', () => {
   it('Should return tasks on repository succeed', async () => {
     const { sut } = makeSut()
     const result = await sut.getAll('any_id')
-    expect(result).toEqual([{
-      id: 'any_id',
-      name: 'any_name',
-      text: 'any_text',
-      userId: 'any_user'
-    }])
+    expect(result).toEqual([
+      {
+        id: 'any_id',
+        name: 'any_name',
+        text: 'any_text',
+        userId: 'any_user'
+      }
+    ])
   })
 })
