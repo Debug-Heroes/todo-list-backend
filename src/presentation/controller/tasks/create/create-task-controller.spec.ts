@@ -1,7 +1,7 @@
 import { HttpRequest } from "@presentation/protocols/http"
 import { IValidation } from "@presentation/protocols/validation"
 import { CreateTaskController } from "./create-task-controller"
-import { badRequest, created, serverError } from "@presentation/helpers/http-helper"
+import { badRequest, created, serverError, unauthorized } from "@presentation/helpers/http-helper"
 import { ICreateTask, ITaskModel } from "@domain/usecases/tasks/create-task"
 import { ITask } from "@domain/protocols/task"
 import { ILoadAccountById } from "@domain/usecases/users/load-account-by-id"
@@ -112,6 +112,12 @@ describe('CreateTaskController', () => {
     })
     const result = await sut.handle(makeFakeRequest())
     expect(result).toEqual(serverError())
+  })
+  it('Should return 401 if user not found', async () => {
+    const { sut, loadUserByIdStub } = makeSut()
+    jest.spyOn(loadUserByIdStub, 'loadById').mockReturnValueOnce(Promise.resolve(null))
+    const result = await sut.handle(makeFakeRequest())
+    expect(result).toEqual(unauthorized())
   })
   it('Should return 201 on DbCreateTask succeed', async () => {
     const { sut } = makeSut()
