@@ -9,7 +9,7 @@ describe('makeCreateTasksValidation', () => {
   it('Should call ValidationComposite with correct values', async () => {
     makeCreateTasksValidation()
     const validations: IValidation[] = []
-    for (const pos of ['name', 'text', 'user_id']) {
+    for (const pos of ['name', 'text', 'userId']) {
       validations.push(new RequiredFieldValidation(pos))
     }
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
