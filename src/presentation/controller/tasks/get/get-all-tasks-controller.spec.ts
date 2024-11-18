@@ -1,7 +1,7 @@
 import { HttpRequest } from '@presentation/protocols/http'
 import { GetAllTasksController } from './get-all-tasks-controller'
 import { IGetAllTasks } from '@domain/usecases/tasks/get-all-tasks'
-import { ITask } from '@domain/protocols/task'
+import { ITask, TASK_PROGRESS_TYPES } from '@domain/protocols/task'
 import { ok, serverError } from './get-all-tasks-protocols'
 
 interface SutTypes {
@@ -29,7 +29,7 @@ const makeDbGetAllTasksStub = (): IGetAllTasks => {
           name: 'any_name',
           text: 'any_text',
           userId: 'any_userId',
-          progress: 'any_state',
+          progress: TASK_PROGRESS_TYPES.NOT_STARTED,
           created_at: fakeDate
         },
         {
@@ -37,7 +37,7 @@ const makeDbGetAllTasksStub = (): IGetAllTasks => {
           name: 'any_name2',
           text: 'any_text2',
           userId: 'any_userId2',
-          progress: 'any_state',
+          progress: TASK_PROGRESS_TYPES.NOT_STARTED,
           created_at: fakeDate
         }
       ])
@@ -76,7 +76,7 @@ describe('GetAllTasksController', () => {
           text: 'any_text',
           userId: 'any_userId',
           created_at: fakeDate,
-          progress: 'any_state'
+          progress: TASK_PROGRESS_TYPES.NOT_STARTED
         },
         {
           id: 'any_id2',
@@ -84,7 +84,7 @@ describe('GetAllTasksController', () => {
           text: 'any_text2',
           userId: 'any_userId2',
           created_at: fakeDate,
-          progress: 'any_state'
+          progress: TASK_PROGRESS_TYPES.NOT_STARTED
         }
       ])
     )

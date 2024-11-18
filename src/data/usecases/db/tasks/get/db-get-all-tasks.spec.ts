@@ -1,5 +1,5 @@
 import { IGetAllTasksRepository } from '@data/protocols/db/task/get-all-tasks-repository'
-import { ITask } from '@domain/protocols/task'
+import { ITask, TASK_PROGRESS_TYPES } from '@domain/protocols/task'
 import { DbGetAllTasks } from './db-get-all-tasks'
 
 interface SutTypes {
@@ -27,7 +27,7 @@ const makeGetAllRepository = (): IGetAllTasksRepository => {
           name: 'any_name',
           text: 'any_text',
           userId: 'any_user',
-          progress: 'any_state',
+          progress: TASK_PROGRESS_TYPES.NOT_STARTED,
           created_at: fakeDate
         }
       ])
@@ -60,7 +60,7 @@ describe('DbGetAllTasks', () => {
         name: 'any_name',
         text: 'any_text',
         userId: 'any_user',
-        progress: 'any_state',
+        progress: TASK_PROGRESS_TYPES.NOT_STARTED,
         created_at: fakeDate
       }
     ])

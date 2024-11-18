@@ -8,7 +8,7 @@ import {
   unauthorized
 } from '@presentation/helpers/http-helper'
 import { ICreateTask, ITaskModel } from '@domain/usecases/tasks/create-task'
-import { ITask } from '@domain/protocols/task'
+import { ITask, TASK_PROGRESS_TYPES } from '@domain/protocols/task'
 import { ILoadAccountById } from '@domain/usecases/users/load-account-by-id'
 import { IAccount } from '@domain/protocols/account'
 
@@ -55,7 +55,7 @@ const makeDbCreateTaskStub = (): ICreateTask => {
         text: 'any_text',
         userId: 'any_user',
         created_at: fakeDate,
-        progress: 'any_state'
+        progress: TASK_PROGRESS_TYPES.NOT_STARTED
       })
     }
   }
@@ -145,7 +145,7 @@ describe('CreateTaskController', () => {
         name: 'any_name',
         text: 'any_text',
         userId: 'any_user',
-        progress: 'any_state',
+        progress: TASK_PROGRESS_TYPES.NOT_STARTED,
         created_at: fakeDate
       })
     )
