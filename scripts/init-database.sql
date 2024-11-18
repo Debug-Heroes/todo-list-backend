@@ -1,6 +1,4 @@
-CREATE DATABASE db_todo_list;
 \c db_todo_list;
-
 CREATE SCHEMA IF NOT EXISTS sch_todo_list;
 
 CREATE TABLE IF NOT EXISTS sch_todo_list.users(
@@ -17,7 +15,7 @@ CREATE TABLE IF NOT EXISTS sch_todo_list.tasks(
   text TEXT,
   user_id VARCHAR(100),
   created_at timestamp DEFAULT(NOW()),
-  progress VARCHAR(16) NOT NULL,
+  progress VARCHAR(16) DEFAULT('Not Started'),
   FOREIGN KEY (user_id) REFERENCES sch_todo_list.users(id)
 );
 
