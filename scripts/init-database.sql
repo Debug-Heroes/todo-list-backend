@@ -26,6 +26,8 @@ CREATE TABLE IF NOT EXISTS sch_todo_list.tasks(
   name VARCHAR(100) NOT NULL,
   text TEXT,
   user_id VARCHAR(100),
+  created_at timestamp DEFAULT(NOW()),
+  progress VARCHAR(16) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 

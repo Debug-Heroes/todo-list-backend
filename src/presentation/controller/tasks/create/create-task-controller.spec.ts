@@ -44,6 +44,8 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const fakeDate = new Date()
+
 const makeDbCreateTaskStub = (): ICreateTask => {
   class DbCreateTaskStub implements ICreateTask {
     create(task: ITaskModel): Promise<ITask> {
@@ -51,7 +53,9 @@ const makeDbCreateTaskStub = (): ICreateTask => {
         id: 'any_id',
         name: 'any_name',
         text: 'any_text',
-        userId: 'any_user'
+        userId: 'any_user',
+        created_at: fakeDate,
+        progress: 'any_state'
       })
     }
   }
@@ -140,7 +144,9 @@ describe('CreateTaskController', () => {
         id: 'any_id',
         name: 'any_name',
         text: 'any_text',
-        userId: 'any_user'
+        userId: 'any_user',
+        progress: 'any_state',
+        created_at: fakeDate
       })
     )
   })

@@ -17,6 +17,8 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const fakeDate = new Date()
+
 const makeCreateTaskRepository = (): ICreateTaskRepository => {
   class CreateTRepositoryStub implements ICreateTaskRepository {
     async create(task: ITaskModel): Promise<ITask> {
@@ -24,7 +26,9 @@ const makeCreateTaskRepository = (): ICreateTaskRepository => {
         id: 'any_id',
         name: 'any_name',
         text: 'any_text',
-        userId: 'any_user'
+        userId: 'any_user',
+        created_at: fakeDate,
+        progress: 'any_state'
       })
     }
   }
@@ -59,7 +63,9 @@ describe('DbCreateTask', () => {
       id: 'any_id',
       name: 'any_name',
       text: 'any_text',
-      userId: 'any_user'
+      userId: 'any_user',
+      created_at: fakeDate,
+      progress: 'any_state'
     })
   })
 })

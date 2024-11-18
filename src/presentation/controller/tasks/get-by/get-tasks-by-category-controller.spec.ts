@@ -38,6 +38,8 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const fakeDate = new Date()
+
 const makeDbGetTasksByCategory = (): IGetTasksByCategory => {
   class GetTasksByCategory implements IGetTasksByCategory {
     async getByCategory(
@@ -54,7 +56,9 @@ const makeDbGetTasksByCategory = (): IGetTasksByCategory => {
               id: 'any_id',
               name: 'any_name'
             }
-          ]
+          ],
+          created_at: fakeDate,
+          progress: 'any_state'
         }
       ])
     }
@@ -115,7 +119,9 @@ describe('GetTasksByCategoryController', () => {
               id: 'any_id',
               name: 'any_name'
             }
-          ]
+          ],
+          created_at: fakeDate,
+          progress: 'any_state'
         }
       ])
     )
