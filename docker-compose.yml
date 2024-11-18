@@ -8,15 +8,15 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_DB: ${PG_DATABASE}
       SCHEMA_TODO_LIST: ${SCHEMA_TODO_LIST}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./scripts/init-database.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DATABASE}"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -46,10 +46,10 @@ services:
     restart: unless-stopped
     environment:
       PG_PORT: ${PG_PORT}
-      PG_USER: ${DATABASE_USER}
+      PG_USER: ${PG_USER}
       PG_HOST: ${PG_HOST}
       PG_PASSWORD: ${PG_PASSWORD}
-      PG_DATABASE: ${DATABASE_NAME}
+      PG_DATABASE: ${PG_DATABASE}
       SERVER_PORT: ${SERVER_PORT}
     volumes:
       - './package.json:/usr/src/todolist/package.json'
