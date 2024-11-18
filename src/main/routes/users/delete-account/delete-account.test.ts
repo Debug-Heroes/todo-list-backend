@@ -15,11 +15,11 @@ describe('DeleteAccountRoute', () => {
     return
   })
   beforeEach(async () => {
-    await PgHelper.query('DELETE FROM users')
+    await PgHelper.query('DELETE FROM sch_todo_list.users')
     return
   })
   afterEach(async () => {
-    await PgHelper.query('DELETE FROM users')
+    await PgHelper.query('DELETE FROM sch_todo_list.users')
     return
   })
   afterAll(async () => {
@@ -27,7 +27,7 @@ describe('DeleteAccountRoute', () => {
     return
   })
   it('Should return 200 on succeed', async () => {
-    PgHelper.query('INSERT INTO users VALUES($1, $2, $3, $4)', ['any_id', 'any_name', 'any_mail@mail.com', 'any_password']).then(async () => {
+    PgHelper.query('INSERT INTO sch_todo_list.users VALUES($1, $2, $3, $4)', ['any_id', 'any_name', 'any_mail@mail.com', 'any_password']).then(async () => {
       await request(app)
       .delete('/user?id=any_id')
       .expect(200)

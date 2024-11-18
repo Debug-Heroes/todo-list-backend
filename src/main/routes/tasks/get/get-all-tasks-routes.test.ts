@@ -15,13 +15,13 @@ describe('GetAllTasksRoutes', () => {
     return
   })
   beforeEach(async () => {
-    await PgHelper.query('DELETE FROM tasks')
-    await PgHelper.query('DELETE FROM users')
+    await PgHelper.query('DELETE FROM sch_todo_list.tasks')
+    await PgHelper.query('DELETE FROM sch_todo_list.users')
     return
   })
   afterEach(async () => {
-    await PgHelper.query('DELETE FROM tasks')
-    await PgHelper.query('DELETE FROM users')
+    await PgHelper.query('DELETE FROM sch_todo_list.tasks')
+    await PgHelper.query('DELETE FROM sch_todo_list.users')
     return
   })
   afterAll(async () => {

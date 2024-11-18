@@ -17,7 +17,7 @@ describe('GetByRoutes', () => {
     PgHelper.disconnect().then(() => {})
   })
   it('Should return 200 on succeed', async () => {
-    await PgHelper.query('INSERT INTO categories VALUES($1, $2)', ['any_id', 'any_name'])
+    await PgHelper.query('INSERT INTO sch_todo_list.categories VALUES($1, $2)', ['any_id', 'any_name'])
     await request(app)
       .get('/api/categories/query?name=any_name')
       .expect(200)
