@@ -11,6 +11,7 @@ import {
   IGetTasksByCategory
 } from '@domain/usecases/tasks/get-tasks-by-category'
 import { TaskByCategory } from '@domain/protocols/task-by-category'
+import { TASK_PROGRESS_TYPES } from '@domain/protocols/task'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -58,7 +59,7 @@ const makeDbGetTasksByCategory = (): IGetTasksByCategory => {
             }
           ],
           created_at: fakeDate,
-          progress: 'any_state'
+          progress: TASK_PROGRESS_TYPES.NOT_STARTED
         }
       ])
     }
@@ -121,7 +122,7 @@ describe('GetTasksByCategoryController', () => {
             }
           ],
           created_at: fakeDate,
-          progress: 'any_state'
+          progress: TASK_PROGRESS_TYPES.NOT_STARTED
         }
       ])
     )

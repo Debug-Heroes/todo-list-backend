@@ -2,6 +2,7 @@ import { IGetTasksByCategoryRepository } from '@data/protocols/db/task/get-tasks
 import { TaskByCategory } from '@domain/protocols/task-by-category'
 import { GetTasksByCategoryModel } from '@domain/usecases/tasks/get-tasks-by-category'
 import { DbGetByTasks } from './db-get-by-tasks'
+import { TASK_PROGRESS_TYPES } from '@domain/protocols/task'
 
 const makeFakeRequest = (): GetTasksByCategoryModel => ({
   category_id: 'any_id',
@@ -41,7 +42,7 @@ const makeGetTasksByCat = (): IGetTasksByCategoryRepository => {
               name: 'any_name'
             }
           ],
-          progress: 'any_state',
+          progress: TASK_PROGRESS_TYPES.NOT_STARTED,
           created_at: fakeDate
         }
       ])
@@ -80,7 +81,7 @@ describe('DbGetByTasks', () => {
             name: 'any_name'
           }
         ],
-        progress: 'any_state',
+        progress: TASK_PROGRESS_TYPES.NOT_STARTED,
         created_at: fakeDate
       }
     ])

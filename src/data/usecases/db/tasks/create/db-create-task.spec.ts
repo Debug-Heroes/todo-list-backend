@@ -1,5 +1,5 @@
 import { ICreateTaskRepository } from '@data/protocols/db/task/create-task-repository'
-import { ITask } from '@domain/protocols/task'
+import { ITask, TASK_PROGRESS_TYPES } from '@domain/protocols/task'
 import { ITaskModel } from '@domain/usecases/tasks/create-task'
 import { DbCreateTask } from './db-create-task'
 
@@ -28,7 +28,7 @@ const makeCreateTaskRepository = (): ICreateTaskRepository => {
         text: 'any_text',
         userId: 'any_user',
         created_at: fakeDate,
-        progress: 'any_state'
+        progress: TASK_PROGRESS_TYPES.NOT_STARTED
       })
     }
   }
@@ -65,7 +65,7 @@ describe('DbCreateTask', () => {
       text: 'any_text',
       userId: 'any_user',
       created_at: fakeDate,
-      progress: 'any_state'
+      progress: TASK_PROGRESS_TYPES.NOT_STARTED
     })
   })
 })
