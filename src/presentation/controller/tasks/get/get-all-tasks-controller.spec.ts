@@ -18,6 +18,8 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const fakeDate = new Date()
+
 const makeDbGetAllTasksStub = (): IGetAllTasks => {
   class DbGetAllTasksStub implements IGetAllTasks {
     async getAll(id: string): Promise<ITask[]> {
@@ -26,13 +28,17 @@ const makeDbGetAllTasksStub = (): IGetAllTasks => {
           id: 'any_id',
           name: 'any_name',
           text: 'any_text',
-          userId: 'any_userId'
+          userId: 'any_userId',
+          progress: 'any_state',
+          created_at: fakeDate
         },
         {
           id: 'any_id2',
           name: 'any_name2',
           text: 'any_text2',
-          userId: 'any_userId2'
+          userId: 'any_userId2',
+          progress: 'any_state',
+          created_at: fakeDate
         }
       ])
     }
@@ -68,13 +74,17 @@ describe('GetAllTasksController', () => {
           id: 'any_id',
           name: 'any_name',
           text: 'any_text',
-          userId: 'any_userId'
+          userId: 'any_userId',
+          created_at: fakeDate,
+          progress: 'any_state'
         },
         {
           id: 'any_id2',
           name: 'any_name2',
           text: 'any_text2',
-          userId: 'any_userId2'
+          userId: 'any_userId2',
+          created_at: fakeDate,
+          progress: 'any_state'
         }
       ])
     )

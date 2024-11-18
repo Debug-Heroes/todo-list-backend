@@ -22,6 +22,8 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const fakeDate = new Date()
+
 const makeGetTasksByCat = (): IGetTasksByCategoryRepository => {
   class GetTasksByCategoryRepository implements IGetTasksByCategoryRepository {
     async getByCategory(
@@ -38,7 +40,9 @@ const makeGetTasksByCat = (): IGetTasksByCategoryRepository => {
               id: 'any_id',
               name: 'any_name'
             }
-          ]
+          ],
+          progress: 'any_state',
+          created_at: fakeDate
         }
       ])
     }
@@ -75,7 +79,9 @@ describe('DbGetByTasks', () => {
             id: 'any_id',
             name: 'any_name'
           }
-        ]
+        ],
+        progress: 'any_state',
+        created_at: fakeDate
       }
     ])
   })

@@ -16,6 +16,8 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const fakeDate = new Date()
+
 const makeGetAllRepository = (): IGetAllTasksRepository => {
   class GetAllTasks implements IGetAllTasksRepository {
     async getAll(id: string): Promise<ITask[]> {
@@ -24,7 +26,9 @@ const makeGetAllRepository = (): IGetAllTasksRepository => {
           id: 'any_id',
           name: 'any_name',
           text: 'any_text',
-          userId: 'any_user'
+          userId: 'any_user',
+          progress: 'any_state',
+          created_at: fakeDate
         }
       ])
     }
@@ -55,7 +59,9 @@ describe('DbGetAllTasks', () => {
         id: 'any_id',
         name: 'any_name',
         text: 'any_text',
-        userId: 'any_user'
+        userId: 'any_user',
+        progress: 'any_state',
+        created_at: fakeDate
       }
     ])
   })

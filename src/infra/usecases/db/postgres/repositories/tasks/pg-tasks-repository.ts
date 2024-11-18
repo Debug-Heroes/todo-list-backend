@@ -49,7 +49,9 @@ export class PgTasksRepository
         name: task.name,
         text: task.text,
         userId: result.rows[0].user_id,
-        categories: categorias
+        categories: categorias,
+        progress: task.progress,
+        created_at: task.created_at
       })
     }
     return new Promise((resolve) => resolve(foundTasks))
