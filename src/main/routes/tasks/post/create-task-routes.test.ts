@@ -15,13 +15,13 @@ describe('CreateTaskRoute', () => {
     return
   })
   beforeEach(async () => {
-    await PgHelper.query('DELETE FROM tasks')
-    await PgHelper.query('DELETE FROM users')
+    await PgHelper.query('DELETE FROM sch_todo_list.tasks')
+    await PgHelper.query('DELETE FROM sch_todo_list.users')
     return
   })
   afterEach(async () => {
-    await PgHelper.query('DELETE FROM tasks')
-    await PgHelper.query('DELETE FROM users')
+    await PgHelper.query('DELETE FROM sch_todo_list.tasks')
+    await PgHelper.query('DELETE FROM sch_todo_list.users')
     return
   })
   afterAll(async () => {
@@ -29,7 +29,7 @@ describe('CreateTaskRoute', () => {
     return
   })
   it('Should return 200 on succeed', async () => {
-    await PgHelper.query('INSERT INTO users VALUES($1, $2, $3, $4)', [
+    await PgHelper.query('INSERT INTO sch_todo_list.users VALUES($1, $2, $3, $4)', [
       'any_user',
       'any_name',
       'any_mail@mail.com',

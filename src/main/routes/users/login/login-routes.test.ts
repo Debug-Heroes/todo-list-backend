@@ -9,13 +9,13 @@ describe('LoginRoute', () => {
   beforeAll(async () => {
     PgHelper.connect(TestPoolConfig).then(() => {})
     await PgHelper.query(
-      'INSERT INTO users(name, email, password) VALUES($1, $2, $3)',
+      'INSERT INTO sch_todo_list.users(name, email, password) VALUES($1, $2, $3)',
       ['any_name', 'any_email@mail.com', await hash('any_password', salt)]
     )
   })
 
   afterAll(async () => {
-    await PgHelper.query('DELETE FROM users')
+    await PgHelper.query('DELETE FROM sch_todo_list.users')
     PgHelper.disconnect().then(() => {})
   })
 

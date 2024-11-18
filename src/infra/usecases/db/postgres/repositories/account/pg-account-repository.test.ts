@@ -16,11 +16,11 @@ describe('PgAccountRepository', () => {
     return
   })
   beforeEach(async () => {
-    await PgHelper.query('DELETE FROM users')
+    await PgHelper.query('DELETE FROM sch_todo_list.users')
     return
   })
   afterEach(async () => {
-    await PgHelper.query('DELETE FROM users')
+    await PgHelper.query('DELETE FROM sch_todo_list.users')
     return
   })
   afterAll(async () => {
@@ -54,7 +54,7 @@ describe('PgAccountRepository', () => {
     })
     it('Should return an account on succeed', async () => {
       await PgHelper.query(
-        'INSERT INTO users(name, email, password) VALUES($1, $2, $3)',
+        'INSERT INTO sch_todo_list.users(name, email, password) VALUES($1, $2, $3)',
         ['any_name', 'any_mail@mail.com', 'any_password']
       )
       const sut = new PgAccountRepository()
@@ -92,7 +92,7 @@ describe('PgAccountRepository', () => {
       expect(promise).rejects.toThrow()
     })
     it('Should return rowCount on query succeed', async () => {
-      await PgHelper.query('INSERT INTO users(id, name, email, password) VALUES($1, $2, $3, $4)', ['any_id', 'any_name', 'any_mail@mail.com', 'any_password'])
+      await PgHelper.query('INSERT INTO sch_todo_list.users(id, name, email, password) VALUES($1, $2, $3, $4)', ['any_id', 'any_name', 'any_mail@mail.com', 'any_password'])
       const sut = new PgAccountRepository()
       const rows = await sut.delete('any_id')
       expect(rows).toBe(`1 affected rows`)
@@ -119,7 +119,7 @@ describe('PgAccountRepository', () => {
       expect(promise).rejects.toThrow()
     })
     it('Should return an account if query succeed', async () => {
-      PgHelper.query('INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING *', ['any_name', 'any_mail@mail.com', 'any_password']).then(async (user) => {
+      PgHelper.query('INSERT INTO sch_todo_list.users(name, email, password) VALUES($1, $2, $3) RETURNING *', ['any_name', 'any_mail@mail.com', 'any_password']).then(async (user) => {
         const sut = new PgAccountRepository()
         const account = await sut.loadById(user.rows[0].id)
         expect(account?.email).toBe('any_mail@mail.com')
@@ -141,7 +141,7 @@ describe('PgAccountRepository', () => {
       const sut = new PgAccountRepository()
       const querySpy = jest.spyOn(PgHelper, 'query')
       await sut.update(makeFakeRequest())
-      expect(querySpy).toHaveBeenCalledWith('UPDATE users SET email = $1 WHERE id = $2 RETURNING *', ['any_mail', 'any_id'])
+      expect(querySpy).toHaveBeenCalledWith('UPDATE sch_todo_list.users SET email = $1 WHERE id = $2 RETURNING *', ['any_mail', 'any_id'])
     })
     it('Should throw if query throws', async () => {
       const sut = new PgAccountRepository()
@@ -152,7 +152,7 @@ describe('PgAccountRepository', () => {
       expect(promise).rejects.toThrow()
     })
     it('Should return an account on query succeed', async () => {
-      await PgHelper.query('INSERT INTO users(id, name, email, password) VALUES($1, $2, $3, $4)', ['any_id', 'any_name', 'any_mail@mail.com', 'any_password'])
+      await PgHelper.query('INSERT INTO sch_todo_list.users(id, name, email, password) VALUES($1, $2, $3, $4)', ['any_id', 'any_name', 'any_mail@mail.com', 'any_password'])
       const sut = new PgAccountRepository()
       const result = await sut.update(makeFakeRequest())
       expect(result.email).toBe('any_mail')

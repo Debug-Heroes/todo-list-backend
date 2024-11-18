@@ -9,11 +9,11 @@ describe('PgCategoriesRepository', () => {
     return
   })
   beforeEach(async () => {
-    await PgHelper.query('DELETE FROM categories')
+    await PgHelper.query('DELETE FROM sch_todo_list.categories')
     return
   })
   afterEach(async () => {
-    await PgHelper.query('DELETE FROM categories')
+    await PgHelper.query('DELETE FROM sch_todo_list.categories')
     return
   })
   afterAll(async () => {
@@ -25,7 +25,7 @@ describe('PgCategoriesRepository', () => {
       const sut = new PgCategoriesRepository()
       const querySpy = jest.spyOn(PgHelper, 'query')
       await sut.getAll()
-      expect(querySpy).toHaveBeenCalledWith('SELECT * FROM categories')
+      expect(querySpy).toHaveBeenCalledWith('SELECT * FROM sch_todo_list.categories')
     })
     it('Should throw if query throws', async () => {
       const sut = new PgCategoriesRepository()
@@ -36,7 +36,7 @@ describe('PgCategoriesRepository', () => {
       expect(promise).rejects.toThrow()
     })
     it('Should return categories on query succeed', async () => {
-      PgHelper.query('INSERT INTO categories(name) VALUES($1)', [
+      PgHelper.query('INSERT INTO sch_todo_list.categories(name) VALUES($1)', [
         'any_category'
       ]).then(async () => {
         const sut = new PgCategoriesRepository()
@@ -55,7 +55,7 @@ describe('PgCategoriesRepository', () => {
       const querySpy = jest.spyOn(PgHelper, 'query')
       await sut.getBy(makeFakeRequest())
       expect(querySpy).toHaveBeenCalledWith(
-        'SELECT * FROM categories WHERE LOWER(name) LIKE $1',
+        'SELECT * FROM sch_todo_list.categories WHERE LOWER(name) LIKE $1',
         ['%any_name%']
       )
     })
@@ -68,7 +68,7 @@ describe('PgCategoriesRepository', () => {
       expect(promise).rejects.toThrow()
     })
     it('Should return categories on pg succeed', async () => {
-      await PgHelper.query('INSERT INTO categories VALUES($1, $2)', [
+      await PgHelper.query('INSERT INTO sch_todo_list.categories VALUES($1, $2)', [
         'any_id',
         'any_name'
       ])

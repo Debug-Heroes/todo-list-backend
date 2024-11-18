@@ -15,7 +15,7 @@ jest.mock(
 describe('UpdateAccountRoute', () => {
   beforeAll(async () => {
     PgHelper.connect(TestPoolConfig)
-    await PgHelper.query('INSERT INTO users VALUES($1, $2, $3, $4)', [
+    await PgHelper.query('INSERT INTO sch_todo_list.users VALUES($1, $2, $3, $4)', [
       'any_id',
       'any_name',
       'any_mail@mail.com',

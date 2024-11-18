@@ -13,7 +13,7 @@ export class PgAccountRepository
 {
   async add(account: IAddAccountModel): Promise<IAccount> {
     const newUser = await PgHelper.query(
-      'INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING *',
+      'INSERT INTO sch_todo_list.users(name, email, password) VALUES($1, $2, $3) RETURNING *',
       [account.name, account.email, account.password]
     )
     return newUser.rows[0]
@@ -21,25 +21,25 @@ export class PgAccountRepository
 
   async load(email: string): Promise<IAccount | null> {
     const result = await PgHelper.query(
-      'SELECT * FROM users WHERE email = $1',
+      'SELECT * FROM sch_todo_list.users WHERE email = $1',
       [email]
     )
     return result.rows?.length > 0 ? result.rows[0] : null
   }
 
   async delete(id: string): Promise<string> {
-    const result = await PgHelper.query('DELETE FROM users WHERE id = $1', [id])
+    const result = await PgHelper.query('DELETE FROM sch_todo_list.users WHERE id = $1', [id])
     return Promise.resolve(`${result.rowCount} affected rows`)
   }
 
   async loadById(id: string): Promise<IAccount | null> {
-    const result = await PgHelper.query('SELECT * FROM users WHERE id = $1', [id])
+    const result = await PgHelper.query('SELECT * FROM sch_todo_list.users WHERE id = $1', [id])
     return Promise.resolve(result.rows?.length > 0 ? result.rows[0] : null)
   }
 
   async update(account: UpdateAccountModel): Promise<IAccount> {
     const queryValues: string[] = []
-    let queryString = 'UPDATE users SET'
+    let queryString = 'UPDATE sch_todo_list.users SET'
     let queryIndex = 1
     if (account.email) {
       queryValues.push(account.email)
